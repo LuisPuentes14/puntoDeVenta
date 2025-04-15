@@ -21,8 +21,8 @@ namespace Proyecto_Metodologia
         private void button1_Click(object sender, EventArgs e)
         {
             // Mostrar de nuevo los elementos de búsqueda
-            textBox1.Visible = true;
-            button5.Visible = true;
+            State_acount.Visible = true;
+            Button_acept.Visible = true;
             dataGridView1.Visible = true;
             label1.Visible = true;
         }
@@ -32,7 +32,7 @@ namespace Proyecto_Metodologia
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evitar sonido de error en el textbox
-                string idCliente = textBox1.Text.Trim();
+                string idCliente = State_acount.Text.Trim();
 
                 if (!string.IsNullOrEmpty(idCliente))
                 {
@@ -105,10 +105,10 @@ namespace Proyecto_Metodologia
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         // Asignar valores de los TextBox a los parámetros de la consulta SQL
-                        cmd.Parameters.AddWithValue("@IdCliente", textBox2.Text);
-                        cmd.Parameters.AddWithValue("@Nombre", textBox3.Text);
-                        cmd.Parameters.AddWithValue("@Apellido", textBox4.Text);
-                        cmd.Parameters.AddWithValue("@Telefono", textBox5.Text);
+                        cmd.Parameters.AddWithValue("@IdCliente", Id_client.Text);
+                        cmd.Parameters.AddWithValue("@Nombre", Name_client.Text);
+                        cmd.Parameters.AddWithValue("@Apellido", LastName_client.Text);
+                        cmd.Parameters.AddWithValue("@Telefono", CellPhone_client.Text);
 
                         int result = cmd.ExecuteNonQuery(); // Ejecutar la consulta
 
@@ -147,10 +147,10 @@ namespace Proyecto_Metodologia
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         // Asignar valores de los TextBox a los parámetros de la consulta SQL
-                        cmd.Parameters.AddWithValue("@IdCliente", textBox2.Text);
-                        cmd.Parameters.AddWithValue("@Nombre", textBox3.Text);
-                        cmd.Parameters.AddWithValue("@Apellido", textBox4.Text);
-                        cmd.Parameters.AddWithValue("@Telefono", textBox5.Text);
+                        cmd.Parameters.AddWithValue("@IdCliente", Id_client.Text);
+                        cmd.Parameters.AddWithValue("@Nombre", Name_client.Text);
+                        cmd.Parameters.AddWithValue("@Apellido", LastName_client.Text);
+                        cmd.Parameters.AddWithValue("@Telefono", CellPhone_client.Text);
 
                         int result = cmd.ExecuteNonQuery(); // Ejecutar la consulta
 
@@ -176,8 +176,8 @@ namespace Proyecto_Metodologia
         private void button2_Click_1(object sender, EventArgs e)
         {
             // Ocultar y mostrar elementos para registrar un nuevo cliente
-            textBox1.Visible = false;
-            button5.Visible = false;
+            State_acount.Visible = false;
+            Button_acept.Visible = false;
             dataGridView1.Visible = false;
             label1.Visible = false;
 
@@ -185,20 +185,20 @@ namespace Proyecto_Metodologia
             label3.Visible = true;
             label4.Visible = true;
             label5.Visible = true;
-            textBox2.Visible = true;
-            textBox3.Visible = true;
-            textBox4.Visible = true;
-            textBox5.Visible = true;
-            button6.Visible = true;
+            Id_client.Visible = true;
+            Name_client.Visible = true;
+            LastName_client.Visible = true;
+            CellPhone_client.Visible = true;
+            button_save_client.Visible = true;
         }
 
         private void FrmClientes_Load_1(object sender, EventArgs e)
         {
-            textBox1.KeyDown += new KeyEventHandler(textBox1_KeyDown);
+            State_acount.KeyDown += new KeyEventHandler(textBox1_KeyDown);
             llenardatos(); // Cargar los datos al iniciar
             // Configuración inicial de visibilidad
-            textBox1.Visible = true;
-            button5.Visible = true;
+            State_acount.Visible = true;
+            Button_acept.Visible = true;
             dataGridView1.Visible = true;
             label1.Visible = true;
 
@@ -206,11 +206,11 @@ namespace Proyecto_Metodologia
             label3.Visible = false;
             label4.Visible = false;
             label5.Visible = false;
-            textBox2.Visible = false;
-            textBox3.Visible = false;
-            textBox4.Visible = false;
-            textBox5.Visible = false;
-            button6.Visible = false;
+            Id_client.Visible = false;
+            Name_client.Visible = false;
+            LastName_client.Visible = false;
+            CellPhone_client.Visible = false;
+            button_save_client.Visible = false;
 
             llenardatos(); // Cargar los datos al iniciar
 
@@ -219,7 +219,7 @@ namespace Proyecto_Metodologia
         private void button3_Click(object sender, EventArgs e)
         {
             // Verificar si el campo de búsqueda no está vacío
-            string idCliente = textBox1.Text.Trim();
+            string idCliente = State_acount.Text.Trim();
 
             if (string.IsNullOrEmpty(idCliente))
             {

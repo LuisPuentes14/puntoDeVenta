@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ namespace Proyecto_Metodologia
 
     public class AutoCompletarTextBox
     {
-        private SqlConnection cnn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=BDSISTEMA_VENTAS;Integrated Security=True"); // Reemplaza con tu cadena de conexión
+        private SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString); // Reemplaza con tu cadena de conexión
 
         public SqlConnection Cnn { get => cnn; set => cnn = value; }
 

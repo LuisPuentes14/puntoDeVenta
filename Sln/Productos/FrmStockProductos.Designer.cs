@@ -49,6 +49,7 @@
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(143, 20);
             this.txtBuscar.TabIndex = 1;
+            this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
             // 
             // btnBuscar
             // 
@@ -74,6 +75,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(963, 450);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnBuscar);

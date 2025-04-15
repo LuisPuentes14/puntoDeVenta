@@ -1,33 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Diagnostics;
-using System.IO;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
-using System.IO.Ports;
 using System.Drawing.Printing;
-using System.Runtime.InteropServices;
-using iText.Layout.Properties;
-using AutoCompletarTextBox;
 using static Proyecto_Metodologia.FrmSistemaVentas;
 
 
 namespace Proyecto_Metodologia
 {
-    
-
       public partial class FrmVentas : Form
 
     {
@@ -230,7 +213,7 @@ namespace Proyecto_Metodologia
                 string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
                 string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
 
-            string cajero = GlobalVariables.TextoHeadText;
+            string cajero = CONSTANS.USER;
                 
                 
 
@@ -553,7 +536,7 @@ namespace Proyecto_Metodologia
         {
             try
             {
-                cnn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=BDSISTEMA_VENTAS;Integrated Security=True");
+                cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
                 cnn.Open();
                 
             }

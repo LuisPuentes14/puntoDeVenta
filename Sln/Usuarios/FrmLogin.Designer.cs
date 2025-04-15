@@ -1,4 +1,7 @@
 ﻿
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
 namespace Proyecto_Metodologia
 {
     partial class FrmLogin

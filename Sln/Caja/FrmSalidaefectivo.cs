@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Configuration;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 //using static Proyecto_Metodologia.FrmSistemaVentas;
 
@@ -14,19 +9,37 @@ namespace Proyecto_Metodologia
 {
     public partial class FrmSalidaEfectivo : Form
     {
-        private SqlConnection cnn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=BDSISTEMA_VENTAS;Integrated Security=True");
-      //  string cajero = ventaglobal.Valorglobal;
+        private SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
+       
         public FrmSalidaEfectivo()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen; // Centrar el formulario en pantalla
         }
 
-       
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                this.SelectNextControl(this.ActiveControl, true, true, true, true);
+                return true; // Indica que ya se procesó la tecla
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             GuardarRegistro();
+        }
+
+        private void btnGuardar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                GuardarRegistro(); // Ejecuta el botón
+            }
         }
 
         private void GuardarRegistro()
@@ -45,7 +58,7 @@ namespace Proyecto_Metodologia
                 SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.Parameters.AddWithValue("@Codigo", nuevoCodigo);
-              //  cmd.Parameters.AddWithValue("@Usuario", cajero);
+                cmd.Parameters.AddWithValue("@Usuario", CONSTANS.USER);
                 cmd.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
                 cmd.Parameters.AddWithValue("@Concepto", txtConcepto.Text);
                 cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);

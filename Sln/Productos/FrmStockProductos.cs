@@ -75,5 +75,10 @@ namespace Proyecto_Metodologia
             txtBuscar.Clear();
             CargarProductos();
         }
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

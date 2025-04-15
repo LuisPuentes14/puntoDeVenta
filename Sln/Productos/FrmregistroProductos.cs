@@ -160,6 +160,7 @@ namespace Proyecto_Metodologia
         
 }
 
+        //boton de salir
         private void iconButton1_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -188,9 +189,15 @@ namespace Proyecto_Metodologia
             txtCodigo.Focus();
         }
 
-       // private void iconButton4_Click(object sender, EventArgs e)
-        //{
-            
-       // }
+        //boton de eliminar producto
+        private void iconButton3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

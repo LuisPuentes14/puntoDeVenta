@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace AutoCompletarTextBox
 {
@@ -18,7 +19,7 @@ namespace AutoCompletarTextBox
         {
             try
             {
-                cnn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=BDSISTEMA_VENTAS;Integrated Security=True");
+                cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
                 cnn.Open(); 
 
                 

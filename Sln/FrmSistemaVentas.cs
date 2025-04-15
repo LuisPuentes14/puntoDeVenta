@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
-using Proyecto_Metodologia;
 
 
 namespace Proyecto_Metodologia
@@ -34,17 +27,9 @@ namespace Proyecto_Metodologia
             FrmLogin test = new FrmLogin();
             test.ShowDialog();
             txtheadtext.Text = test.usuario ;
+            CONSTANS.USER = test.usuario;
             txtcategoria.Text = validarcategoria(test.usuario);
             categoriarango();
-            GlobalVariables.TextoHeadText = txtheadtext.Text;
-
-
-        }
-
-        public static class GlobalVariables
-        {
-            public static string TextoHeadText { get; set; } = string.Empty;
-
         }
 
         public DataSet EjecutarSelect(string pConsulta)
@@ -92,7 +77,7 @@ namespace Proyecto_Metodologia
                
             }
         }
-        private void AbrirFormularioHijo(Form FrmHijo)
+        public void AbrirFormularioHijo(Form FrmHijo)
         {
 
  
@@ -147,12 +132,7 @@ namespace Proyecto_Metodologia
         private void tsArticulos_Click(object sender, EventArgs e)
         {
 
-            //AbrirFormularioHijo(new FrmProductos());
-            // Crear una instancia del formulario FrmProductos
-            FrmRegistroProductos productos = new FrmRegistroProductos();
-
-            // Mostrar el formulario
-             productos.Show();
+            AbrirFormularioHijo(new FrmRegistroProductos());
         }
         private void tsCerrarSesion_Click(object sender, EventArgs e)
         {
@@ -173,6 +153,7 @@ namespace Proyecto_Metodologia
         {
             if (MessageBox.Show("¿Estás seguro de que deseas salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                CONSTANS.Reset();
                 Application.Exit(); // Cierra toda la aplicación correctamente
             }
         }
@@ -233,7 +214,7 @@ namespace Proyecto_Metodologia
 
         private void proveedoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirFormularioHijo(new FrmregistroProveedores());
+            AbrirFormularioHijo(new FrmProveedores());
            
         }
 
@@ -264,11 +245,7 @@ namespace Proyecto_Metodologia
 
         private void tsPresentaciones_Click(object sender, EventArgs e)
         {
-            // Crear una instancia del formulario FrmProductos
-            FrmStockProductos stock = new FrmStockProductos();
-
-            // Mostrar el formulario
-            stock.Show();
+            AbrirFormularioHijo(new FrmProductos());
         }
 
         private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)

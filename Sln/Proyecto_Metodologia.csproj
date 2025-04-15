@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.Sharp, Version=5.15.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome.Sharp.5.15.3\lib\net472\FontAwesome.Sharp.dll</HintPath>
     </Reference>
@@ -71,6 +74,9 @@
     </Reference>
     <Reference Include="itext.svg, Version=9.0.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>packages\itext.9.0.0\lib\net461\itext.svg.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -134,48 +140,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoCompletarTextBox.cs" />
-    <Compile Include="Conexion.cs" />
-    <Compile Include="FrmAperturacaja.cs">
+    <Compile Include="UTILS\AutoCompletarTextBox.cs" />
+    <Compile Include="UTILS\Conexion.cs" />
+    <Compile Include="UTILS\CONSTANS.cs" />
+    <Compile Include="Provedores\FrmAdministrarProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmAperturacaja.Designer.cs">
+    <Compile Include="Provedores\FrmAdministrarProveedores.Designer.cs">
+      <DependentUpon>FrmAdministrarProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Caja\FrmAperturacaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Caja\FrmAperturacaja.Designer.cs">
       <DependentUpon>FrmAperturacaja.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmClientes.cs">
+    <Compile Include="Clientes\FrmClientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmClientes.Designer.cs">
+    <Compile Include="Clientes\FrmClientes.Designer.cs">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmEntradaefectivo.cs">
+    <Compile Include="Caja\FrmEntradaefectivo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmEntradaefectivo.Designer.cs">
+    <Compile Include="Caja\FrmEntradaefectivo.Designer.cs">
       <DependentUpon>FrmEntradaefectivo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmHistoricoVentas.cs">
+    <Compile Include="Ventas\FrmHistoricoVentas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmHistoricoVentas.Designer.cs">
+    <Compile Include="Ventas\FrmHistoricoVentas.Designer.cs">
       <DependentUpon>FrmHistoricoVentas.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmLogin.cs">
+    <Compile Include="Usuarios\FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmLogin.Designer.cs">
+    <Compile Include="Usuarios\FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmInventarios.cs">
+    <Compile Include="Inventario\FrmInventarios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmInventarios.Designer.cs">
+    <Compile Include="Inventario\FrmInventarios.Designer.cs">
       <DependentUpon>FrmInventarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSalidaefectivo.cs">
+    <Compile Include="Productos\FrmProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSalidaefectivo.Designer.cs">
+    <Compile Include="Productos\FrmProductos.Designer.cs">
+      <DependentUpon>FrmProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Provedores\FrmProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Provedores\FrmProveedores.Designer.cs">
+      <DependentUpon>FrmProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Caja\FrmSalidaefectivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Caja\FrmSalidaefectivo.Designer.cs">
       <DependentUpon>FrmSalidaefectivo.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmSistemaVentas.cs">
@@ -184,10 +209,10 @@
     <Compile Include="FrmSistemaVentas.Designer.cs">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmStockProductos.cs">
+    <Compile Include="Productos\FrmStockProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmStockProductos.Designer.cs">
+    <Compile Include="Productos\FrmStockProductos.Designer.cs">
       <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </Compile>
     <Compile Include="Frmtikect.cs">
@@ -196,16 +221,16 @@
     <Compile Include="Frmtikect.Designer.cs">
       <DependentUpon>Frmtikect.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmArqueo.cs">
+    <Compile Include="Caja\FrmArqueo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmArqueo.Designer.cs">
+    <Compile Include="Caja\FrmArqueo.Designer.cs">
       <DependentUpon>FrmArqueo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmOlvidasteContraseña.cs">
+    <Compile Include="Usuarios\FrmOlvidasteContraseña.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmOlvidasteContraseña.Designer.cs">
+    <Compile Include="Usuarios\FrmOlvidasteContraseña.Designer.cs">
       <DependentUpon>FrmOlvidasteContraseña.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPrincipal.cs">
@@ -214,111 +239,117 @@
     <Compile Include="frmPrincipal.Designer.cs">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmregistroProveedores.cs">
+    <Compile Include="Provedores\FrmregistroProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmregistroProveedores.Designer.cs">
+    <Compile Include="Provedores\FrmregistroProveedores.Designer.cs">
       <DependentUpon>FrmregistroProveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRegistrocategoria.cs">
+    <Compile Include="Categorias\FrmRegistrocategoria.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRegistrocategoria.Designer.cs">
+    <Compile Include="Categorias\FrmRegistrocategoria.Designer.cs">
       <DependentUpon>FrmRegistrocategoria.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRegistroArqueo.cs">
+    <Compile Include="Caja\FrmRegistroArqueo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRegistroArqueo.Designer.cs">
+    <Compile Include="Caja\FrmRegistroArqueo.Designer.cs">
       <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRegistrodeVentas.cs">
+    <Compile Include="Ventas\FrmRegistrodeVentas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRegistrodeVentas.Designer.cs">
+    <Compile Include="Ventas\FrmRegistrodeVentas.Designer.cs">
       <DependentUpon>FrmRegistrodeVentas.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRegistroUsuarios.cs">
+    <Compile Include="Usuarios\FrmRegistroUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRegistroUsuarios.Designer.cs">
+    <Compile Include="Usuarios\FrmRegistroUsuarios.Designer.cs">
       <DependentUpon>FrmRegistroUsuarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmVentas.cs">
+    <Compile Include="Ventas\FrmVentas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmVentas.Designer.cs">
+    <Compile Include="Ventas\FrmVentas.Designer.cs">
       <DependentUpon>FrmVentas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InputDialog.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FrmregistroProductos.cs">
+    <Compile Include="Productos\FrmregistroProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmregistroProductos.Designer.cs">
+    <Compile Include="Productos\FrmregistroProductos.Designer.cs">
       <DependentUpon>FrmregistroProductos.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FrmAperturacaja.resx">
+    <EmbeddedResource Include="Provedores\FrmAdministrarProveedores.resx">
+      <DependentUpon>FrmAdministrarProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Caja\FrmAperturacaja.resx">
       <DependentUpon>FrmAperturacaja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmClientes.resx">
+    <EmbeddedResource Include="Clientes\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmEntradaefectivo.resx">
+    <EmbeddedResource Include="Caja\FrmEntradaefectivo.resx">
       <DependentUpon>FrmEntradaefectivo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmHistoricoVentas.resx">
+    <EmbeddedResource Include="Ventas\FrmHistoricoVentas.resx">
       <DependentUpon>FrmHistoricoVentas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmLogin.resx">
+    <EmbeddedResource Include="Usuarios\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmInventarios.resx">
+    <EmbeddedResource Include="Inventario\FrmInventarios.resx">
       <DependentUpon>FrmInventarios.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSalidaefectivo.resx">
+    <EmbeddedResource Include="Productos\FrmProductos.resx">
+      <DependentUpon>FrmProductos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Provedores\FrmProveedores.resx">
+      <DependentUpon>FrmProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Caja\FrmSalidaefectivo.resx">
       <DependentUpon>FrmSalidaefectivo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSistemaVentas.resx">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmStockProductos.resx">
+    <EmbeddedResource Include="Productos\FrmStockProductos.resx">
       <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frmtikect.resx">
       <DependentUpon>Frmtikect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmArqueo.resx">
+    <EmbeddedResource Include="Caja\FrmArqueo.resx">
       <DependentUpon>FrmArqueo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmOlvidasteContraseña.resx">
+    <EmbeddedResource Include="Usuarios\FrmOlvidasteContraseña.resx">
       <DependentUpon>FrmOlvidasteContraseña.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmregistroProveedores.resx">
+    <EmbeddedResource Include="Provedores\FrmregistroProveedores.resx">
       <DependentUpon>FrmregistroProveedores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRegistrocategoria.resx">
+    <EmbeddedResource Include="Categorias\FrmRegistrocategoria.resx">
       <DependentUpon>FrmRegistrocategoria.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRegistroArqueo.resx">
+    <EmbeddedResource Include="Caja\FrmRegistroArqueo.resx">
       <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRegistrodeVentas.resx">
+    <EmbeddedResource Include="Ventas\FrmRegistrodeVentas.resx">
       <DependentUpon>FrmRegistrodeVentas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmregistroProductos.resx">
+    <EmbeddedResource Include="Productos\FrmregistroProductos.resx">
       <DependentUpon>FrmregistroProductos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRegistroUsuarios.resx">
+    <EmbeddedResource Include="Usuarios\FrmRegistroUsuarios.resx">
       <DependentUpon>FrmRegistroUsuarios.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmVentas.resx">
+    <EmbeddedResource Include="Ventas\FrmVentas.resx">
       <DependentUpon>FrmVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -16,7 +16,7 @@ namespace Proyecto_Metodologia
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //FrmLogin a = new FrmLogin();
+            FrmLogin a = new FrmLogin();
             
             Application.Run( new FrmSistemaVentas());
            // Application.Run(new FrmAperturacaja());
