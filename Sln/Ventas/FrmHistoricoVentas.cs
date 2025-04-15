@@ -121,5 +121,10 @@ namespace Proyecto_Metodologia
                 }
             }
         }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

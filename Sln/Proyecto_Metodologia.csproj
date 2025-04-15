@@ -140,6 +140,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compras\FrmDevolucionesDeCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compras\FrmDevolucionesDeCompras.Designer.cs">
+      <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
+    </Compile>
     <Compile Include="UTILS\AutoCompletarTextBox.cs" />
     <Compile Include="UTILS\Conexion.cs" />
     <Compile Include="UTILS\CONSTANS.cs" />
@@ -185,11 +191,11 @@
     <Compile Include="Inventario\FrmInventarios.Designer.cs">
       <DependentUpon>FrmInventarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="Productos\FrmProductos.cs">
+    <Compile Include="Productos\FrmStockProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Productos\FrmProductos.Designer.cs">
-      <DependentUpon>FrmProductos.cs</DependentUpon>
+    <Compile Include="Productos\FrmStockProductos.Designer.cs">
+      <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </Compile>
     <Compile Include="Provedores\FrmProveedores.cs">
       <SubType>Form</SubType>
@@ -208,12 +214,6 @@
     </Compile>
     <Compile Include="FrmSistemaVentas.Designer.cs">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Productos\FrmStockProductos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Productos\FrmStockProductos.Designer.cs">
-      <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </Compile>
     <Compile Include="Frmtikect.cs">
       <SubType>Form</SubType>
@@ -257,11 +257,11 @@
     <Compile Include="Caja\FrmRegistroArqueo.Designer.cs">
       <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ventas\FrmRegistrodeVentas.cs">
+    <Compile Include="Ventas\FrmDevolucionesDeVentas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ventas\FrmRegistrodeVentas.Designer.cs">
-      <DependentUpon>FrmRegistrodeVentas.cs</DependentUpon>
+    <Compile Include="Ventas\FrmDevolucionesDeVentas.Designer.cs">
+      <DependentUpon>FrmDevolucionesDeVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="Usuarios\FrmRegistroUsuarios.cs">
       <SubType>Form</SubType>
@@ -277,12 +277,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Productos\FrmregistroProductos.cs">
+    <Compile Include="Compras\FrmregistroProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Productos\FrmregistroProductos.Designer.cs">
+    <Compile Include="Compras\FrmregistroProductos.Designer.cs">
       <DependentUpon>FrmregistroProductos.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Compras\FrmDevolucionesDeCompras.resx">
+      <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Provedores\FrmAdministrarProveedores.resx">
       <DependentUpon>FrmAdministrarProveedores.cs</DependentUpon>
     </EmbeddedResource>
@@ -304,8 +307,8 @@
     <EmbeddedResource Include="Inventario\FrmInventarios.resx">
       <DependentUpon>FrmInventarios.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Productos\FrmProductos.resx">
-      <DependentUpon>FrmProductos.cs</DependentUpon>
+    <EmbeddedResource Include="Productos\FrmStockProductos.resx">
+      <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Provedores\FrmProveedores.resx">
       <DependentUpon>FrmProveedores.cs</DependentUpon>
@@ -315,9 +318,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSistemaVentas.resx">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Productos\FrmStockProductos.resx">
-      <DependentUpon>FrmStockProductos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frmtikect.resx">
       <DependentUpon>Frmtikect.cs</DependentUpon>
@@ -340,10 +340,10 @@
     <EmbeddedResource Include="Caja\FrmRegistroArqueo.resx">
       <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ventas\FrmRegistrodeVentas.resx">
-      <DependentUpon>FrmRegistrodeVentas.cs</DependentUpon>
+    <EmbeddedResource Include="Ventas\FrmDevolucionesDeVentas.resx">
+      <DependentUpon>FrmDevolucionesDeVentas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Productos\FrmregistroProductos.resx">
+    <EmbeddedResource Include="Compras\FrmregistroProductos.resx">
       <DependentUpon>FrmregistroProductos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\FrmRegistroUsuarios.resx">
@@ -375,5 +375,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

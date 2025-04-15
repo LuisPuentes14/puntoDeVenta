@@ -40,7 +40,6 @@
             this.devolucionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historialDeVentasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAlmacen = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsArticulos = new System.Windows.Forms.ToolStripMenuItem();
             this.tsCategorias = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPresentaciones = new System.Windows.Forms.ToolStripMenuItem();
             this.comprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +66,7 @@
             this.tsCerrarSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devoluciónDeCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -202,19 +202,11 @@
             // mnuAlmacen
             // 
             this.mnuAlmacen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsArticulos,
             this.tsCategorias,
             this.tsPresentaciones});
             this.mnuAlmacen.Name = "mnuAlmacen";
             this.mnuAlmacen.Size = new System.Drawing.Size(93, 23);
             this.mnuAlmacen.Text = "Inventarios";
-            // 
-            // tsArticulos
-            // 
-            this.tsArticulos.Name = "tsArticulos";
-            this.tsArticulos.Size = new System.Drawing.Size(180, 24);
-            this.tsArticulos.Text = "Productos";
-            this.tsArticulos.Click += new System.EventHandler(this.tsArticulos_Click);
             // 
             // tsCategorias
             // 
@@ -227,13 +219,14 @@
             // 
             this.tsPresentaciones.Name = "tsPresentaciones";
             this.tsPresentaciones.Size = new System.Drawing.Size(180, 24);
-            this.tsPresentaciones.Text = "Contro de Stock";
+            this.tsPresentaciones.Text = "Centro de Stock";
             this.tsPresentaciones.Click += new System.EventHandler(this.tsPresentaciones_Click);
             // 
             // comprasToolStripMenuItem
             // 
             this.comprasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registrarCompraToolStripMenuItem,
+            this.devoluciónDeCompraToolStripMenuItem,
             this.proveedoresToolStripMenuItem});
             this.comprasToolStripMenuItem.Name = "comprasToolStripMenuItem";
             this.comprasToolStripMenuItem.Size = new System.Drawing.Size(79, 23);
@@ -242,13 +235,14 @@
             // registrarCompraToolStripMenuItem
             // 
             this.registrarCompraToolStripMenuItem.Name = "registrarCompraToolStripMenuItem";
-            this.registrarCompraToolStripMenuItem.Size = new System.Drawing.Size(194, 24);
-            this.registrarCompraToolStripMenuItem.Text = "Registrar Compra";
+            this.registrarCompraToolStripMenuItem.Size = new System.Drawing.Size(226, 24);
+            this.registrarCompraToolStripMenuItem.Text = "Agregar Compra";
+            this.registrarCompraToolStripMenuItem.Click += new System.EventHandler(this.registrarCompraToolStripMenuItem_Click);
             // 
             // proveedoresToolStripMenuItem
             // 
             this.proveedoresToolStripMenuItem.Name = "proveedoresToolStripMenuItem";
-            this.proveedoresToolStripMenuItem.Size = new System.Drawing.Size(194, 24);
+            this.proveedoresToolStripMenuItem.Size = new System.Drawing.Size(226, 24);
             this.proveedoresToolStripMenuItem.Text = "Proveedores";
             this.proveedoresToolStripMenuItem.Click += new System.EventHandler(this.proveedoresToolStripMenuItem_Click);
             // 
@@ -390,23 +384,30 @@
             // tsCerrarSesion
             // 
             this.tsCerrarSesion.Name = "tsCerrarSesion";
-            this.tsCerrarSesion.Size = new System.Drawing.Size(180, 24);
+            this.tsCerrarSesion.Size = new System.Drawing.Size(165, 24);
             this.tsCerrarSesion.Text = "Cerrar sesión";
             this.tsCerrarSesion.Click += new System.EventHandler(this.tsCerrarSesion_Click);
             // 
             // tsSalir
             // 
             this.tsSalir.Name = "tsSalir";
-            this.tsSalir.Size = new System.Drawing.Size(180, 24);
+            this.tsSalir.Size = new System.Drawing.Size(165, 24);
             this.tsSalir.Text = "Salir";
             this.tsSalir.Click += new System.EventHandler(this.tsSalir_Click);
             // 
             // usuariosToolStripMenuItem
             // 
             this.usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
+            // 
+            // devoluciónDeCompraToolStripMenuItem
+            // 
+            this.devoluciónDeCompraToolStripMenuItem.Name = "devoluciónDeCompraToolStripMenuItem";
+            this.devoluciónDeCompraToolStripMenuItem.Size = new System.Drawing.Size(226, 24);
+            this.devoluciónDeCompraToolStripMenuItem.Text = "Devolución de Compra";
+            this.devoluciónDeCompraToolStripMenuItem.Click += new System.EventHandler(this.devoluciónDeCompraToolStripMenuItem_Click);
             // 
             // FrmSistemaVentas
             // 
@@ -446,7 +447,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuVentas;
         private System.Windows.Forms.ToolStripMenuItem tsVender;
         private System.Windows.Forms.ToolStripMenuItem mnuAlmacen;
-        private System.Windows.Forms.ToolStripMenuItem tsArticulos;
         private System.Windows.Forms.ToolStripMenuItem tsCategorias;
         private System.Windows.Forms.ToolStripMenuItem tsPresentaciones;
         private System.Windows.Forms.ToolStripMenuItem mnuConsultas;
@@ -472,5 +472,6 @@
         private System.Windows.Forms.ToolStripMenuItem registroEgresosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cierreDeCajaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devoluciónDeCompraToolStripMenuItem;
     }
 }

@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Drawing.Printing;
-using static Proyecto_Metodologia.FrmSistemaVentas;
 
 
 namespace Proyecto_Metodologia

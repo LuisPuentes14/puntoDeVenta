@@ -193,18 +193,12 @@ namespace Proyecto_Metodologia
 
         private void devolucionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirFormularioHijo(new FrmRegistrodeVentas());
+            AbrirFormularioHijo(new FrmDevolucionesDeVentas());
         }
 
         private void historialDeVentasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //AbrirFormularioHijo(new FrmInventarios());
-            // Crear una instancia del formulario FrmProductos
-            FrmHistoricoVentas ventas = new FrmHistoricoVentas();
-
-            // Mostrar el formulario
-            ventas.Show();
-           // AbrirFormularioHijo(new FrmHistoricoVentas());
+            AbrirFormularioHijo(new FrmHistoricoVentas());
         }
 
         private void panelcontenido_Paint(object sender, PaintEventArgs e)
@@ -245,7 +239,7 @@ namespace Proyecto_Metodologia
 
         private void tsPresentaciones_Click(object sender, EventArgs e)
         {
-            AbrirFormularioHijo(new FrmProductos());
+            AbrirFormularioHijo(new FrmStockProductos());
         }
 
         private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -273,6 +267,16 @@ namespace Proyecto_Metodologia
 
             // Mostrar el formulario
             apertura.Show();
+        }
+
+        private void registrarCompraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmRegistroProductos());
+        }
+
+        private void devoluciónDeCompraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmDevolucionesDeCompras());
         }
     }
 }
