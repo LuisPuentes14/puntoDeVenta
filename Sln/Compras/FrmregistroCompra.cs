@@ -150,7 +150,15 @@ namespace Proyecto_Metodologia
                 EjecutarComando(consulta, parametros);
                 MessageBox.Show("Producto agregado correctamente.");
 
-              //  LlenarDatos();
+
+                string insertCompra = "INSERT INTO COMPRAS(CODIGOPRODUCTO) VALUES (@idProduct)";
+                SqlParameter[] parametrosCompra = {
+                    new SqlParameter("@idProduct", txtCodigo.Text.Trim())
+                };
+
+                EjecutarComando(insertCompra, parametrosCompra);
+
+                //  LlenarDatos();
                 LimpiarCampos();
             }
             catch (Exception ex)

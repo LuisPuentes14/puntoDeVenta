@@ -277,11 +277,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Compras\FrmregistroProductos.cs">
+    <Compile Include="Compras\FrmregistroCompra.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compras\FrmregistroProductos.Designer.cs">
-      <DependentUpon>FrmregistroProductos.cs</DependentUpon>
+    <Compile Include="Compras\FrmregistroCompra.Designer.cs">
+      <DependentUpon>FrmregistroCompra.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Compras\FrmDevolucionesDeCompras.resx">
       <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
@@ -343,8 +343,8 @@
     <EmbeddedResource Include="Ventas\FrmDevolucionesDeVentas.resx">
       <DependentUpon>FrmDevolucionesDeVentas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compras\FrmregistroProductos.resx">
-      <DependentUpon>FrmregistroProductos.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\FrmregistroCompra.resx">
+      <DependentUpon>FrmregistroCompra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\FrmRegistroUsuarios.resx">
       <DependentUpon>FrmRegistroUsuarios.cs</DependentUpon>

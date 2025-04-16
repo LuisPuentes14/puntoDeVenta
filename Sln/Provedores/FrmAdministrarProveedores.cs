@@ -25,37 +25,7 @@ namespace Proyecto_Metodologia
         //evento para actualizar los datos de la tabla
         private void btn_modificar_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                conn.Open();
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    if (row.IsNewRow) continue;
-
-                    string idProvedor = row.Cells["IdProveedor"].Value.ToString();
-                    string nombreCompañia = row.Cells["NombreCompañía"].Value.ToString();
-                    string nombreContacto = row.Cells["NombreContacto"].Value.ToString();
-                    string Direccion = row.Cells["Direccion"].Value.ToString();
-                    string ciudad = row.Cells["Ciudad"].Value.ToString();
-                    string telefono = row.Cells["Telefono"].Value.ToString();
-
-                    string query = @" UPDATE Proveedores SET  NombreCompañía = @NombreCompañia, NombreContacto = @NombreContacto, Direccion = @Direccion, Ciudad = @Ciudad WHERE IdProveedor = @IdProveedor";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@IdProveedor", idProvedor);
-                        cmd.Parameters.AddWithValue("@NombreCompañia", nombreCompañia);
-                        cmd.Parameters.AddWithValue("@NombreContacto", nombreContacto);
-                        cmd.Parameters.AddWithValue("@Direccion", Direccion);
-                        cmd.Parameters.AddWithValue("@Ciudad", ciudad);
-                        cmd.Parameters.AddWithValue("@Telefono", telefono);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                MessageBox.Show("Cambios guardados correctamente.");
-            }
+            ActualizarDatos();
         }
 
         // eventos para cargar los datos en tiempo real
@@ -69,6 +39,20 @@ namespace Proyecto_Metodologia
         private void iconButton3_Click(object sender, EventArgs e)
         {
             DeleteProveedores();
+        }
+
+        // EVENTO POR LETRA
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back && dataGridView1.SelectedRows.Count > 0)
+            {
+                DeleteProveedores(); // tu método para borrar de DB
+                CargarDatos(); // refresca la tabla   
+            }
+            if (e.KeyCode == Keys.Enter && dataGridView1.SelectedRows.Count > 0)
+            {
+                ActualizarDatos();
+            }
         }
 
 
@@ -162,6 +146,41 @@ namespace Proyecto_Metodologia
                 {
                     MessageBox.Show("Selecciona una fila para eliminar.");
                 }
+            }
+        }
+
+        private void ActualizarDatos() 
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                conn.Open();
+
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string idProvedor = row.Cells["IdProveedor"].Value.ToString();
+                    string nombreCompañia = row.Cells["NombreCompañía"].Value.ToString();
+                    string nombreContacto = row.Cells["NombreContacto"].Value.ToString();
+                    string Direccion = row.Cells["Direccion"].Value.ToString();
+                    string ciudad = row.Cells["Ciudad"].Value.ToString();
+                    string telefono = row.Cells["Telefono"].Value.ToString();
+
+                    string query = @" UPDATE Proveedores SET  NombreCompañía = @NombreCompañia, NombreContacto = @NombreContacto, Direccion = @Direccion, Ciudad = @Ciudad WHERE IdProveedor = @IdProveedor";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@IdProveedor", idProvedor);
+                        cmd.Parameters.AddWithValue("@NombreCompañia", nombreCompañia);
+                        cmd.Parameters.AddWithValue("@NombreContacto", nombreContacto);
+                        cmd.Parameters.AddWithValue("@Direccion", Direccion);
+                        cmd.Parameters.AddWithValue("@Ciudad", ciudad);
+                        cmd.Parameters.AddWithValue("@Telefono", telefono);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Cambios guardados correctamente.");
             }
         }
         #endregion
