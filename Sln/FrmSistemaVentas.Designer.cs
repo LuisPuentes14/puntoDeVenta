@@ -44,6 +44,7 @@
             this.tsPresentaciones = new System.Windows.Forms.ToolStripMenuItem();
             this.comprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devoluciónDeCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.proveedoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,6 @@
             this.tsCerrarSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.devoluciónDeCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -164,7 +164,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 66);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(951, 27);
-            this.menuStrip.TabIndex = 3;
+            this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "MenuStrip";
             // 
             // mnuVentas
@@ -239,6 +239,13 @@
             this.registrarCompraToolStripMenuItem.Text = "Agregar Compra";
             this.registrarCompraToolStripMenuItem.Click += new System.EventHandler(this.registrarCompraToolStripMenuItem_Click);
             // 
+            // devoluciónDeCompraToolStripMenuItem
+            // 
+            this.devoluciónDeCompraToolStripMenuItem.Name = "devoluciónDeCompraToolStripMenuItem";
+            this.devoluciónDeCompraToolStripMenuItem.Size = new System.Drawing.Size(226, 24);
+            this.devoluciónDeCompraToolStripMenuItem.Text = "Devolución de Compra";
+            this.devoluciónDeCompraToolStripMenuItem.Click += new System.EventHandler(this.devoluciónDeCompraToolStripMenuItem_Click);
+            // 
             // proveedoresToolStripMenuItem
             // 
             this.proveedoresToolStripMenuItem.Name = "proveedoresToolStripMenuItem";
@@ -268,12 +275,13 @@
             this.historialDeComprasToolStripMenuItem.Name = "historialDeComprasToolStripMenuItem";
             this.historialDeComprasToolStripMenuItem.Size = new System.Drawing.Size(215, 24);
             this.historialDeComprasToolStripMenuItem.Text = "Historial de Compras";
+            this.historialDeComprasToolStripMenuItem.Click += new System.EventHandler(this.historialDeComprasToolStripMenuItem_Click);
             // 
             // saldosPendientesToolStripMenuItem
             // 
             this.saldosPendientesToolStripMenuItem.Name = "saldosPendientesToolStripMenuItem";
             this.saldosPendientesToolStripMenuItem.Size = new System.Drawing.Size(215, 24);
-            this.saldosPendientesToolStripMenuItem.Text = "Saldos Pendientes";
+            this.saldosPendientesToolStripMenuItem.Text = "Cartera";
             // 
             // mnuConsultas
             // 
@@ -401,13 +409,6 @@
             this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
-            // 
-            // devoluciónDeCompraToolStripMenuItem
-            // 
-            this.devoluciónDeCompraToolStripMenuItem.Name = "devoluciónDeCompraToolStripMenuItem";
-            this.devoluciónDeCompraToolStripMenuItem.Size = new System.Drawing.Size(226, 24);
-            this.devoluciónDeCompraToolStripMenuItem.Text = "Devolución de Compra";
-            this.devoluciónDeCompraToolStripMenuItem.Click += new System.EventHandler(this.devoluciónDeCompraToolStripMenuItem_Click);
             // 
             // FrmSistemaVentas
             // 

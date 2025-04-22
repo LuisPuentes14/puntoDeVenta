@@ -4,8 +4,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Configuration;
 using System.Drawing.Printing;
+using System.Configuration;
 
 
 namespace Proyecto_Metodologia
@@ -14,9 +14,7 @@ namespace Proyecto_Metodologia
 
     {
         private PrintDocument printDocument;
-
         private DataSet aDatos;
-        
         public static TextBox txtPublico;
 
 
@@ -201,184 +199,33 @@ namespace Proyecto_Metodologia
             }
         }
 
+        private void txtDocumento_TextChanged(object sender, EventArgs e)
+        {
 
+            ObtenerInfoCliente(txtDocumentoCliente.Text);
+        }
 
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Verificar si la tecla presionada es Enter
             if (e.KeyChar == (char)Keys.Enter)  // 13 es el valor ASCII de la tecla Enter
             {
+                InsertarVenta();
 
-                string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
-                string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+                if (txtDocumentoCliente.Text != "2222222222" && !ValidarCliente())
+                    InsertarCliente();
 
-            string cajero = CONSTANS.USER;
-                
-                
+                ImprimirFactura();
 
-                using (SqlConnection conexion = new SqlConnection(cnn))
-                {
-                    try
-                    {
-                        conexion.Open();
-
-                        // Inserción de datos de la ventacliente
-                        string queryVenta = "INSERT INTO TVentas (CodigoVenta, PrecioTotal, Fecha,cajero,Cliente) VALUES (@CodigoVenta, @Total, @FechaVenta,@cajero, @Cliente)";
-                        using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
-
-                        {
-                            cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
-                            cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
-                            cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
-                            cmdVenta.Parameters.AddWithValue("@Cajero", cajero);
-                            cmdVenta.Parameters.AddWithValue("@Cliente", textBox1.Text);
-                            cmdVenta.ExecuteNonQuery();
-                        }
-                        
-                        List<string> detallesVenta = new List<string>();
-
-                        foreach (DataGridViewRow row in dgvVentas.Rows)
-                        {
-                            if (row.Cells[0].Value != null)
-                            {
-                                string idProducto = row.Cells[0].Value.ToString();
-                                string nombre = row.Cells[1].Value.ToString();
-                                //float cantidad = Convert.ToInt32(row.Cells[2].Value);
-                                float cantidad = (float)Math.Round(Convert.ToSingle(row.Cells[2].Value), 1);
-                                decimal precioUnidad = Convert.ToDecimal(row.Cells[3].Value);
-                                decimal iva = Math.Round(precioUnidad * 0.18m, 2);
-                                
-                                
-                                string queryDetalle = "INSERT INTO DetallesVenta (IdVenta, IdProducto, PrecioUnidad, Cantidad, Iva) " +
-                                                      "VALUES (@IdVenta, @IdProducto, @PrecioUnidad, @Cantidad, @Iva)";
-                                using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-                                {
-                                    cmdDetalle.Parameters.AddWithValue("@IdVenta", txtCodVentas.Text);
-                                    cmdDetalle.Parameters.AddWithValue("@IdProducto", idProducto);
-                                    cmdDetalle.Parameters.AddWithValue("@PrecioUnidad", precioUnidad);
-                                    cmdDetalle.Parameters.AddWithValue("@Cantidad", cantidad);
-                                    cmdDetalle.Parameters.AddWithValue("@Iva", iva);
-                                    cmdDetalle.ExecuteNonQuery();
-                                }
-
-
-                                string queryActualizarInventario = "UPDATE Tproductos SET cantidad = cantidad - @Cantidad WHERE CodigoProducto = @CodigoProducto";
-                                using (SqlCommand cmdActualizar = new SqlCommand(queryActualizarInventario, conexion))
-
-                                {
-                                    cmdActualizar.Parameters.AddWithValue("@Cantidad", cantidad);
-                                    cmdActualizar.Parameters.AddWithValue("@CodigoProducto", idProducto);
-                                    cmdActualizar.ExecuteNonQuery();
-                                }
-
-                                detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
-                            }
-                        }
-
-
-                        DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-                        // Verificar si el usuario presionó 'OK' (Enter) o 'Cancel' (Escape)
-                        if (result == DialogResult.OK)
-                        {
-                            // Aquí agregas el código para realizar la acción de impresión
-                            
-                            // Crear una nueva instancia de PrintDocument
-                            PrintDocument printDoc = new PrintDocument();
-
-                            // Asegurarse de que la impresora se ha configurado correctamente con el nombre correcto
-                            printDoc.PrinterSettings.PrinterName = "POS-80"; // Usar el nombre exacto de la impresora
-
-                            // Verificar si la impresora está disponible
-                            if (string.IsNullOrEmpty(printDoc.PrinterSettings.PrinterName) || !printDoc.PrinterSettings.IsValid)
-                            {
-                                MessageBox.Show("No se puede encontrar la impresora POS-80.");
-                                return;
-                            }
-
-                            // Establecer el contenido a imprimir, en este caso, el texto del TextBox
-                            printDoc.PrintPage += (sender1, args) =>
-                            {
-                                // Obtener el texto del TextBox
-                                //string textoAImprimir = "hola";
-                                printDocument.Print();
-
-
-                                // Verificar si el texto es nulo o vacío antes de intentar imprimir
-                                // if (string.IsNullOrEmpty(textoAImprimir))
-
-
-                                // Especificamos la fuente y el color
-                                Font font = new Font("Arial", 12);
-                                Brush brush = Brushes.Black;
-
-                                // Dibujar el texto en la página de impresión
-                                // args.Graphics.DrawString(textoAImprimir, font, brush, 100, 100);  // Ajusta las coordenadas según sea necesario
-                            };
-
-                            // Imprimir el documento
-                            try
-                            {
-                                printDoc.Print();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show($"Ocurrió un error al imprimir: {ex.Message}");
-                            }
-
-
-                        }
-                        else if (result == DialogResult.Cancel)
-                        {
-                            // Si se presionó Escape, no se realiza ninguna acción
-                            //MessageBox.Show("La impresión ha sido cancelada.");
-                        }
+                limpiarventa();
+                dgvVentas.Rows.Clear();
+                autoincrementable();
+                clear();
 
 
 
-                        limpiarventa();
-                        dgvVentas.Rows.Clear();
-                        autoincrementable();
-                        clear();
-
-                        
-
-                        // Generar el ticket PDF
-                        // Crear una nueva instancia de Form1
-
-                        txtcodp.Enabled = true;
-                        textBox2.Visible = false;
-                        textBox3.Visible = false;
-                        textBox4.Visible = false;
-                        label14.Visible = false;
-                        label13.Visible = false;
-                        label12.Visible = false;
-                        label15.Visible = false;
-                        txtcodp.Focus();
-
-                        // Imprimir la frase "Tienda Hector" en la impresora POS-80
-                        
-                        to.Text = "0";
-                        txtigv.Text = "0";
-                        txttotal.Text = "0";
-                        textBox2.Text = "0";
-                        textBox3.Text = "0";
-                        textBox4.Text = "0";
-
-
-                       
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-               
             }
         }
-
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
@@ -482,9 +329,6 @@ namespace Proyecto_Metodologia
             e.HasMorePages = false;
         }
 
-
-
-
         private void nupcantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Detectar si la tecla presionada es 'Enter'
@@ -526,74 +370,6 @@ namespace Proyecto_Metodologia
         }
 
         public IWin32Window Ventatotal { get; private set; }
-
-
-       SqlConnection cnn;
-      
-
-       public void Conexion()
-        {
-            try
-            {
-                cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
-                cnn.Open();
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudo conectar: " + ex.ToString());
-            }
-        }
-    
-        public void AutoCompletar(TextBox cajaTexto)
-        {
-
-            try
-            {
-                // Asegurar que la conexión está abierta
-                if (cnn.State != ConnectionState.Open)
-                {
-                    cnn.Open();
-                }
-
-                using (SqlCommand cmd = new SqlCommand("SELECT Descripcion FROM Tproductos", cnn))
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    // Limpiar la lista antes de agregar nuevos elementos
-                    cajaTexto.AutoCompleteCustomSource.Clear();
-
-                    while (dr.Read())
-                    {
-                        cajaTexto.AutoCompleteCustomSource.Add(dr["Descripcion"].ToString());
-                    }
-                }
-
-                // Configurar el autocompletado
-                ActivarAutocompletado(cajaTexto);
-                //cajaTexto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                //cajaTexto.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudo autocompletar el TextBox: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void ActivarAutocompletado(TextBox cajaTexto)
-        {
-            cajaTexto.AutoCompleteMode = AutoCompleteMode.Suggest;
-            cajaTexto.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        private void DesactivarAutocompletado(TextBox cajaTexto)
-        {
-            cajaTexto.AutoCompleteMode = AutoCompleteMode.None;
-            cajaTexto.AutoCompleteSource = AutoCompleteSource.None;
-        }
-
 
         // private void txtcodp_PreviewKeyDown(object sender, KeyPressEventArgs e)
         private void txtcodp_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -703,8 +479,7 @@ namespace Proyecto_Metodologia
 
         public DataSet EjecutarSelect(string Consulta)
         {
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-            using (SqlConnection conexion = new SqlConnection(cnn))
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
                 conexion.Open();
                 SqlDataAdapter a = new SqlDataAdapter(Consulta, conexion);
@@ -713,127 +488,6 @@ namespace Proyecto_Metodologia
                 conexion.Close();
             }
             return aDatos;
-        }
-
-        public string ValorAtributo(string pNombreCampo)
-        {
-            if (Datos.Tables[0].Rows.Count > 0)
-            {
-                return Datos.Tables[0].Rows[0][pNombreCampo].ToString();
-            }
-            return "";
-        }
-
-        public void clear()
-        {
-            txtcodp.Clear();
-            txtnombre.Clear();
-            txtpreciou.Clear();
-            txtStock.Clear();
-            nupcantidad.Text = "1";
-            SetFocusToTxtCodp();
-        }
-
-        public void limpiarventa()
-        {
-            to.Clear();
-            txtigv.Clear();
-            txttotal.Clear();
-            txtCodVentas.Clear();
-        }
-
-        public string ultimoValorAtributo()
-        {
-            string Consulta = "SELECT MAX(CodigoVenta) AS ULTIMO FROM TVentas";
-            EjecutarSelect(Consulta);
-            string A = ValorAtributo("ULTIMO");
-            return string.IsNullOrEmpty(A) ? "00000" : A;
-        }
-
-        public void autoincrementable()
-        {
-            string A = ultimoValorAtributo();
-            string prefix = A.Substring(0, 1);
-            int numero = int.Parse(A.Substring(1)) + 1;
-            string nuevoCodigo = prefix + numero.ToString("D4");
-
-            txtCodVentas.Text = nuevoCodigo;
-            txtCodVentas.Enabled = false;
-        }
-
-        private void iconButton3_Click(object sender, EventArgs e)
-        {
-            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    string queryVenta = "INSERT INTO TVentas (CodigoVenta, PrecioTotal, Fecha) VALUES (@CodigoVenta, @Total, @FechaVenta)";
-                    using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
-                    {
-                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
-                        cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
-                        cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
-                        cmdVenta.ExecuteNonQuery();
-                    }
-
-                    List<string> detallesVenta = new List<string>();
-
-                    foreach (DataGridViewRow row in dgvVentas.Rows)
-                    {
-                        if (row.Cells[0].Value != null)
-                        {
-                            string idProducto = row.Cells[0].Value.ToString();
-                            string nombre = row.Cells[1].Value.ToString();
-                            int cantidad = Convert.ToInt32(row.Cells[2].Value);
-                            decimal precioUnidad = Convert.ToDecimal(row.Cells[3].Value);
-                            decimal iva = Math.Round(precioUnidad * 0.18m, 2);
-
-                            string queryDetalle = "INSERT INTO DetallesVenta (IdVenta, IdProducto, PrecioUnidad, Cantidad, Iva) " +
-                                                  "VALUES (@IdVenta, @IdProducto, @PrecioUnidad, @Cantidad, @Iva)";
-                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-                            {
-                                cmdDetalle.Parameters.AddWithValue("@IdVenta", txtCodVentas.Text);
-                                cmdDetalle.Parameters.AddWithValue("@IdProducto", idProducto);
-                                cmdDetalle.Parameters.AddWithValue("@PrecioUnidad", precioUnidad);
-                                cmdDetalle.Parameters.AddWithValue("@Cantidad", cantidad);
-                                cmdDetalle.Parameters.AddWithValue("@Iva", iva);
-                                cmdDetalle.ExecuteNonQuery();
-                            }
-
-                            detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
-                        }
-                    }
-
-                    limpiarventa();
-                    dgvVentas.Rows.Clear();
-                    autoincrementable();
-                    clear();
-
-                    MessageBox.Show("Venta guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                   // GenerarTicketPDF(txtCodVentas.Text, detallesVenta);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        
-
-        private void SetFocusToTxtCodp()
-        {
-            if (txtcodp.Enabled && txtcodp.Visible)
-            {
-                txtcodp.Select();
-                txtcodp.Focus();
-            }
         }
 
         private void button3_Click_1(object sender, EventArgs e)
@@ -866,47 +520,10 @@ namespace Proyecto_Metodologia
             }
         }
 
-        
-
-        public void calculartotal()
-        {
-            double cantidad = 0;
-            double subtotal = 0;
-            double iva = 0;
-            double ventatotal = 0;
-            double tiva = 0;
-            int i = 0;
-            while (i < dgvVentas.RowCount)
-            {
-                cantidad = double.Parse(dgvVentas[3, i].Value.ToString());
-                iva = double.Parse(dgvVentas[4, i].Value.ToString());
-                subtotal += cantidad - cantidad * iva;
-                tiva = tiva + cantidad * iva;
-                i++;
-            }
-            
-            ventatotal = subtotal + tiva;
-            //ventaglobal.Valorglobal = ventatotal;
-
-
-            to.Text = Math.Round(subtotal, 2).ToString();
-            txtigv.Text = Math.Round(tiva, 2).ToString();
-            txttotal.Text = Math.Round(ventatotal, 2).ToString();
-            if (dgvVentas.Rows.Count == 0)
-            {
-                to.Text = "0.00";
-                txtigv.Text = "0.00";
-                txttotal.Text = "0.00";
-            }
-        }
-
-        
         public void imprimir_Click(object sender, EventArgs e)
         {
             string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
                 try
                 {
@@ -919,7 +536,7 @@ namespace Proyecto_Metodologia
                         cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
                         cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
                         cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
-                        cmdVenta.Parameters.AddWithValue("@Cliente", textBox1.Text);
+                        cmdVenta.Parameters.AddWithValue("@Cliente", txtDocumentoCliente.Text);
 
                         cmdVenta.ExecuteNonQuery();
                     }
@@ -967,78 +584,7 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-
-        internal void imprimir()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void button1_Click(object sender, EventArgs e)
-        {
-            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    // Inserción de datos de la venta
-                    string queryVenta = "INSERT INTO TVentas (CodigoVenta, PrecioTotal, Fecha, Cliente) VALUES (@CodigoVenta, @Total, @FechaVenta, @Cliente)";
-                    using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
-                    {
-                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
-                        cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
-                        cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
-                        cmdVenta.Parameters.AddWithValue("@Cliente", textBox1.Text);
-                        cmdVenta.ExecuteNonQuery();
-                    }
-
-                    List<string> detallesVenta = new List<string>();
-
-                    foreach (DataGridViewRow row in dgvVentas.Rows)
-                    {
-                        if (row.Cells[0].Value != null)
-                        {
-                            string idProducto = row.Cells[0].Value.ToString();
-                            string nombre = row.Cells[1].Value.ToString();
-                            int cantidad = Convert.ToInt32(row.Cells[2].Value);
-                            decimal precioUnidad = Convert.ToDecimal(row.Cells[3].Value);
-                            decimal iva = Math.Round(precioUnidad * 0.18m, 2);
-
-                            string queryDetalle = "INSERT INTO DetallesVenta (IdVenta, IdProducto, PrecioUnidad, Cantidad, Iva) " +
-                                                  "VALUES (@IdVenta, @IdProducto, @PrecioUnidad, @Cantidad, @Iva)";
-                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-                            {
-                                cmdDetalle.Parameters.AddWithValue("@IdVenta", txtCodVentas.Text);
-                                cmdDetalle.Parameters.AddWithValue("@IdProducto", idProducto);
-                                cmdDetalle.Parameters.AddWithValue("@PrecioUnidad", precioUnidad);
-                                cmdDetalle.Parameters.AddWithValue("@Cantidad", cantidad);
-                                cmdDetalle.Parameters.AddWithValue("@Iva", iva);
-                                cmdDetalle.ExecuteNonQuery();
-                            }
-
-                            detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
-                        }
-                    }
-
-                    limpiarventa();
-                    dgvVentas.Rows.Clear();
-                    autoincrementable();
-                    clear();
-
-                    MessageBox.Show("Venta guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
+   
         private void FrmVentas_Load(object sender, EventArgs e)
         {
            
@@ -1053,18 +599,393 @@ namespace Proyecto_Metodologia
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-           // FrmArqueo frm = new FrmArqueo(); // Crea una instancia del formulario
-          // frm.Show(); // Muestra el formulario de manera no modal
-        }
 
-        private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        #region FUNCIONES
+        public void Conexion()
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
+                cnn.Open();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo conectar: " + ex.ToString());
+            }
+        }
+        public void AutoCompletar(TextBox cajaTexto)
         {
 
+            try
+            {
+                SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
+                // Asegurar que la conexión está abierta
+                if (cnn.State != ConnectionState.Open)
+                {
+                    cnn.Open();
+                }
+
+                using (SqlCommand cmd = new SqlCommand("SELECT Descripcion FROM Tproductos", cnn))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    // Limpiar la lista antes de agregar nuevos elementos
+                    cajaTexto.AutoCompleteCustomSource.Clear();
+
+                    while (dr.Read())
+                    {
+                        cajaTexto.AutoCompleteCustomSource.Add(dr["Descripcion"].ToString());
+                    }
+                }
+
+                // Configurar el autocompletado
+                ActivarAutocompletado(cajaTexto);
+                //cajaTexto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                //cajaTexto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo autocompletar el TextBox: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+        private void ActivarAutocompletado(TextBox cajaTexto)
+        {
+            cajaTexto.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cajaTexto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+        private void DesactivarAutocompletado(TextBox cajaTexto)
+        {
+            cajaTexto.AutoCompleteMode = AutoCompleteMode.None;
+            cajaTexto.AutoCompleteSource = AutoCompleteSource.None;
+        }
+        public void calculartotal()
+        {
+            double cantidad = 0;
+            double subtotal = 0;
+            double iva = 0;
+            double ventatotal = 0;
+            double tiva = 0;
+            int i = 0;
+            while (i < dgvVentas.RowCount)
+            {
+                cantidad = double.Parse(dgvVentas[3, i].Value.ToString());
+                iva = double.Parse(dgvVentas[4, i].Value.ToString());
+                subtotal += cantidad - cantidad * iva;
+                tiva = tiva + cantidad * iva;
+                i++;
+            }
+
+            ventatotal = subtotal + tiva;
+            //ventaglobal.Valorglobal = ventatotal;
+
+
+            to.Text = Math.Round(subtotal, 2).ToString();
+            txtigv.Text = Math.Round(tiva, 2).ToString();
+            txttotal.Text = Math.Round(ventatotal, 2).ToString();
+            if (dgvVentas.Rows.Count == 0)
+            {
+                to.Text = "0.00";
+                txtigv.Text = "0.00";
+                txttotal.Text = "0.00";
+            }
+        }
+        public string ValorAtributo(string pNombreCampo)
+        {
+            if (Datos.Tables[0].Rows.Count > 0)
+            {
+                return Datos.Tables[0].Rows[0][pNombreCampo].ToString();
+            }
+            return "";
+        }
+        public void clear()
+        {
+            txtcodp.Clear();
+            txtnombre.Clear();
+            txtpreciou.Clear();
+            txtStock.Clear();
+            nupcantidad.Text = "1";
+            txtDocumentoCliente.Text = "2222222222";
+            txtNombreCliente.Text = "";
+            txtApellido.Text = "";
+            txtCorreo.Text = "";
+            txtTelefono.Text = "";
+
+
+            SetFocusToTxtCodp();
+        }
+        public void limpiarventa()
+        {
+            to.Clear();
+            txtigv.Clear();
+            txttotal.Clear();
+            txtCodVentas.Clear();
+        }
+        public string ultimoValorAtributo()
+        {
+            string Consulta = "SELECT MAX(CodigoVenta) AS ULTIMO FROM TVentas";
+            EjecutarSelect(Consulta);
+            string A = ValorAtributo("ULTIMO");
+            return string.IsNullOrEmpty(A) ? "00000" : A;
+        }
+        public void autoincrementable()
+        {
+            string A = ultimoValorAtributo();
+            string prefix = A.Substring(0, 1);
+            int numero = int.Parse(A.Substring(1)) + 1;
+            string nuevoCodigo = prefix + numero.ToString("D4");
+
+            txtCodVentas.Text = nuevoCodigo;
+            txtCodVentas.Enabled = false;
+        }
+        private void SetFocusToTxtCodp()
+        {
+            if (txtcodp.Enabled && txtcodp.Visible)
+            {
+                txtcodp.Select();
+                txtcodp.Focus();
+            }
+        }
+        private void InsertarVenta() 
+        {
+            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
+            string cajero = CONSTANS.USER;
+
+
+
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                try
+                {
+                    conexion.Open();
+
+                    // Inserción de datos de la ventacliente
+                    string queryVenta = "INSERT INTO TVentas (CodigoVenta, PrecioTotal, Fecha,cajero,Cliente) VALUES (@CodigoVenta, @Total, @FechaVenta,@cajero, @Cliente)";
+                    using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
+
+                    {
+                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
+                        cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
+                        cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
+                        cmdVenta.Parameters.AddWithValue("@Cajero", cajero);
+                        cmdVenta.Parameters.AddWithValue("@Cliente", txtDocumentoCliente.Text);
+                        cmdVenta.ExecuteNonQuery();
+                    }
+
+                    List<string> detallesVenta = new List<string>();
+
+                    foreach (DataGridViewRow row in dgvVentas.Rows)
+                    {
+                        if (row.Cells[0].Value != null)
+                        {
+                            string idProducto = row.Cells[0].Value.ToString();
+                            string nombre = row.Cells[1].Value.ToString();
+                            //float cantidad = Convert.ToInt32(row.Cells[2].Value);
+                            float cantidad = (float)Math.Round(Convert.ToSingle(row.Cells[2].Value), 1);
+                            decimal precioUnidad = Convert.ToDecimal(row.Cells[3].Value);
+                            decimal iva = Math.Round(precioUnidad * 0.18m, 2);
+
+
+                            string queryDetalle = "INSERT INTO DetallesVenta (IdVenta, IdProducto, PrecioUnidad, Cantidad, Iva) " +
+                                                  "VALUES (@IdVenta, @IdProducto, @PrecioUnidad, @Cantidad, @Iva)";
+                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
+                            {
+                                cmdDetalle.Parameters.AddWithValue("@IdVenta", txtCodVentas.Text);
+                                cmdDetalle.Parameters.AddWithValue("@IdProducto", idProducto);
+                                cmdDetalle.Parameters.AddWithValue("@PrecioUnidad", precioUnidad);
+                                cmdDetalle.Parameters.AddWithValue("@Cantidad", cantidad);
+                                cmdDetalle.Parameters.AddWithValue("@Iva", iva);
+                                cmdDetalle.ExecuteNonQuery();
+                            }
+
+
+                            string queryActualizarInventario = "UPDATE Tproductos SET cantidad = cantidad - @Cantidad WHERE CodigoProducto = @CodigoProducto";
+                            using (SqlCommand cmdActualizar = new SqlCommand(queryActualizarInventario, conexion))
+
+                            {
+                                cmdActualizar.Parameters.AddWithValue("@Cantidad", cantidad);
+                                cmdActualizar.Parameters.AddWithValue("@CodigoProducto", idProducto);
+                                cmdActualizar.ExecuteNonQuery();
+                            }
+
+                            detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
+                        }
+                    }
+
+                    // Generar el ticket PDF
+                    // Crear una nueva instancia de Form1
+
+                    txtcodp.Enabled = true;
+                    textBox2.Visible = false;
+                    textBox3.Visible = false;
+                    textBox4.Visible = false;
+                    label14.Visible = false;
+                    label13.Visible = false;
+                    label12.Visible = false;
+                    label15.Visible = false;
+                    txtcodp.Focus();
+
+                    // Imprimir la frase "Tienda Hector" en la impresora POS-80
+
+                    to.Text = "0";
+                    txtigv.Text = "0";
+                    txttotal.Text = "0";
+                    textBox2.Text = "0";
+                    textBox3.Text = "0";
+                    textBox4.Text = "0";
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private bool ValidarCliente() {
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    string query = "SELECT 1  FROM Clientes where idCliente = @idCliente";
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@idCliente",txtDocumentoCliente.Text);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            return true; // El cliente existe
+                        }
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false; // Error al consultar la base de datos
+
+                }
+            }
+        }
+        private void ObtenerInfoCliente(string idCliente) 
+        {
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    string query = "SELECT nombre,apellido,telefono,correo  FROM Clientes where idCliente = @idCliente";
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            txtNombreCliente.Text = reader["nombre"].ToString();
+                            txtApellido.Text = reader["apellido"].ToString();
+                            txtTelefono.Text = reader["telefono"].ToString();
+                            txtCorreo.Text = reader["correo"].ToString();
+                        }
+                        else if (idCliente == "2222222222") 
+                        { 
+                            txtNombreCliente.Text = "";
+                            txtApellido.Text ="";
+                            txtTelefono.Text = "";
+                            txtCorreo.Text = "";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
+        private void InsertarCliente() 
+        {
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    string queryDetalle = "INSERT INTO Clientes VALUES(@idCliente, @nombre, @apellido, @telefono, @correo)";
+            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
+            {
+                cmdDetalle.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
+                cmdDetalle.Parameters.AddWithValue("@nombre", txtNombreCliente.Text);
+                cmdDetalle.Parameters.AddWithValue("@apellido", txtApellido.Text);
+                cmdDetalle.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+                cmdDetalle.Parameters.AddWithValue("@correo", txtCorreo.Text);
+                cmdDetalle.ExecuteNonQuery();
+            }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void ImprimirFactura() 
+        {
+            DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+            // Verificar si el usuario presionó 'OK' (Enter) o 'Cancel' (Escape)
+            if (result == DialogResult.OK)
+            {
+                // Aquí agregas el código para realizar la acción de impresión
+
+                // Crear una nueva instancia de PrintDocument
+                PrintDocument printDoc = new PrintDocument();
+
+                // Asegurarse de que la impresora se ha configurado correctamente con el nombre correcto
+                printDoc.PrinterSettings.PrinterName = "POS-80"; // Usar el nombre exacto de la impresora
+
+                // Verificar si la impresora está disponible
+                if (string.IsNullOrEmpty(printDoc.PrinterSettings.PrinterName) || !printDoc.PrinterSettings.IsValid)
+                {
+                    MessageBox.Show("No se puede encontrar la impresora POS-80.");
+                    return;
+                }
+
+                // Establecer el contenido a imprimir, en este caso, el texto del TextBox
+                printDoc.PrintPage += (sender1, args) =>
+                {
+                    // Obtener el texto del TextBox
+                    //string textoAImprimir = "hola";
+                    printDocument.Print();
+
+
+                    // Verificar si el texto es nulo o vacío antes de intentar imprimir
+                    // if (string.IsNullOrEmpty(textoAImprimir))
+
+
+                    // Especificamos la fuente y el color
+                    Font font = new Font("Arial", 12);
+                    Brush brush = Brushes.Black;
+
+                    // Dibujar el texto en la página de impresión
+                    // args.Graphics.DrawString(textoAImprimir, font, brush, 100, 100);  // Ajusta las coordenadas según sea necesario
+                };
+
+                // Imprimir el documento
+                try
+                {
+                    printDoc.Print();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ocurrió un error al imprimir: {ex.Message}");
+                }
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                // Si se presionó Escape, no se realiza ninguna acción
+                //MessageBox.Show("La impresión ha sido cancelada.");
+            }
+        }
+        #endregion
     }
-
-
-    
 }

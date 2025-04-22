@@ -17,21 +17,19 @@ namespace Proyecto_Metodologia
         //evento para cargar el formulario
         private void FrmProductos_Load(object sender, EventArgs e)
         {
+            textBox1.Focus();
             CargarDatos();
         }
-        
         //evento para actualizar los datos de la tabla
         private void btnModificar_Click(object sender, EventArgs e)
         {
             ActualizarDatos();
         }
-
         //boton para eliminar
         private void iconButton3_Click(object sender, EventArgs e)
         {
             DeleteProducts();
         }
-
         // EVENTO POR LETRA
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -45,14 +43,12 @@ namespace Proyecto_Metodologia
                 ActualizarDatos();
             }
         }
-
         // boton de agregar
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             FrmProveedores proveedores = new FrmProveedores();
             proveedores.AbrirFormularioHijo(new FrmregistroProveedores(new FrmProveedores()));
         }
-
         //evento buscar en tiempo real
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -60,7 +56,6 @@ namespace Proyecto_Metodologia
             CargarProductos(filtro);
 
         }
-
         //evento para cerrar el formulario
         private void iconButton1_Click_1(object sender, EventArgs e)
         {
@@ -70,7 +65,6 @@ namespace Proyecto_Metodologia
 
 
         #region FUNCIONES
-
         //FUNCION CARGAR DATOS
         private void CargarDatos()
         {
@@ -85,7 +79,6 @@ namespace Proyecto_Metodologia
                 dataGridView1.DataSource = dt;
             }
         }
-
         //FUNCION PARA ACTUALIZAR PRODUCTOS
         private void ActualizarDatos() 
         {
@@ -129,7 +122,6 @@ namespace Proyecto_Metodologia
                 MessageBox.Show("Cambios guardados correctamente.");
             }
         }
-
         //FUNCION ELIMINAR PRODUCTOS
         private void DeleteProducts()
         {
@@ -171,7 +163,6 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-
         //funcion para el filtrado en tiempo real
         private void CargarProductos(string filtro = "")
         {
@@ -207,8 +198,6 @@ namespace Proyecto_Metodologia
             }
         }
         #endregion
-
-
     }
 }
 

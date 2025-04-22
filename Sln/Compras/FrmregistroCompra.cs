@@ -11,7 +11,7 @@ namespace Proyecto_Metodologia
     {
 
         private DataSet aDatos;
-        private int contador = 1; // Contador para ComboBox y TextBox
+        //private int contador = 1; // Contador para ComboBox y TextBox
         public FrmRegistroProductos()
         {
             InitializeComponent();

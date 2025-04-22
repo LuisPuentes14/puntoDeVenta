@@ -195,6 +195,7 @@
             this.dgventas.ReadOnly = true;
             this.dgventas.Size = new System.Drawing.Size(834, 252);
             this.dgventas.TabIndex = 0;
+            this.dgventas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // FrmDevolucionesDeVentas
             // 
@@ -207,6 +208,7 @@
             this.Name = "FrmDevolucionesDeVentas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmRegistrodeVentas";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panelcontenido.ResumeLayout(false);

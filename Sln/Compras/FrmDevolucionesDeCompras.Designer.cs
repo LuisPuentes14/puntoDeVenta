@@ -32,14 +32,14 @@
             this.USUSARIO = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelcontenido = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.txttotal = new System.Windows.Forms.TextBox();
             this.lbFecha = new System.Windows.Forms.Label();
             this.dateTimeVentas = new System.Windows.Forms.DateTimePicker();
             this.dgventas = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panelcontenido.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -97,14 +97,32 @@
             this.panelcontenido.Size = new System.Drawing.Size(991, 452);
             this.panelcontenido.TabIndex = 3;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(519, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 16);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "BUSCAR:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(592, 49);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(200, 20);
+            this.textBox1.TabIndex = 16;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.Teal;
             this.panel3.Controls.Add(this.iconButton1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 379);
+            this.panel3.Location = new System.Drawing.Point(0, 397);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(991, 73);
+            this.panel3.Size = new System.Drawing.Size(991, 55);
             this.panel3.TabIndex = 15;
             // 
             // iconButton1
@@ -116,7 +134,7 @@
             this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconButton1.IconSize = 35;
             this.iconButton1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.iconButton1.Location = new System.Drawing.Point(72, 13);
+            this.iconButton1.Location = new System.Drawing.Point(31, 12);
             this.iconButton1.Name = "iconButton1";
             this.iconButton1.Size = new System.Drawing.Size(113, 40);
             this.iconButton1.TabIndex = 2;
@@ -167,24 +185,6 @@
             this.dgventas.ReadOnly = true;
             this.dgventas.Size = new System.Drawing.Size(761, 252);
             this.dgventas.TabIndex = 0;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(592, 49);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
-            this.textBox1.TabIndex = 16;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(519, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 16);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "BUSCAR:";
             // 
             // FrmDevolucionesDeCompras
             // 

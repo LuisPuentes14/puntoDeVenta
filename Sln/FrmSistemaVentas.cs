@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using Proyecto_Metodologia.Clientes;
 
 
 namespace Proyecto_Metodologia
@@ -214,11 +215,7 @@ namespace Proyecto_Metodologia
 
         private void clienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Crear una instancia del formulario FrmProductos
-            FrmClientes usuarios = new FrmClientes();
-
-            // Mostrar el formulario
-            usuarios.Show();
+            AbrirFormularioHijo(new FrmAdministrarClientes());
         }
 
         private void registroEgresosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -277,6 +274,11 @@ namespace Proyecto_Metodologia
         private void devoluciónDeCompraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FrmDevolucionesDeCompras());
+        }
+
+        private void historialDeComprasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmHistorialDeCompra());
         }
     }
 }

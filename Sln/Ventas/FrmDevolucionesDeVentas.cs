@@ -32,6 +32,37 @@ namespace Proyecto_Metodologia
             dgventas.KeyDown += dgventas_KeyDown;
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            dgventas.Focus();
+            if (dgventas.Rows.Count > 0)
+                dgventas.CurrentCell = dgventas[0, 0];
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (dgventas.Rows.Count == 0) return;
+
+            int currentRowIndex = dgventas.CurrentCell.RowIndex;
+
+            if (e.KeyCode == Keys.Up)
+            {
+                if (currentRowIndex > 0)
+                {
+                    dgventas.CurrentCell = dgventas[0, currentRowIndex - 1];
+                }
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                if (currentRowIndex < dgventas.Rows.Count - 1)
+                {
+                    dgventas.CurrentCell = dgventas[0, currentRowIndex + 1];
+                }
+                e.Handled = true;
+            }
+        }
+
         public DataSet Datos
         {
             get { return aDatos; }

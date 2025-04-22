@@ -140,6 +140,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clientes\FrmAdministrarClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Clientes\FrmAdministrarClientes.Designer.cs">
+      <DependentUpon>FrmAdministrarClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clientes\FrmHistorialDeCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Clientes\FrmHistorialDeCompra.Designer.cs">
+      <DependentUpon>FrmHistorialDeCompra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Compras\FrmDevolucionesDeCompras.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,12 +173,6 @@
     <Compile Include="Caja\FrmAperturacaja.Designer.cs">
       <DependentUpon>FrmAperturacaja.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clientes\FrmClientes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Clientes\FrmClientes.Designer.cs">
-      <DependentUpon>FrmClientes.cs</DependentUpon>
-    </Compile>
     <Compile Include="Caja\FrmEntradaefectivo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,12 +190,6 @@
     </Compile>
     <Compile Include="Usuarios\FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Inventario\FrmInventarios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Inventario\FrmInventarios.Designer.cs">
-      <DependentUpon>FrmInventarios.cs</DependentUpon>
     </Compile>
     <Compile Include="Productos\FrmStockProductos.cs">
       <SubType>Form</SubType>
@@ -283,6 +283,12 @@
     <Compile Include="Compras\FrmregistroCompra.Designer.cs">
       <DependentUpon>FrmregistroCompra.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Clientes\FrmAdministrarClientes.resx">
+      <DependentUpon>FrmAdministrarClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Clientes\FrmHistorialDeCompra.resx">
+      <DependentUpon>FrmHistorialDeCompra.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compras\FrmDevolucionesDeCompras.resx">
       <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,9 +298,6 @@
     <EmbeddedResource Include="Caja\FrmAperturacaja.resx">
       <DependentUpon>FrmAperturacaja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Clientes\FrmClientes.resx">
-      <DependentUpon>FrmClientes.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Caja\FrmEntradaefectivo.resx">
       <DependentUpon>FrmEntradaefectivo.cs</DependentUpon>
     </EmbeddedResource>
@@ -303,9 +306,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Inventario\FrmInventarios.resx">
-      <DependentUpon>FrmInventarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Productos\FrmStockProductos.resx">
       <DependentUpon>FrmStockProductos.cs</DependentUpon>

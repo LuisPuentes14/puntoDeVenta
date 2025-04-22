@@ -164,7 +164,7 @@ namespace Proyecto_Metodologia
             this.iconButton1.Location = new System.Drawing.Point(697, 7);
             this.iconButton1.Name = "iconButton1";
             this.iconButton1.Size = new System.Drawing.Size(52, 34);
-            this.iconButton1.TabIndex = 11;
+            this.iconButton1.TabIndex = 3;
             this.iconButton1.UseVisualStyleBackColor = false;
             this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
             // 
