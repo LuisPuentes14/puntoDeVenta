@@ -222,12 +222,7 @@ namespace Proyecto_Metodologia
 
         private void registroEgresosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Crear una instancia del formulario FrmProductos
-           // FrmSalidaefectivo salida = new FrmSalidaefectivo();
-
-            // Mostrar el formulario
-            //salida.Show();
-          //  AbrirFormularioHijo(new FrmSalidaefectivo());
+            AbrirFormularioHijo(new FrmSalidaEfectivo());
 
         }
 

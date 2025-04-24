@@ -35,7 +35,8 @@ namespace Proyecto_Metodologia.Reportes
         private void btneExportar_Click(object sender, EventArgs e)
         {
             DataTable datatable = ObtenerDataTableDesdeGrid(dgReporte);
-            ExportarAExcelConClosedXML(datatable, @"C:\Reportes\Compras");
+
+            ExportarAExcelConClosedXML(datatable, ConfigurationManager.AppSettings["RutaReporteCompras"]);
         }
 
         private void iconButton1_Click(object sender, EventArgs e)

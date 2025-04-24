@@ -1,6 +1,6 @@
-﻿using System.Collections.Specialized;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Proyecto_Metodologia.UTILS
@@ -10,11 +10,18 @@ namespace Proyecto_Metodologia.UTILS
 
         public static void HacerBackupSQLServer()
         {
+            string ruta = ConfigurationManager.AppSettings["RutaBackup"];
+            string nombreBackup = ConfigurationManager.AppSettings["NombreBackup"];
             string query = $@"
         BACKUP DATABASE [{ConfigurationManager.AppSettings["NombreBD"]}] 
-        TO DISK = '{ConfigurationManager.AppSettings["rutaBackup"]}'
+        TO DISK = '{Path.Combine(ruta, nombreBackup)}'
         WITH INIT;
     ";
+
+            if (!Directory.Exists(ruta))
+            {
+                Directory.CreateDirectory(ruta);
+            }
 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
