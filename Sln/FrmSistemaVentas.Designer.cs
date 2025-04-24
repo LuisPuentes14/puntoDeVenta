@@ -51,10 +51,10 @@
             this.historialDeComprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saldosPendientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuConsultas = new System.Windows.Forms.ToolStripMenuItem();
-            this.ventasPorDiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ventasPorFechasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReporteVentasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comprasPorFechasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stockDeArtículosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteCarteraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aperturaDeCajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarIngresosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -286,37 +286,40 @@
             // mnuConsultas
             // 
             this.mnuConsultas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ventasPorDiaToolStripMenuItem,
-            this.ventasPorFechasToolStripMenuItem,
+            this.ReporteVentasToolStripMenuItem,
             this.comprasPorFechasToolStripMenuItem,
-            this.stockDeArtículosToolStripMenuItem});
+            this.stockDeArtículosToolStripMenuItem,
+            this.reporteCarteraToolStripMenuItem});
             this.mnuConsultas.Name = "mnuConsultas";
             this.mnuConsultas.Size = new System.Drawing.Size(79, 23);
             this.mnuConsultas.Text = "Reportes";
             // 
-            // ventasPorDiaToolStripMenuItem
+            // ReporteVentasToolStripMenuItem
             // 
-            this.ventasPorDiaToolStripMenuItem.Name = "ventasPorDiaToolStripMenuItem";
-            this.ventasPorDiaToolStripMenuItem.Size = new System.Drawing.Size(208, 24);
-            this.ventasPorDiaToolStripMenuItem.Text = "Ventas por dia";
-            // 
-            // ventasPorFechasToolStripMenuItem
-            // 
-            this.ventasPorFechasToolStripMenuItem.Name = "ventasPorFechasToolStripMenuItem";
-            this.ventasPorFechasToolStripMenuItem.Size = new System.Drawing.Size(208, 24);
-            this.ventasPorFechasToolStripMenuItem.Text = "Ventas por fechas";
+            this.ReporteVentasToolStripMenuItem.Name = "ReporteVentasToolStripMenuItem";
+            this.ReporteVentasToolStripMenuItem.Size = new System.Drawing.Size(220, 24);
+            this.ReporteVentasToolStripMenuItem.Text = "Reporte de ventas";
+            this.ReporteVentasToolStripMenuItem.Click += new System.EventHandler(this.ReporteVentasToolStripMenuItem_Click);
             // 
             // comprasPorFechasToolStripMenuItem
             // 
             this.comprasPorFechasToolStripMenuItem.Name = "comprasPorFechasToolStripMenuItem";
-            this.comprasPorFechasToolStripMenuItem.Size = new System.Drawing.Size(208, 24);
-            this.comprasPorFechasToolStripMenuItem.Text = "Compras por fechas";
+            this.comprasPorFechasToolStripMenuItem.Size = new System.Drawing.Size(220, 24);
+            this.comprasPorFechasToolStripMenuItem.Text = "Reporte de compras";
+            this.comprasPorFechasToolStripMenuItem.Click += new System.EventHandler(this.comprasPorFechasToolStripMenuItem_Click);
             // 
             // stockDeArtículosToolStripMenuItem
             // 
             this.stockDeArtículosToolStripMenuItem.Name = "stockDeArtículosToolStripMenuItem";
-            this.stockDeArtículosToolStripMenuItem.Size = new System.Drawing.Size(208, 24);
-            this.stockDeArtículosToolStripMenuItem.Text = "Stock de artículos";
+            this.stockDeArtículosToolStripMenuItem.Size = new System.Drawing.Size(220, 24);
+            this.stockDeArtículosToolStripMenuItem.Text = "Reporte de inventario";
+            this.stockDeArtículosToolStripMenuItem.Click += new System.EventHandler(this.stockDeArtículosToolStripMenuItem_Click);
+            // 
+            // reporteCarteraToolStripMenuItem
+            // 
+            this.reporteCarteraToolStripMenuItem.Name = "reporteCarteraToolStripMenuItem";
+            this.reporteCarteraToolStripMenuItem.Size = new System.Drawing.Size(220, 24);
+            this.reporteCarteraToolStripMenuItem.Text = "Reporte Cartera";
             // 
             // cajaToolStripMenuItem
             // 
@@ -370,14 +373,15 @@
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.backupToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(168, 24);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.optionsToolStripMenuItem.Text = "Base de datos";
             // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(129, 24);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.backupToolStripMenuItem.Text = "Back-up";
+            this.backupToolStripMenuItem.Click += new System.EventHandler(this.backupToolStripMenuItem_Click);
             // 
             // mnuSistema
             // 
@@ -451,7 +455,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsCategorias;
         private System.Windows.Forms.ToolStripMenuItem tsPresentaciones;
         private System.Windows.Forms.ToolStripMenuItem mnuConsultas;
-        private System.Windows.Forms.ToolStripMenuItem ventasPorFechasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem comprasPorFechasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stockDeArtículosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuHerramientas;
@@ -466,7 +469,7 @@
         private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem historialDeComprasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saldosPendientesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ventasPorDiaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReporteVentasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cajaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aperturaDeCajaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registrarIngresosToolStripMenuItem;
@@ -474,5 +477,6 @@
         private System.Windows.Forms.ToolStripMenuItem cierreDeCajaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem devoluciónDeCompraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteCarteraToolStripMenuItem;
     }
 }

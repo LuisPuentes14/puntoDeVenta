@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using Proyecto_Metodologia.Clientes;
+using Proyecto_Metodologia.Reportes;
+using Proyecto_Metodologia.UTILS;
 
 
 namespace Proyecto_Metodologia
@@ -279,6 +281,26 @@ namespace Proyecto_Metodologia
         private void historialDeComprasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FrmHistorialDeCompra());
+        }
+
+        private void ReporteVentasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmReporteVentas());
+        }
+
+        private void comprasPorFechasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmReporteCompras());
+        }
+
+        private void stockDeArtículosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmReporteInventario());
+        }
+
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Backup.HacerBackupSQLServer();
         }
     }
 }

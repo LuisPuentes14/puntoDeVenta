@@ -144,21 +144,18 @@ namespace Proyecto_Metodologia
 
 
             if (e.KeyCode == Keys.F3)
-
             {
                 FrmSalidaEfectivo salida = new FrmSalidaEfectivo();
                 salida.Show();
             }
 
             if (e.KeyCode == Keys.F4)
-
             {
                 FrmEntradaefectivo entrada = new FrmEntradaefectivo();
                 entrada.Show();
             }
 
             if (e.KeyCode == Keys.F6)
-
             {
                FrmArqueo arqueo = new FrmArqueo();
                arqueo.Show();
@@ -522,7 +519,7 @@ namespace Proyecto_Metodologia
 
         public void imprimir_Click(object sender, EventArgs e)
         {
-            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
+           string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
                 try
@@ -750,7 +747,7 @@ namespace Proyecto_Metodologia
         }
         private void InsertarVenta() 
         {
-            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd");
+            string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             string cajero = CONSTANS.USER;
 
 
