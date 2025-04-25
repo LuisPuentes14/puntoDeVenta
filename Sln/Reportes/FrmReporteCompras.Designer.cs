@@ -114,6 +114,7 @@
             this.dgReporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgReporte.Location = new System.Drawing.Point(31, 161);
             this.dgReporte.Name = "dgReporte";
+            this.dgReporte.ReadOnly = true;
             this.dgReporte.Size = new System.Drawing.Size(765, 335);
             this.dgReporte.TabIndex = 19;
             this.dgReporte.TabStop = false;

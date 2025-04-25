@@ -82,6 +82,7 @@
             this.dgReporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgReporte.Location = new System.Drawing.Point(31, 163);
             this.dgReporte.Name = "dgReporte";
+            this.dgReporte.ReadOnly = true;
             this.dgReporte.Size = new System.Drawing.Size(765, 335);
             this.dgReporte.TabIndex = 18;
             this.dgReporte.TabStop = false;
@@ -211,8 +212,8 @@
             this.Controls.Add(this.dateTimeVentasHasta);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dateTimeVentasDesde);
-            this.Controls.Add(this.dgReporte);
             this.Controls.Add(this.panel3);
+            this.Controls.Add(this.dgReporte);
             this.Name = "FrmReporteVentas";
             this.Text = "FrmReporteVentas";
             this.panel3.ResumeLayout(false);

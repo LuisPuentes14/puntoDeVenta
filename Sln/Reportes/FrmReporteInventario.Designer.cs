@@ -84,7 +84,7 @@
             this.panel3.BackColor = System.Drawing.Color.Teal;
             this.panel3.Controls.Add(this.iconButton1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 501);
+            this.panel3.Location = new System.Drawing.Point(0, 517);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(987, 59);
             this.panel3.TabIndex = 22;
@@ -115,6 +115,7 @@
             this.dgReporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgReporte.Location = new System.Drawing.Point(31, 160);
             this.dgReporte.Name = "dgReporte";
+            this.dgReporte.ReadOnly = true;
             this.dgReporte.Size = new System.Drawing.Size(765, 335);
             this.dgReporte.TabIndex = 19;
             this.dgReporte.TabStop = false;
@@ -202,7 +203,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 560);
+            this.ClientSize = new System.Drawing.Size(987, 576);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label3);

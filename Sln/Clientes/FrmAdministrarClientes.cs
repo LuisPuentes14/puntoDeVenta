@@ -11,7 +11,7 @@ namespace Proyecto_Metodologia.Clientes
         public FrmAdministrarClientes()
         {
             InitializeComponent();
-            CargarDatos();
+            CargarClientes();
         }
 
         #region EVENTOS
@@ -133,20 +133,6 @@ namespace Proyecto_Metodologia.Clientes
             }
         }
         //FUNCION CARGAR DATOS
-        private void CargarDatos()
-        {
-            string query = "select IdCliente as Documento, Nombre, Apellido, Telefono, Correo from Clientes"; // Cambiá por tu tabla
-
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                dgClientes.DataSource = dt;
-            }
-        }
-        //FUNCION CARGAR CLIENTES EN TIEMPO REAL
         private void CargarClientes(string filtro = "")
         {
             string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;

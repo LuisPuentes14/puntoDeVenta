@@ -136,7 +136,7 @@
             // 
             this.lblTotalVentas.AutoSize = true;
             this.lblTotalVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalVentas.Location = new System.Drawing.Point(86, 346);
+            this.lblTotalVentas.Location = new System.Drawing.Point(86, 500);
             this.lblTotalVentas.Name = "lblTotalVentas";
             this.lblTotalVentas.Size = new System.Drawing.Size(0, 25);
             this.lblTotalVentas.TabIndex = 6;

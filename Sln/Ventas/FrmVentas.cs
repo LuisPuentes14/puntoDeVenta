@@ -6,11 +6,12 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Printing;
 using System.Configuration;
+using Proyecto_Metodologia.Cartera;
 
 
 namespace Proyecto_Metodologia
 {
-      public partial class FrmVentas : Form
+    public partial class FrmVentas : Form
 
     {
         private PrintDocument printDocument;
@@ -20,7 +21,7 @@ namespace Proyecto_Metodologia
 
         public FrmVentas()
         {
-           InitializeComponent();
+            InitializeComponent();
             autoincrementable();
             this.KeyDown += FrmVentas_KeyDown;
             this.KeyPreview = true;
@@ -32,10 +33,31 @@ namespace Proyecto_Metodologia
             printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
 
             txtPublico = txtcodp;
-
         }
 
-         private void FrmVentas_KeyDown(object sender, KeyEventArgs e)
+        public IWin32Window Ventatotal { get; private set; }
+
+        #region Eventos
+        private void tipoVenta_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                // Seleccionar ítem anterior
+                if (tipoVenta.SelectedIndex > 0)
+                {
+                    tipoVenta.SelectedIndex--;
+                }
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                // Seleccionar ítem siguiente
+                if (tipoVenta.SelectedIndex < tipoVenta.Items.Count - 1)
+                {
+                    tipoVenta.SelectedIndex++;
+                }
+            }
+        }
+        private void FrmVentas_KeyDown(object sender, KeyEventArgs e)
 
         {
             double descuento = 0;
@@ -47,28 +69,38 @@ namespace Proyecto_Metodologia
             double nuevosubtotal = 0;
             double totalsubtotal = 0;
 
-                
+
 
             if (e.KeyCode == Keys.F1)
 
             {
                 if (txttotal.Text != "0")
                 {
-                txtcodp.Enabled = false;
-                textBox2.Enabled= true;
-                textBox2.Visible = true;
-                textBox3.Enabled = true;
-                textBox3.Visible = true;
-                textBox4.Visible = true;
-                label14.Visible = true;
-                label13.Visible = true;
-                label12.Visible = true;
-                label15.Visible = true;
-                textBox4.Text = txttotal.Text;
+                    txtcodp.Enabled = false;
+                    if (tipoVenta.SelectedItem.ToString() == "Credito")
+                    {
+                        txtAbono.Visible = true;
+                        labelAbono.Visible = true;
+                    }
+                    else
+                    {
+                        txtCambio.Enabled = true;
+                        txtCambio.Visible = true;
+                        txtEfectivo.Enabled = true;
+                        txtEfectivo.Visible = true;
+                        lbEfectivo.Visible = true;
+                        lbCambio.Visible = true;
+                    }
 
-                textBox3.Focus();
+                    txtTotalPagar.Visible = true;
+                    lbTotalPagar.Visible = true;
+                    label15.Visible = true;
+                    txtTotalPagar.Text = txttotal.Text;
+
+                    txtEfectivo.Focus();
                 }
-                else {
+                else
+                {
 
                     MessageBox.Show("Aun no hay venta registrada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -77,8 +109,8 @@ namespace Proyecto_Metodologia
             if (e.KeyCode == Keys.F2)
             {
                 txtcodp.Enabled = false;
-                textBox3.Enabled = false;
-                textBox2.Enabled = false;
+                txtEfectivo.Enabled = false;
+                txtCambio.Enabled = false;
                 // Activar selección si no hay fila seleccionada
                 if (dgvVentas.SelectedRows.Count == 0 && dgvVentas.Rows.Count > 0)
                 {
@@ -115,21 +147,21 @@ namespace Proyecto_Metodologia
                     double valor = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Total"].Value);
                     double iva = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Iva"].Value);
                     dgvVentas.Rows.RemoveAt(rowIndex);
-                    
-                    total= double.Parse(txttotal.Text);
-                    
+
+                    total = double.Parse(txttotal.Text);
+
                     descuento = total - valor;
                     descuentoiva = valor * iva;
-                    totaliva= double.Parse(txtigv.Text);
+                    totaliva = double.Parse(txtigv.Text);
                     nuevoiva = totaliva - descuentoiva;
                     dessubtotal = valor - descuentoiva;
-                    totalsubtotal= double.Parse(to.Text);
+                    totalsubtotal = double.Parse(to.Text);
                     nuevosubtotal = totalsubtotal - dessubtotal;
 
                     txttotal.Text = Math.Round(descuento, 2).ToString();
-                    textBox4.Text = txttotal.Text;
+                    txtTotalPagar.Text = txttotal.Text;
                     txtigv.Text = Math.Round(nuevoiva, 2).ToString();
-                    to.Text= Math.Round(nuevosubtotal, 2).ToString();
+                    to.Text = Math.Round(nuevosubtotal, 2).ToString();
                     txtcodp.Enabled = true;
                     txtcodp.Focus();
 
@@ -137,57 +169,55 @@ namespace Proyecto_Metodologia
                 e.Handled = true;
             }
 
-            if (e.KeyCode == Keys.F3)
+
+
+            switch (e.KeyCode)
             {
-                txtnombre.Focus();
+                case Keys.F3:
+                    FrmSalidaEfectivo salida = new FrmSalidaEfectivo();
+                    salida.Show();
+                    break;
+
+                case Keys.F4:
+                    FrmEntradaefectivo entrada = new FrmEntradaefectivo();
+                    entrada.Show();
+                    break;
+
+                case Keys.F6:
+                    FrmArqueo arqueo = new FrmArqueo();
+                    arqueo.Show();
+                    break;
+
+                default:
+                    // Opcional: manejar otras teclas si es necesario
+                    break;
             }
-
-
-            if (e.KeyCode == Keys.F3)
-            {
-                FrmSalidaEfectivo salida = new FrmSalidaEfectivo();
-                salida.Show();
-            }
-
-            if (e.KeyCode == Keys.F4)
-            {
-                FrmEntradaefectivo entrada = new FrmEntradaefectivo();
-                entrada.Show();
-            }
-
-            if (e.KeyCode == Keys.F6)
-            {
-               FrmArqueo arqueo = new FrmArqueo();
-               arqueo.Show();
-               // arqueo.Close();
-            }
-
         }
-
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
                 try
                 {
-                    // Convertir los valores a double
-                    double totalAPagar = double.Parse(textBox4.Text);
-                    double efectivo = double.Parse(textBox3.Text);
-
-                    // Validar que el efectivo no sea menor que el total a pagar
-                    if (efectivo < totalAPagar)
+                    if (tipoVenta.SelectedItem.ToString() == "Efectivo")
                     {
-                        MessageBox.Show("El valor del efectivo no puede ser menor que el total a pagar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        textBox3.Focus();
-                        return;
+                        // Convertir los valores a double
+                        double totalAPagar = double.Parse(txtTotalPagar.Text);
+                        double efectivo = double.Parse(txtEfectivo.Text);
+                        // Validar que el efectivo no sea menor que el total a pagar
+                        if (efectivo < totalAPagar)
+                        {
+                            MessageBox.Show("El valor del efectivo no puede ser menor que el total a pagar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtEfectivo.Focus();
+                            return;
+                        }
+                        // Calcular el cambio
+                        double cambio = efectivo - totalAPagar;
+                        // Mostrar el cambio en textBox2
+                        txtCambio.Text = Math.Round(cambio, 2).ToString();
+                        txtCambio.Focus();
                     }
 
-                    // Calcular el cambio
-                    double cambio = efectivo - totalAPagar;
-
-                    // Mostrar el cambio en textBox2
-                    textBox2.Text = Math.Round(cambio, 2).ToString();
-                    textBox2.Focus();
                 }
                 catch (FormatException)
                 {
@@ -195,35 +225,27 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-
         private void txtDocumento_TextChanged(object sender, EventArgs e)
         {
 
             ObtenerInfoCliente(txtDocumentoCliente.Text);
         }
-
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Verificar si la tecla presionada es Enter
             if (e.KeyChar == (char)Keys.Enter)  // 13 es el valor ASCII de la tecla Enter
             {
-                InsertarVenta();
-
-                if (txtDocumentoCliente.Text != "2222222222" && !ValidarCliente())
-                    InsertarCliente();
-
-                ImprimirFactura();
-
-                limpiarventa();
-                dgvVentas.Rows.Clear();
-                autoincrementable();
-                clear();
-
-
-
+                TransaccionVenta();
             }
         }
-
+        private void txtAbono_KeyDown(object sender, KeyPressEventArgs e)
+        {
+            // Verificar si la tecla presionada es Enter
+            if (e.KeyChar == (char)Keys.Enter)  // 13 es el valor ASCII de la tecla Enter
+            {
+                TransaccionVenta();
+            }
+        }
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             // Posición inicial para imprimir
@@ -240,7 +262,7 @@ namespace Proyecto_Metodologia
             int codeWidth = 40;   // Ancho de la columna Código
             int nameWidth = 120;  // Ancho de la columna Nombre del Artículo
             int qtyWidth = 40;    // Ancho de la columna Cantidad
-         //   int priceWidth = 60;  // Ancho de la columna Valor
+                                  //   int priceWidth = 60;  // Ancho de la columna Valor
             int spacing = 5;      // Espaciado entre columnas
 
             // Obtener el número de factura desde txtCodVentas
@@ -325,7 +347,6 @@ namespace Proyecto_Metodologia
             // Indicar que no hay más páginas para imprimir
             e.HasMorePages = false;
         }
-
         private void nupcantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Detectar si la tecla presionada es 'Enter'
@@ -355,24 +376,18 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-
         private void FrmVentas_Shown(object sender, EventArgs e)
         {
             SetFocusToTxtCodp();
         }
-
         public DataSet Datos
         {
             get { return aDatos; }
         }
-
-        public IWin32Window Ventatotal { get; private set; }
-
-        // private void txtcodp_PreviewKeyDown(object sender, KeyPressEventArgs e)
         private void txtcodp_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            
-            
+
+
             //DesactivarAutocompletado(txtcodp);
             TextBox txt = sender as TextBox;
             //MessageBox.Show("Producto seleccionado: " + txt.Text, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -405,12 +420,10 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-
         private ComboBox GetUnidadmedida()
         {
             return Unidadmedida;
         }
-
         private void CargarDatosProducto(string codigo, ComboBox unidadmedida)
         {
             string[] datos = obtenerDatos(codigo);
@@ -434,7 +447,7 @@ namespace Proyecto_Metodologia
                 txtpreciou.Text = datos[6];  // Precio unitario
                 txtStock.Text = datos[8];  // Asignamos la cantidad al txtStock
                 Txtiva.Text = datos[7];
-                
+
                 // Verificar si la unidad es "GRAMO" y ajustar el precio si es necesario
                 string unidad = ValorAtributo("Unidad");
 
@@ -452,7 +465,116 @@ namespace Proyecto_Metodologia
                 SetFocusToTxtCodp();
             }
         }
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                double preciounidad = double.Parse(txtpreciou.Text);
+                double cantidad = Convert.ToDouble(nupcantidad.Text);  // Obtener la cantidad ingresada
+                double iva = double.Parse(Txtiva.Text) / 100;
 
+                string unidad = ValorAtributo("Unidad");
+
+                // Si la unidad es "Kilo", convertir la cantidad a gramos
+                if (unidad == "Kilo")
+                {
+                    cantidad *= 1000;
+                }
+
+                double total = cantidad * preciounidad;
+                txtTotalPagar.Text = total.ToString();
+
+                dgvVentas.Rows.Add(txtcodp.Text, txtnombre.Text, nupcantidad.Text.ToString(), total.ToString("0"), iva.ToString());
+
+                calculartotal();
+                clear();
+            }
+            catch
+            {
+                MessageBox.Show("INGRESA UN PRODUCTO");
+            }
+        }
+        private void FrmVentas_Load(object sender, EventArgs e)
+        {
+
+
+            // Código que se ejecutará después de que se cierre frmAperturacaja
+            to.Text = "0";
+            txtigv.Text = "0";
+            txttotal.Text = "0";
+
+            Conexion();
+            AutoCompletar(txtcodp);
+
+        }
+        #endregion
+
+
+
+        #region FUNCIONES
+        public void Conexion()
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
+                cnn.Open();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo conectar: " + ex.ToString());
+            }
+        }
+        private void TransaccionVenta()
+        {
+            try
+            {
+                CarteraRepository _cartera = new CarteraRepository();
+
+                // validar que no sea un cliente generico para registrar el cliente
+                if (txtDocumentoCliente.Text != "2222222222" && !ValidarCliente())
+                {
+                    InsertarCliente();
+                }
+
+                if (txtDocumentoCliente.Text != "2222222222" && tipoVenta.SelectedItem.ToString() == "Credito")
+                {
+                    if (double.Parse(txtAbono.Text) < 0)
+                    {
+                        MessageBox.Show("Valor de abono no permitido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    string codigoVenta = InsertarVenta();
+                    CarteraDto cartera = new CarteraDto()
+                    {
+                        AbonoInicial = double.Parse(txtAbono.Text),
+                        DocumentoCliente = txtDocumentoCliente.Text,
+                        IdVenta = codigoVenta,
+                        FechaCartera = DateTime.UtcNow
+                    };
+                    _cartera.InsertarCartera(cartera);
+                }
+                else if (txtDocumentoCliente.Text == "2222222222" && tipoVenta.SelectedItem.ToString() == "Credito")
+                {
+                    MessageBox.Show("No se puede acreditar una venta a un cliente desconocido, inserte los datos del cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    _ = InsertarVenta();
+                }
+
+                ImprimirFactura();
+                limpiarventa();
+                dgvVentas.Rows.Clear();
+                autoincrementable();
+                clear();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Por favor, ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public string[] obtenerDatos(string pCodigo)
         {
             string[] datos = new string[9]; // Ahora tenemos un nuevo campo para la cantidad
@@ -473,7 +595,6 @@ namespace Proyecto_Metodologia
 
             return datos;
         }
-
         public DataSet EjecutarSelect(string Consulta)
         {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
@@ -485,132 +606,6 @@ namespace Proyecto_Metodologia
                 conexion.Close();
             }
             return aDatos;
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                double preciounidad = double.Parse(txtpreciou.Text);
-                double cantidad = Convert.ToDouble(nupcantidad.Text);  // Obtener la cantidad ingresada
-                double iva = double.Parse(Txtiva.Text)/100;
-
-                string unidad = ValorAtributo("Unidad");
-
-                // Si la unidad es "Kilo", convertir la cantidad a gramos
-                if (unidad == "Kilo")
-                {
-                    cantidad *= 1000;
-                }
-
-                double total = cantidad * preciounidad;
-                textBox4.Text = total.ToString();
-
-                dgvVentas.Rows.Add(txtcodp.Text, txtnombre.Text, nupcantidad.Text.ToString(), total.ToString("0"),iva.ToString());
-
-                calculartotal();
-                clear();
-            }
-            catch
-            {
-                MessageBox.Show("INGRESA UN PRODUCTO");
-            }
-        }
-
-        public void imprimir_Click(object sender, EventArgs e)
-        {
-           string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    // Inserción de datos de la venta
-                    string queryVenta = "INSERT INTO TVentas (CodigoVenta, PrecioTotal, Fecha, Cliente) VALUES (@CodigoVenta, @Total, @FechaVenta, @Cliente)";
-                    using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
-                    {
-                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
-                        cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
-                        cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
-                        cmdVenta.Parameters.AddWithValue("@Cliente", txtDocumentoCliente.Text);
-
-                        cmdVenta.ExecuteNonQuery();
-                    }
-
-                    List<string> detallesVenta = new List<string>();
-
-                    foreach (DataGridViewRow row in dgvVentas.Rows)
-                    {
-                        if (row.Cells[0].Value != null)
-                        {
-                            string idProducto = row.Cells[0].Value.ToString();
-                            string nombre = row.Cells[1].Value.ToString();
-                            float cantidad = Convert.ToInt32(row.Cells[2].Value);
-                            decimal precioUnidad = Convert.ToDecimal(row.Cells[3].Value);
-                            decimal iva = Math.Round(precioUnidad * 0.18m, 2);
-                            //MessageBox.Show("Venta guardada con éxito. Cantidad: " + cantidad.ToString(), "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            string queryDetalle = "INSERT INTO DetallesVenta (IdVenta, IdProducto, PrecioUnidad, Cantidad, Iva) " +
-                                                  "VALUES (@IdVenta, @IdProducto, @PrecioUnidad, @Cantidad, @Iva)";
-                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-                            {
-                                cmdDetalle.Parameters.AddWithValue("@IdVenta", txtCodVentas.Text);
-                                cmdDetalle.Parameters.AddWithValue("@IdProducto", idProducto);
-                                cmdDetalle.Parameters.AddWithValue("@PrecioUnidad", precioUnidad);
-                                cmdDetalle.Parameters.AddWithValue("@Cantidad", cantidad);
-                                cmdDetalle.Parameters.AddWithValue("@Iva", iva);
-                                cmdDetalle.ExecuteNonQuery();
-                            }
-
-                            detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
-                        }
-                    }
-
-                    limpiarventa();
-                    dgvVentas.Rows.Clear();
-                    autoincrementable();
-                    clear();
-
-                    MessageBox.Show("Venta guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-   
-        private void FrmVentas_Load(object sender, EventArgs e)
-        {
-           
-
-            // Código que se ejecutará después de que se cierre frmAperturacaja
-            to.Text = "0";
-            txtigv.Text = "0";
-            txttotal.Text = "0";
-
-            Conexion();
-            AutoCompletar(txtcodp);
-
-        }
-
-
-
-        #region FUNCIONES
-        public void Conexion()
-        {
-            try
-            {
-                SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
-                cnn.Open();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudo conectar: " + ex.ToString());
-            }
         }
         public void AutoCompletar(TextBox cajaTexto)
         {
@@ -719,6 +714,7 @@ namespace Proyecto_Metodologia
             txtigv.Clear();
             txttotal.Clear();
             txtCodVentas.Clear();
+            txtAbono.Clear();
         }
         public string ultimoValorAtributo()
         {
@@ -745,11 +741,11 @@ namespace Proyecto_Metodologia
                 txtcodp.Focus();
             }
         }
-        private void InsertarVenta() 
+        private string InsertarVenta()
         {
             string fechaVenta = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             string cajero = CONSTANS.USER;
-
+            string codigoVenta = txtCodVentas.Text;
 
 
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
@@ -763,7 +759,7 @@ namespace Proyecto_Metodologia
                     using (SqlCommand cmdVenta = new SqlCommand(queryVenta, conexion))
 
                     {
-                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", txtCodVentas.Text);
+                        cmdVenta.Parameters.AddWithValue("@CodigoVenta", codigoVenta);
                         cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
                         cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
                         cmdVenta.Parameters.AddWithValue("@Cajero", cajero);
@@ -815,12 +811,12 @@ namespace Proyecto_Metodologia
                     // Crear una nueva instancia de Form1
 
                     txtcodp.Enabled = true;
-                    textBox2.Visible = false;
-                    textBox3.Visible = false;
-                    textBox4.Visible = false;
-                    label14.Visible = false;
-                    label13.Visible = false;
-                    label12.Visible = false;
+                    txtCambio.Visible = false;
+                    txtEfectivo.Visible = false;
+                    txtTotalPagar.Visible = false;
+                    lbTotalPagar.Visible = false;
+                    lbEfectivo.Visible = false;
+                    lbCambio.Visible = false;
                     label15.Visible = false;
                     txtcodp.Focus();
 
@@ -829,18 +825,21 @@ namespace Proyecto_Metodologia
                     to.Text = "0";
                     txtigv.Text = "0";
                     txttotal.Text = "0";
-                    textBox2.Text = "0";
-                    textBox3.Text = "0";
-                    textBox4.Text = "0";
+                    txtCambio.Text = "0";
+                    txtEfectivo.Text = "0";
+                    txtTotalPagar.Text = "0";
 
+                    return codigoVenta;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new Exception();
                 }
             }
         }
-        private bool ValidarCliente() {
+        private bool ValidarCliente()
+        {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
                 try
@@ -849,7 +848,7 @@ namespace Proyecto_Metodologia
                     string query = "SELECT 1  FROM Clientes where idCliente = @idCliente";
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@idCliente",txtDocumentoCliente.Text);
+                        cmd.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
@@ -866,7 +865,7 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-        private void ObtenerInfoCliente(string idCliente) 
+        private void ObtenerInfoCliente(string idCliente)
         {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
@@ -885,10 +884,10 @@ namespace Proyecto_Metodologia
                             txtTelefono.Text = reader["telefono"].ToString();
                             txtCorreo.Text = reader["correo"].ToString();
                         }
-                        else if (idCliente == "2222222222") 
-                        { 
+                        else if (idCliente == "2222222222")
+                        {
                             txtNombreCliente.Text = "";
-                            txtApellido.Text ="";
+                            txtApellido.Text = "";
                             txtTelefono.Text = "";
                             txtCorreo.Text = "";
                         }
@@ -901,23 +900,23 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-        private void InsertarCliente() 
+        private void InsertarCliente()
         {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
             {
                 try
                 {
                     conexion.Open();
-                    string queryDetalle = "INSERT INTO Clientes VALUES(@idCliente, @nombre, @apellido, @telefono, @correo)";
-            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-            {
-                cmdDetalle.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
-                cmdDetalle.Parameters.AddWithValue("@nombre", txtNombreCliente.Text);
-                cmdDetalle.Parameters.AddWithValue("@apellido", txtApellido.Text);
-                cmdDetalle.Parameters.AddWithValue("@telefono", txtTelefono.Text);
-                cmdDetalle.Parameters.AddWithValue("@correo", txtCorreo.Text);
-                cmdDetalle.ExecuteNonQuery();
-            }
+                    string queryDetalle = "INSERT INTO Clientes VALUES (@idCliente, @nombre, @apellido, @telefono, @correo)";
+                    using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
+                    {
+                        cmdDetalle.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
+                        cmdDetalle.Parameters.AddWithValue("@nombre", txtNombreCliente.Text);
+                        cmdDetalle.Parameters.AddWithValue("@apellido", txtApellido.Text);
+                        cmdDetalle.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+                        cmdDetalle.Parameters.AddWithValue("@correo", txtCorreo.Text);
+                        cmdDetalle.ExecuteNonQuery();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -925,7 +924,7 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-        private void ImprimirFactura() 
+        private void ImprimirFactura()
         {
             DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 

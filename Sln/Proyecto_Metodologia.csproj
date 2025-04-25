@@ -165,6 +165,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cartera\Dtos\CarteraDto.cs" />
+    <Compile Include="Cartera\CarteraRepository.cs" />
+    <Compile Include="Cartera\Dtos\DetalleCarteraDto.cs" />
     <Compile Include="Clientes\FrmAdministrarClientes.cs">
       <SubType>Form</SubType>
     </Compile>

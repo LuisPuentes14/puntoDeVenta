@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Runtime;
 
 namespace Proyecto_Metodologia
 {
@@ -83,7 +76,8 @@ namespace Proyecto_Metodologia
             return aDatos;
         }
 
-        public void cargarDatos()
+
+        public void cargarDatos(string filtro = "")
         {
             string Consulta = @"SELECT dv.IdVenta, dv.IdProducto, tp.Descripcion, dv.PrecioUnidad, dv.Cantidad, dv.Iva, v.Fecha  
                         FROM DetallesVenta dv
@@ -91,12 +85,18 @@ namespace Proyecto_Metodologia
                         INNER JOIN TProductos tp ON dv.IdProducto = tp.CodigoProducto
                         WHERE CONVERT(DATE, v.Fecha) = @Fecha";
 
+            if (!string.IsNullOrWhiteSpace(filtro))
+            {
+                Consulta += " AND (dv.IdVenta LIKE @Filtro OR dv.IdProducto LIKE @Filtro OR tp.Descripcion LIKE @Filtro OR dv.PrecioUnidad LIKE @Filtro OR dv.Cantidad LIKE @Filtro OR dv.Iva LIKE @Filtro)";
+            }
+
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
                 conexion.Open();
                 SqlCommand cmd = new SqlCommand(Consulta, conexion);
                 cmd.Parameters.AddWithValue("@Fecha", dateTimeVentas.Value.Date);
+                cmd.Parameters.AddWithValue("@Filtro", filtro);
                 SqlDataAdapter a = new SqlDataAdapter(cmd);
                 aDatos = new DataSet();
                 a.Fill(aDatos);
@@ -238,6 +238,12 @@ namespace Proyecto_Metodologia
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            string filtro = textBox1.Text.Trim().Replace("'", "''");
+            cargarDatos(filtro);
         }
     }
 }
