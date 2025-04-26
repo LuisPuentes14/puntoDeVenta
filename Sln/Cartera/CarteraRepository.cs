@@ -13,13 +13,14 @@ namespace Proyecto_Metodologia.Cartera
                 try
                 {
                     conexion.Open();
-                    string query = "INSERT INTO CARTERA VALUES(@DocumentoCliente, @AbonoInicial, @IdVenta, @FechaCartera)";
+                    string query = "INSERT INTO CARTERA VALUES(@DocumentoCliente, @AbonoInicial, @IdVenta, @FechaCartera, @EstadoCartera)";
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         cmd.Parameters.AddWithValue("@DocumentoCliente", cartera.DocumentoCliente);
                         cmd.Parameters.AddWithValue("@AbonoInicial", cartera.AbonoInicial);
                         cmd.Parameters.AddWithValue("@IdVenta", cartera.IdVenta);
                         cmd.Parameters.AddWithValue("@FechaCartera", cartera.FechaCartera);
+                        cmd.Parameters.AddWithValue("@EstadoCartera", cartera.EstadoCartera);
                         cmd.ExecuteNonQuery();
                     }
                     conexion.Close();

@@ -68,7 +68,7 @@
             this.lbEfectivo = new System.Windows.Forms.Label();
             this.txtTotalPagar = new System.Windows.Forms.TextBox();
             this.lbTotalPagar = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.lbCobrar = new System.Windows.Forms.Label();
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -494,17 +494,17 @@
             this.lbTotalPagar.Text = "Total a Pagar";
             this.lbTotalPagar.Visible = false;
             // 
-            // label15
+            // lbCobrar
             // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Yellow;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(825, 323);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(467, 46);
-            this.label15.TabIndex = 42;
-            this.label15.Text = "            COBRAR             ";
-            this.label15.Visible = false;
+            this.lbCobrar.AutoSize = true;
+            this.lbCobrar.BackColor = System.Drawing.Color.Yellow;
+            this.lbCobrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCobrar.Location = new System.Drawing.Point(825, 323);
+            this.lbCobrar.Name = "lbCobrar";
+            this.lbCobrar.Size = new System.Drawing.Size(467, 46);
+            this.lbCobrar.TabIndex = 42;
+            this.lbCobrar.Text = "            COBRAR             ";
+            this.lbCobrar.Visible = false;
             // 
             // txtNombreCliente
             // 
@@ -621,11 +621,11 @@
             this.tipoVenta.Items.AddRange(new object[] {
             "Efectivo",
             "Credito"});
-            this.tipoVenta.SelectedIndex = 0;
             this.tipoVenta.Location = new System.Drawing.Point(550, 246);
             this.tipoVenta.Name = "tipoVenta";
             this.tipoVenta.Size = new System.Drawing.Size(140, 28);
             this.tipoVenta.TabIndex = 8;
+            this.tipoVenta.SelectedIndexChanged += new System.EventHandler(this.tipoVenta_SelectedIndexChanged);
             // 
             // FrmVentas
             // 
@@ -645,7 +645,7 @@
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.txtNombreCliente);
-            this.Controls.Add(this.label15);
+            this.Controls.Add(this.lbCobrar);
             this.Controls.Add(this.txtEfectivo);
             this.Controls.Add(this.lbCambio);
             this.Controls.Add(this.txtCambio);
@@ -728,7 +728,7 @@
         private System.Windows.Forms.Label lbEfectivo;
         private System.Windows.Forms.TextBox txtTotalPagar;
         private System.Windows.Forms.Label lbTotalPagar;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lbCobrar;
         private System.Windows.Forms.TextBox txtNombreCliente;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtApellido;

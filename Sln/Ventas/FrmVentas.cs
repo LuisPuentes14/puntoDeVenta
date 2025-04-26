@@ -31,8 +31,8 @@ namespace Proyecto_Metodologia
             txtcodp.PreviewKeyDown += txtcodp_PreviewKeyDown;
             printDocument = new PrintDocument();
             printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
-
             txtPublico = txtcodp;
+            tipoVenta.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
         }
 
         public IWin32Window Ventatotal { get; private set; }
@@ -94,7 +94,7 @@ namespace Proyecto_Metodologia
 
                     txtTotalPagar.Visible = true;
                     lbTotalPagar.Visible = true;
-                    label15.Visible = true;
+                    lbCobrar.Visible = true;
                     txtTotalPagar.Text = txttotal.Text;
 
                     txtEfectivo.Focus();
@@ -507,6 +507,11 @@ namespace Proyecto_Metodologia
             AutoCompletar(txtcodp);
 
         }
+
+        private void tipoVenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CambiarOpcionPago(tipoVenta.SelectedItem.ToString());
+        }
         #endregion
 
 
@@ -539,6 +544,12 @@ namespace Proyecto_Metodologia
 
                 if (txtDocumentoCliente.Text != "2222222222" && tipoVenta.SelectedItem.ToString() == "Credito")
                 {
+                    if(ValidarCartera())
+                    {
+                        MessageBox.Show("El cliente ya tiene una venta a credito. Termine de pagar el credito activo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     if (double.Parse(txtAbono.Text) < 0)
                     {
                         MessageBox.Show("Valor de abono no permitido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -550,7 +561,8 @@ namespace Proyecto_Metodologia
                         AbonoInicial = double.Parse(txtAbono.Text),
                         DocumentoCliente = txtDocumentoCliente.Text,
                         IdVenta = codigoVenta,
-                        FechaCartera = DateTime.UtcNow
+                        FechaCartera = DateTime.UtcNow,
+                        EstadoCartera = "Credito Activo"
                     };
                     _cartera.InsertarCartera(cartera);
                 }
@@ -569,6 +581,11 @@ namespace Proyecto_Metodologia
                 dgvVentas.Rows.Clear();
                 autoincrementable();
                 clear();
+                txtDocumentoCliente.Text = "2222222222";
+                txtNombreCliente.Clear();
+                txtApellido.Clear();
+                txtCorreo.Clear();
+                txtTelefono.Clear();
             }
             catch (Exception)
             {
@@ -699,13 +716,6 @@ namespace Proyecto_Metodologia
             txtpreciou.Clear();
             txtStock.Clear();
             nupcantidad.Text = "1";
-            txtDocumentoCliente.Text = "2222222222";
-            txtNombreCliente.Text = "";
-            txtApellido.Text = "";
-            txtCorreo.Text = "";
-            txtTelefono.Text = "";
-
-
             SetFocusToTxtCodp();
         }
         public void limpiarventa()
@@ -817,7 +827,7 @@ namespace Proyecto_Metodologia
                     lbTotalPagar.Visible = false;
                     lbEfectivo.Visible = false;
                     lbCambio.Visible = false;
-                    label15.Visible = false;
+                    lbCobrar.Visible = false;
                     txtcodp.Focus();
 
                     // Imprimir la frase "Tienda Hector" en la impresora POS-80
@@ -865,6 +875,35 @@ namespace Proyecto_Metodologia
                 }
             }
         }
+
+        private bool ValidarCartera()
+        {
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    string query = "SELECT 1 FROM Cartera WHERE DocumentoCliente = @idCliente";
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            return true; // El cliente existe
+                        }
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false; // Error al consultar la base de datos
+
+                }
+            }
+        }
+
         private void ObtenerInfoCliente(string idCliente)
         {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
@@ -982,6 +1021,29 @@ namespace Proyecto_Metodologia
                 //MessageBox.Show("La impresión ha sido cancelada.");
             }
         }
+        private void CambiarOpcionPago(string opcionSeleccionada) 
+        {
+            if (opcionSeleccionada == "Credito" && lbCobrar.Visible)
+            {
+                txtAbono.Visible = true;
+                labelAbono.Visible = true;
+                lbCambio.Visible = false;
+                txtCambio.Visible = false;
+                txtEfectivo.Visible = false;
+                lbEfectivo.Visible = false;
+            }
+            else if(opcionSeleccionada == "Efectivo" && lbCobrar.Visible)
+            {
+                txtAbono.Visible = false;
+                labelAbono.Visible = false;
+                lbCambio.Visible = true;
+                txtCambio.Visible = true;
+                txtEfectivo.Visible = true;
+                lbEfectivo.Visible = true;
+            }
+        }
         #endregion
+
+
     }
 }

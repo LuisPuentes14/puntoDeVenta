@@ -168,6 +168,12 @@
     <Compile Include="Cartera\Dtos\CarteraDto.cs" />
     <Compile Include="Cartera\CarteraRepository.cs" />
     <Compile Include="Cartera\Dtos\DetalleCarteraDto.cs" />
+    <Compile Include="Cartera\FrmAgregarAbono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cartera\FrmAgregarAbono.Designer.cs">
+      <DependentUpon>FrmAgregarAbono.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clientes\FrmAdministrarClientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +191,18 @@
     </Compile>
     <Compile Include="Compras\FrmDevolucionesDeCompras.Designer.cs">
       <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmHistoricoCartera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmHistoricoCartera.Designer.cs">
+      <DependentUpon>FrmHistoricoCartera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmReporteCartera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmReporteCartera.Designer.cs">
+      <DependentUpon>FrmReporteCartera.cs</DependentUpon>
     </Compile>
     <Compile Include="Reportes\FrmReporteCompras.cs">
       <SubType>Form</SubType>
@@ -330,6 +348,9 @@
     <Compile Include="Compras\FrmregistroCompra.Designer.cs">
       <DependentUpon>FrmregistroCompra.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Cartera\FrmAgregarAbono.resx">
+      <DependentUpon>FrmAgregarAbono.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Clientes\FrmAdministrarClientes.resx">
       <DependentUpon>FrmAdministrarClientes.cs</DependentUpon>
     </EmbeddedResource>
@@ -347,6 +368,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Caja\FrmEntradaefectivo.resx">
       <DependentUpon>FrmEntradaefectivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmHistoricoCartera.resx">
+      <DependentUpon>FrmHistoricoCartera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmReporteCartera.resx">
+      <DependentUpon>FrmReporteCartera.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\FrmReporteCompras.resx">
       <DependentUpon>FrmReporteCompras.cs</DependentUpon>

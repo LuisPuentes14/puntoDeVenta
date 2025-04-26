@@ -12,5 +12,6 @@ namespace Proyecto_Metodologia.Cartera
         public double AbonoInicial { get; set; }
         public string IdVenta { get; set; }
         public DateTime FechaCartera { get; set; }
+        public string EstadoCartera { get; set; }
     }
 }

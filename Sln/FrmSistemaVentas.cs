@@ -6,6 +6,7 @@ using System.Configuration;
 using Proyecto_Metodologia.Clientes;
 using Proyecto_Metodologia.Reportes;
 using Proyecto_Metodologia.UTILS;
+using Proyecto_Metodologia.Cartera;
 
 
 namespace Proyecto_Metodologia
@@ -296,6 +297,21 @@ namespace Proyecto_Metodologia
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Backup.HacerBackupSQLServer();
+        }
+
+        private void reporteCarteraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmReporteCartera());
+        }
+
+        private void reporteHistoricoCarteraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmHistoricoCartera());
+        }
+
+        private void agregarAbonoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmAgregarAbono());
         }
     }
 }
