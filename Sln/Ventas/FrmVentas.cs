@@ -386,31 +386,15 @@ namespace Proyecto_Metodologia
         }
         private void txtcodp_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-
-
-            //DesactivarAutocompletado(txtcodp);
             TextBox txt = sender as TextBox;
-            //MessageBox.Show("Producto seleccionado: " + txt.Text, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //DesactivarAutocompletado(txt);
-
-            //if (e.KeyChar == (char)Keys.Space)
-            // if (e.KeyCode == (char)Keys.Space || e.KeyChar == (char)Keys.Enter)
             if (e.KeyCode == Keys.Enter)
             {
                 e.IsInputKey = true;
                 //e.Handled = true;
 
                 if (!string.IsNullOrWhiteSpace(txtcodp.Text))
-
                 {
-                    //MessageBox.Show("Producto seleccionado: " + txt.Text, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //DesactivarAutocompletado(txtcodp);
-                    //MessageBox.Show("Producto seleccionado: " + txt.Text, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     CargarDatosProducto(txtcodp.Text, GetUnidadmedida());
-                    //MessageBox.Show("Producto seleccionado: " + txt.Text, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    //nupcantidad.Focus();
                 }
                 else
                 {
@@ -447,6 +431,13 @@ namespace Proyecto_Metodologia
                 txtpreciou.Text = datos[6];  // Precio unitario
                 txtStock.Text = datos[8];  // Asignamos la cantidad al txtStock
                 Txtiva.Text = datos[7];
+
+                if(datos[8] == "0")
+                {
+                    MessageBox.Show("No hay stock disponible para este producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtcodp.Focus();
+                    return;
+                }
 
                 // Verificar si la unidad es "GRAMO" y ajustar el precio si es necesario
                 string unidad = ValorAtributo("Unidad");
@@ -828,6 +819,8 @@ namespace Proyecto_Metodologia
                     lbEfectivo.Visible = false;
                     lbCambio.Visible = false;
                     lbCobrar.Visible = false;
+                    txtAbono.Visible = false;
+                    labelAbono.Visible = false;
                     txtcodp.Focus();
 
                     // Imprimir la frase "Tienda Hector" en la impresora POS-80
@@ -883,7 +876,7 @@ namespace Proyecto_Metodologia
                 try
                 {
                     conexion.Open();
-                    string query = "SELECT 1 FROM Cartera WHERE DocumentoCliente = @idCliente";
+                    string query = "SELECT 1 FROM Cartera WHERE DocumentoCliente = @idCliente AND estadoCartera = 'Credito Activo'";
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         cmd.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);

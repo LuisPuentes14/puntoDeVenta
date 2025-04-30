@@ -240,7 +240,7 @@ namespace CapaPresentacion
             // 
             this.tsCategorias.Name = "tsCategorias";
             this.tsCategorias.Size = new System.Drawing.Size(176, 24);
-            this.tsCategorias.Text = "Categorías";
+            this.tsCategorias.Text = "Categorias";
             this.tsCategorias.Click += new System.EventHandler(this.tsCategorias_Click);
             // 
             // tsPresentaciones

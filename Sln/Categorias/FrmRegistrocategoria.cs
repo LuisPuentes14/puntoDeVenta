@@ -38,7 +38,7 @@ namespace Proyecto_Metodologia
                 using (SqlConnection conexion = new SqlConnection(cnn))
                 {
                     conexion.Open();
-                    string query = "INSERT INTO Categorías (IdCategoría, NombreCategoría) VALUES (@Id, @Nombre)";
+                    string query = "INSERT INTO Categorias (IdCategoria, NombreCategoria) VALUES (@Id, @Nombre)";
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         cmd.Parameters.AddWithValue("@Id", Convert.ToInt32(txtusuario.Text));
@@ -47,11 +47,11 @@ namespace Proyecto_Metodologia
                         int result = cmd.ExecuteNonQuery();
                         if (result > 0)
                         {
-                            MessageBox.Show("Categoría registrada exitosamente.");
+                            MessageBox.Show("Categoria registrada exitosamente.");
                         }
                         else
                         {
-                            MessageBox.Show("Error al registrar la categoría.");
+                            MessageBox.Show("Error al registrar la categoria.");
                         }
                     }
                 }

@@ -11,8 +11,8 @@ namespace Proyecto_Metodologia.Clientes
         public FrmHistorialDeCompra()
         {
             InitializeComponent();
-            CargarDatos();
-           
+            CargarClientes();
+
         }
 
         #region EVENTOS
@@ -85,26 +85,13 @@ JOIN TVentas V ON V.Cliente = C.IdCliente
             }
         }
 
-        //FUNCION CARGAR DATOS
-        private void CargarDatos()
-        {
-            string query = "SELECT V.PrecioTotal, V.Fecha, C.IdCliente AS Documento, C.Nombre FROM Clientes C JOIN TVentas V ON V.Cliente = C.IdCliente"; // Cambiá por tu tabla
-
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                dgClientes.DataSource = dt;
-            }
-        }
         //FUNCION CARGAR CLIENTES EN TIEMPO REAL
         private void CargarClientes(string filtro = "")
         {
             string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-            string query = @"SELECT V.PrecioTotal, V.Fecha, C.IdCliente AS Documento, C.Nombre, C.Apellido FROM Clientes C
-JOIN TVentas V ON V.Cliente = C.IdCliente 
+            string query = @"SELECT V.PrecioTotal, V.Fecha, C.IdCliente AS Documento, C.Nombre, C.Apellido, CAR.EstadoCartera FROM      Clientes C
+                        JOIN TVentas V ON V.Cliente = C.IdCliente
+                        JOIN Cartera CAR ON CAR.IdVenta = V.CodigoVenta 
                      WHERE 1 = 1";
 
             if (!string.IsNullOrWhiteSpace(filtro))

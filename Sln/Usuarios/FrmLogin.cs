@@ -33,7 +33,7 @@ namespace Proyecto_Metodologia
                         SqlDataReader dr = cmd.ExecuteReader();
                         if (dr.Read())
                         {
-                            //MessageBox.Show("Login exitoso.");
+                            CONSTANS.ROL = dr["Categoria"].ToString();
                             obtenerusuario();
                             Close();
                         }

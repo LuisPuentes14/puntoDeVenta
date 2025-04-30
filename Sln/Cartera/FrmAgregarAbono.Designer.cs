@@ -38,9 +38,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbValor = new System.Windows.Forms.Label();
             this.txtDebe = new System.Windows.Forms.TextBox();
-            this.labelAbono = new System.Windows.Forms.Label();
+            this.lbdebe = new System.Windows.Forms.Label();
             this.txtPagado = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbpagado = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgCartera)).BeginInit();
@@ -54,7 +54,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1171, 82);
+            this.panel1.Size = new System.Drawing.Size(1320, 82);
             this.panel1.TabIndex = 23;
             // 
             // USUSARIO
@@ -84,9 +84,9 @@
             this.panel3.BackColor = System.Drawing.Color.Teal;
             this.panel3.Controls.Add(this.iconButton1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 515);
+            this.panel3.Location = new System.Drawing.Point(0, 631);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1171, 59);
+            this.panel3.Size = new System.Drawing.Size(1320, 59);
             this.panel3.TabIndex = 24;
             // 
             // iconButton1
@@ -113,17 +113,19 @@
             this.dgCartera.BackgroundColor = System.Drawing.Color.White;
             this.dgCartera.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgCartera.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgCartera.Location = new System.Drawing.Point(31, 179);
+            this.dgCartera.Location = new System.Drawing.Point(31, 162);
             this.dgCartera.Name = "dgCartera";
             this.dgCartera.ReadOnly = true;
-            this.dgCartera.Size = new System.Drawing.Size(671, 294);
+            this.dgCartera.Size = new System.Drawing.Size(1253, 205);
             this.dgCartera.TabIndex = 2;
             this.dgCartera.TabStop = false;
+            this.dgCartera.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgCartera_CellContentClick);
+            this.dgCartera.SelectionChanged += new System.EventHandler(this.dgCartera_SelectionChanged);
             this.dgCartera.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // txtDocumento
             // 
-            this.txtDocumento.Location = new System.Drawing.Point(184, 144);
+            this.txtDocumento.Location = new System.Drawing.Point(200, 123);
             this.txtDocumento.Name = "txtDocumento";
             this.txtDocumento.Size = new System.Drawing.Size(200, 20);
             this.txtDocumento.TabIndex = 31;
@@ -134,7 +136,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(28, 146);
+            this.label2.Location = new System.Drawing.Point(28, 125);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(150, 16);
             this.label2.TabIndex = 32;
@@ -145,71 +147,66 @@
             this.lbValor.AutoSize = true;
             this.lbValor.BackColor = System.Drawing.Color.Yellow;
             this.lbValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbValor.Location = new System.Drawing.Point(783, 179);
+            this.lbValor.Location = new System.Drawing.Point(88, 418);
             this.lbValor.Name = "lbValor";
             this.lbValor.Size = new System.Drawing.Size(371, 33);
             this.lbValor.TabIndex = 43;
             this.lbValor.Text = "    VALOR RESTANTE        ";
-            this.lbValor.Visible = false;
             // 
             // txtDebe
             // 
             this.txtDebe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.txtDebe.Enabled = false;
             this.txtDebe.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDebe.Location = new System.Drawing.Point(883, 246);
+            this.txtDebe.Location = new System.Drawing.Point(272, 548);
             this.txtDebe.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtDebe.Name = "txtDebe";
             this.txtDebe.ReadOnly = true;
             this.txtDebe.Size = new System.Drawing.Size(271, 44);
             this.txtDebe.TabIndex = 44;
-            this.txtDebe.Visible = false;
             // 
-            // labelAbono
+            // lbdebe
             // 
-            this.labelAbono.AutoSize = true;
-            this.labelAbono.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAbono.Location = new System.Drawing.Point(780, 252);
-            this.labelAbono.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.labelAbono.Name = "labelAbono";
-            this.labelAbono.Size = new System.Drawing.Size(87, 31);
-            this.labelAbono.TabIndex = 56;
-            this.labelAbono.Text = "Debe:";
-            this.labelAbono.Visible = false;
+            this.lbdebe.AutoSize = true;
+            this.lbdebe.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbdebe.Location = new System.Drawing.Point(126, 554);
+            this.lbdebe.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbdebe.Name = "lbdebe";
+            this.lbdebe.Size = new System.Drawing.Size(87, 31);
+            this.lbdebe.TabIndex = 56;
+            this.lbdebe.Text = "Debe:";
             // 
             // txtPagado
             // 
             this.txtPagado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.txtPagado.Enabled = false;
             this.txtPagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPagado.Location = new System.Drawing.Point(883, 318);
+            this.txtPagado.Location = new System.Drawing.Point(272, 483);
             this.txtPagado.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.txtPagado.Name = "txtPagado";
             this.txtPagado.ReadOnly = true;
             this.txtPagado.Size = new System.Drawing.Size(271, 44);
             this.txtPagado.TabIndex = 57;
-            this.txtPagado.Visible = false;
             // 
-            // label3
+            // lbpagado
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(713, 324);
-            this.label3.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(154, 31);
-            this.label3.TabIndex = 58;
-            this.label3.Text = "Ha pagado:";
-            this.label3.Visible = false;
+            this.lbpagado.AutoSize = true;
+            this.lbpagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbpagado.Location = new System.Drawing.Point(102, 489);
+            this.lbpagado.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbpagado.Name = "lbpagado";
+            this.lbpagado.Size = new System.Drawing.Size(154, 31);
+            this.lbpagado.TabIndex = 58;
+            this.lbpagado.Text = "Ha pagado:";
             // 
             // FrmAgregarAbono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1171, 574);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(1320, 690);
+            this.Controls.Add(this.lbpagado);
             this.Controls.Add(this.txtPagado);
-            this.Controls.Add(this.labelAbono);
+            this.Controls.Add(this.lbdebe);
             this.Controls.Add(this.txtDebe);
             this.Controls.Add(this.lbValor);
             this.Controls.Add(this.label2);
@@ -240,8 +237,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbValor;
         private System.Windows.Forms.TextBox txtDebe;
-        private System.Windows.Forms.Label labelAbono;
+        private System.Windows.Forms.Label lbdebe;
         private System.Windows.Forms.TextBox txtPagado;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbpagado;
     }
 }

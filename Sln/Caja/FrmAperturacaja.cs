@@ -38,7 +38,7 @@ namespace Proyecto_Metodologia
                 cmd.Parameters.AddWithValue("@Codigo", nuevoCodigo);
                 cmd.Parameters.AddWithValue("@Usuario", cajero);
                 cmd.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
-                cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                cmd.Parameters.AddWithValue("@Fecha", DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
                 int rowsAffected = cmd.ExecuteNonQuery();
 

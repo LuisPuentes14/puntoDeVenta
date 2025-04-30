@@ -194,7 +194,7 @@
             this.dgventas.Location = new System.Drawing.Point(31, 66);
             this.dgventas.Name = "dgventas";
             this.dgventas.ReadOnly = true;
-            this.dgventas.Size = new System.Drawing.Size(834, 252);
+            this.dgventas.Size = new System.Drawing.Size(923, 252);
             this.dgventas.TabIndex = 0;
             this.dgventas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 

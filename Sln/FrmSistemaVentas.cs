@@ -16,9 +16,6 @@ namespace Proyecto_Metodologia
 
         private DataSet aDatos;
 
-
-
-
         public DataSet Datos
         {
             get { return aDatos; }
@@ -70,15 +67,18 @@ namespace Proyecto_Metodologia
         }
         public void categoriarango()
         {
-            if (txtcategoria.Text == "Administra")
+            if (txtcategoria.Text == "Administrador")
             {
                 //btnventas.Visible = false;
             }
             if (txtcategoria.Text == "Cajero")
             {
-                //btnusuarios.Visible = false;
-                //btnregistro.Visible = false;
-               
+                comprasToolStripMenuItem.Visible = false;
+                mnuConsultas.Visible = false;
+                mnuHerramientas.Visible = false;
+                usuariosToolStripMenuItem.Visible = false;
+                mnuAlmacen.Visible = false;
+                clientesToolStripMenuItem.Visible = false;
             }
         }
         public void AbrirFormularioHijo(Form FrmHijo)
@@ -312,6 +312,11 @@ namespace Proyecto_Metodologia
         private void agregarAbonoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FrmAgregarAbono());
+        }
+
+        private void agregarCompraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmRegistroProductos());
         }
     }
 }

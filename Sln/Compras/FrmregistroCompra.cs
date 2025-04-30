@@ -61,11 +61,11 @@ namespace Proyecto_Metodologia
 
         private void CargarCategorias()
         {
-            string consulta = "SELECT IdCategoría, NombreCategoría FROM Categorías";
+            string consulta = "SELECT IdCategoria, NombreCategoria FROM Categorias";
             DataTable dt = EjecutarSelect(consulta).Tables[0];
             comboBox1.DataSource = dt;
-            comboBox1.DisplayMember = "NombreCategoría";
-            comboBox1.ValueMember = "NombreCategoría";
+            comboBox1.DisplayMember = "NombreCategoria";
+            comboBox1.ValueMember = "NombreCategoria";
         }
 
         private void CargarProveedores()

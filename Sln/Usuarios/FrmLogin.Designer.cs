@@ -67,9 +67,9 @@ namespace Proyecto_Metodologia
             this.buttonIngresar.BackColor = System.Drawing.Color.Azure;
             this.buttonIngresar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.buttonIngresar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonIngresar.Font = new System.Drawing.Font("Palatino Linotype", 14.16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonIngresar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonIngresar.ForeColor = System.Drawing.Color.Black;
-            this.buttonIngresar.Location = new System.Drawing.Point(299, 247);
+            this.buttonIngresar.Location = new System.Drawing.Point(296, 284);
             this.buttonIngresar.Name = "buttonIngresar";
             this.buttonIngresar.Size = new System.Drawing.Size(172, 47);
             this.buttonIngresar.TabIndex = 2;
@@ -109,9 +109,9 @@ namespace Proyecto_Metodologia
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(249, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(212, 32);
+            this.label1.Size = new System.Drawing.Size(219, 32);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Supermercado";
+            this.label1.Text = "Punto de venta";
             // 
             // panel3
             // 
@@ -122,7 +122,7 @@ namespace Proyecto_Metodologia
             this.panel3.Controls.Add(this.labelUsuario);
             this.panel3.Controls.Add(this.txtcontraseña);
             this.panel3.Controls.Add(this.txtusuario);
-            this.panel3.Location = new System.Drawing.Point(164, 81);
+            this.panel3.Location = new System.Drawing.Point(163, 109);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(446, 160);
             this.panel3.TabIndex = 9;
@@ -145,11 +145,11 @@ namespace Proyecto_Metodologia
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 21F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(168, 46);
+            this.label2.Location = new System.Drawing.Point(157, 74);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 32);
+            this.label2.Size = new System.Drawing.Size(194, 32);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Login";
+            this.label2.Text = "Iniciar sesion";
             // 
             // iconButton1
             // 
@@ -173,7 +173,7 @@ namespace Proyecto_Metodologia
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(761, 313);
+            this.ClientSize = new System.Drawing.Size(761, 343);
             this.ControlBox = false;
             this.Controls.Add(this.iconButton1);
             this.Controls.Add(this.label2);

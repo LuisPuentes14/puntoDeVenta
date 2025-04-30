@@ -35,7 +35,7 @@ namespace Proyecto_Metodologia
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnModificar = new FontAwesome.Sharp.IconButton();
-            this.iconButton3 = new FontAwesome.Sharp.IconButton();
+            this.btnEliminar = new FontAwesome.Sharp.IconButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@ namespace Proyecto_Metodologia
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1088, 78);
+            this.panel1.Size = new System.Drawing.Size(1237, 78);
             this.panel1.TabIndex = 0;
             // 
             // label2
@@ -85,7 +85,7 @@ namespace Proyecto_Metodologia
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 185);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(696, 376);
+            this.dataGridView1.Size = new System.Drawing.Size(953, 302);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
@@ -96,7 +96,7 @@ namespace Proyecto_Metodologia
             this.btnModificar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnModificar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnModificar.IconSize = 40;
-            this.btnModificar.Location = new System.Drawing.Point(734, 185);
+            this.btnModificar.Location = new System.Drawing.Point(1023, 185);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(157, 46);
             this.btnModificar.TabIndex = 5;
@@ -105,30 +105,30 @@ namespace Proyecto_Metodologia
             this.btnModificar.UseVisualStyleBackColor = true;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
-            // iconButton3
+            // btnEliminar
             // 
-            this.iconButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconButton3.IconChar = FontAwesome.Sharp.IconChar.UserMinus;
-            this.iconButton3.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.iconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton3.IconSize = 35;
-            this.iconButton3.Location = new System.Drawing.Point(734, 280);
-            this.iconButton3.Name = "iconButton3";
-            this.iconButton3.Size = new System.Drawing.Size(157, 46);
-            this.iconButton3.TabIndex = 6;
-            this.iconButton3.Text = "Eliminar";
-            this.iconButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton3.UseVisualStyleBackColor = true;
-            this.iconButton3.Click += new System.EventHandler(this.iconButton3_Click);
+            this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.IconChar = FontAwesome.Sharp.IconChar.UserMinus;
+            this.btnEliminar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnEliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnEliminar.IconSize = 35;
+            this.btnEliminar.Location = new System.Drawing.Point(1023, 273);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(157, 46);
+            this.btnEliminar.TabIndex = 6;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.iconButton3_Click);
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1088, 0);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1237, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 712);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 630);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
             // textBox1
@@ -153,9 +153,9 @@ namespace Proyecto_Metodologia
             this.panel3.BackColor = System.Drawing.Color.Teal;
             this.panel3.Controls.Add(this.iconButton1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 639);
+            this.panel3.Location = new System.Drawing.Point(0, 557);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1088, 73);
+            this.panel3.Size = new System.Drawing.Size(1237, 73);
             this.panel3.TabIndex = 16;
             // 
             // iconButton1
@@ -180,11 +180,11 @@ namespace Proyecto_Metodologia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1088, 712);
+            this.ClientSize = new System.Drawing.Size(1237, 630);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.iconButton3);
+            this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
@@ -206,7 +206,7 @@ namespace Proyecto_Metodologia
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private FontAwesome.Sharp.IconButton btnModificar;
-        private FontAwesome.Sharp.IconButton iconButton3;
+        private FontAwesome.Sharp.IconButton btnEliminar;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox textBox1;

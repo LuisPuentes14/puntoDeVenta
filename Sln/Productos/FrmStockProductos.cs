@@ -13,12 +13,14 @@ namespace Proyecto_Metodologia
             InitializeComponent();
         }
 
+
+
         #region EVENTOS
         //evento para cargar el formulario
         private void FrmProductos_Load(object sender, EventArgs e)
         {
             textBox1.Focus();
-            CargarDatos();
+            CargarProductos();
         }
         //evento para actualizar los datos de la tabla
         private void btnModificar_Click(object sender, EventArgs e)
@@ -65,20 +67,6 @@ namespace Proyecto_Metodologia
 
 
         #region FUNCIONES
-        //FUNCION CARGAR DATOS
-        private void CargarDatos()
-        {
-            string query = "select * from TProductos"; // Cambiá por tu tabla
-
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                dataGridView1.DataSource = dt;
-            }
-        }
         //FUNCION PARA ACTUALIZAR PRODUCTOS
         private void ActualizarDatos() 
         {
