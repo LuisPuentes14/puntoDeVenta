@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Drawing.Printing;
 using System.Configuration;
 using Proyecto_Metodologia.Cartera;
+using Proyecto_Metodologia.Clientes;
+using Proyecto_Metodologia.Dtos;
+using Proyecto_Metodologia.Ventas;
+using Proyecto_Metodologia.Productos;
+using TextBox = System.Windows.Forms.TextBox;
 
 
 namespace Proyecto_Metodologia
@@ -17,6 +21,9 @@ namespace Proyecto_Metodologia
         private PrintDocument printDocument;
         private DataSet aDatos;
         public static TextBox txtPublico;
+        ClienteRepository _cliente = new ClienteRepository();
+        Factura _factura = new Factura();
+        ProductoRepository _producto = new ProductoRepository();
 
 
         public FrmVentas()
@@ -30,7 +37,8 @@ namespace Proyecto_Metodologia
 
             txtcodp.PreviewKeyDown += txtcodp_PreviewKeyDown;
             printDocument = new PrintDocument();
-            printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
+            printDocument.PrintPage += (sender, e) =>
+            _factura.PrintDocument_PrintPageCustom(sender, e, txtCodVentas.Text, dgvVentas);
             txtPublico = txtcodp;
             tipoVenta.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
         }
@@ -58,121 +66,24 @@ namespace Proyecto_Metodologia
             }
         }
         private void FrmVentas_KeyDown(object sender, KeyEventArgs e)
-
         {
-            double descuento = 0;
-            double total = 0;
-            double descuentoiva = 0;
-            double totaliva = 0;
-            double nuevoiva = 0;
-            double dessubtotal = 0;
-            double nuevosubtotal = 0;
-            double totalsubtotal = 0;
-
-
-
-            if (e.KeyCode == Keys.F1)
-
-            {
-                if (txttotal.Text != "0")
-                {
-                    txtcodp.Enabled = false;
-                    if (tipoVenta.SelectedItem.ToString() == "Credito")
-                    {
-                        txtAbono.Visible = true;
-                        labelAbono.Visible = true;
-                    }
-                    else
-                    {
-                        txtCambio.Enabled = true;
-                        txtCambio.Visible = true;
-                        txtEfectivo.Enabled = true;
-                        txtEfectivo.Visible = true;
-                        lbEfectivo.Visible = true;
-                        lbCambio.Visible = true;
-                    }
-
-                    txtTotalPagar.Visible = true;
-                    lbTotalPagar.Visible = true;
-                    lbCobrar.Visible = true;
-                    txtTotalPagar.Text = txttotal.Text;
-
-                    txtEfectivo.Focus();
-                }
-                else
-                {
-
-                    MessageBox.Show("Aun no hay venta registrada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-
-            if (e.KeyCode == Keys.F2)
-            {
-                txtcodp.Enabled = false;
-                txtEfectivo.Enabled = false;
-                txtCambio.Enabled = false;
-                // Activar selección si no hay fila seleccionada
-                if (dgvVentas.SelectedRows.Count == 0 && dgvVentas.Rows.Count > 0)
-                {
-                    dgvVentas.Rows[0].Selected = true;
-                }
-            }
-            else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
-            {
-                // Permitir navegación con flechas
-                int rowIndex = dgvVentas.CurrentRow?.Index ?? -1;
-                if (rowIndex >= 0)
-                {
-                    if (e.KeyCode == Keys.Up && rowIndex > 0)
-                    {
-                        dgvVentas.Rows[rowIndex].Selected = false;
-                        dgvVentas.Rows[rowIndex - 1].Selected = true;
-                        dgvVentas.CurrentCell = dgvVentas.Rows[rowIndex - 1].Cells[0];
-                    }
-                    else if (e.KeyCode == Keys.Down && rowIndex < dgvVentas.Rows.Count - 1)
-                    {
-                        dgvVentas.Rows[rowIndex].Selected = false;
-                        dgvVentas.Rows[rowIndex + 1].Selected = true;
-                        dgvVentas.CurrentCell = dgvVentas.Rows[rowIndex + 1].Cells[0];
-                    }
-                }
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.Enter)
-            {
-                // Eliminar la fila seleccionada con Enter
-                if (dgvVentas.SelectedRows.Count > 0)
-                {
-                    int rowIndex = dgvVentas.SelectedRows[0].Index;
-                    double valor = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Total"].Value);
-                    double iva = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Iva"].Value);
-                    dgvVentas.Rows.RemoveAt(rowIndex);
-
-                    total = double.Parse(txttotal.Text);
-
-                    descuento = total - valor;
-                    descuentoiva = valor * iva;
-                    totaliva = double.Parse(txtigv.Text);
-                    nuevoiva = totaliva - descuentoiva;
-                    dessubtotal = valor - descuentoiva;
-                    totalsubtotal = double.Parse(to.Text);
-                    nuevosubtotal = totalsubtotal - dessubtotal;
-
-                    txttotal.Text = Math.Round(descuento, 2).ToString();
-                    txtTotalPagar.Text = txttotal.Text;
-                    txtigv.Text = Math.Round(nuevoiva, 2).ToString();
-                    to.Text = Math.Round(nuevosubtotal, 2).ToString();
-                    txtcodp.Enabled = true;
-                    txtcodp.Focus();
-
-                }
-                e.Handled = true;
-            }
-
-
-
             switch (e.KeyCode)
             {
+                case Keys.F1:
+                    CerrarVenta();
+                    e.Handled = true;
+
+                    break;
+
+                case Keys.F2:
+                    txtcodp.Enabled = false;
+                    txtEfectivo.Enabled = false;
+                    txtCambio.Enabled = false;
+                    // Activar selección si no hay fila seleccionada
+                    if (dgvVentas.SelectedRows.Count == 0 && dgvVentas.Rows.Count > 0)
+                        dgvVentas.Rows[0].Selected = true;
+                    break;
+
                 case Keys.F3:
                     FrmSalidaEfectivo salida = new FrmSalidaEfectivo();
                     salida.Show();
@@ -187,6 +98,17 @@ namespace Proyecto_Metodologia
                     FrmArqueo arqueo = new FrmArqueo();
                     arqueo.Show();
                     break;
+                case Keys.Enter:
+                    EliminarFila_Enter(e);
+                    break;
+                case Keys.Up:
+                    NavegacionXFlechas(e);
+                    break;
+
+                case Keys.Down:
+                    NavegacionXFlechas(e);
+                    break;
+
 
                 default:
                     // Opcional: manejar otras teclas si es necesario
@@ -227,8 +149,12 @@ namespace Proyecto_Metodologia
         }
         private void txtDocumento_TextChanged(object sender, EventArgs e)
         {
+            var cliente = _cliente.ObtenerInfoCliente(txtDocumentoCliente.Text);
 
-            ObtenerInfoCliente(txtDocumentoCliente.Text);
+            txtNombreCliente.Text = cliente.Nombre;
+            txtApellido.Text = cliente.Apellido;
+            txtTelefono.Text = cliente.Telefono;
+            txtCorreo.Text = cliente.Correo;
         }
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -246,121 +172,18 @@ namespace Proyecto_Metodologia
                 TransaccionVenta();
             }
         }
-        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            // Posición inicial para imprimir
-            int yPosition = 20; // Se inicia con un margen superior
-            int xPosition = 10; // Margen izquierdo
 
-            // Fuente y pincel para el texto con tamaños reducidos
-            Font font = new Font("Arial", 8); // Tamaño más pequeño para los datos
-            Font fontBold = new Font("Arial", 10, FontStyle.Bold); // Tamaño reducido para títulos
-            Brush brush = Brushes.Black;
-
-            // Definir altura de línea y ancho de columna
-            int lineHeight = (int)font.GetHeight(e.Graphics) + 2; // Ajuste de espaciado
-            int codeWidth = 40;   // Ancho de la columna Código
-            int nameWidth = 120;  // Ancho de la columna Nombre del Artículo
-            int qtyWidth = 40;    // Ancho de la columna Cantidad
-                                  //   int priceWidth = 60;  // Ancho de la columna Valor
-            int spacing = 5;      // Espaciado entre columnas
-
-            // Obtener el número de factura desde txtCodVentas
-            string numeroFactura = string.IsNullOrEmpty(txtCodVentas.Text) ? "N/A" : txtCodVentas.Text;
-
-            // ENCABEZADO DEL TICKET
-            e.Graphics.DrawString("SUPERMERCADO HÉCTOR", fontBold, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            e.Graphics.DrawString("NIT: 12345678-9", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            e.Graphics.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            e.Graphics.DrawString($"Factura No: {numeroFactura}", font, brush, xPosition, yPosition);
-            yPosition += lineHeight * 2; // Espaciado extra antes de los productos
-
-            // LÍNEA SEPARADORA
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // ENCABEZADO DE COLUMNAS
-            int currentX = xPosition;
-            e.Graphics.DrawString("Cod", fontBold, brush, currentX, yPosition);
-            currentX += codeWidth + spacing;
-
-            e.Graphics.DrawString("Artículo", fontBold, brush, currentX, yPosition);
-            currentX += nameWidth + spacing;
-
-            e.Graphics.DrawString("Cant", fontBold, brush, currentX, yPosition);
-            currentX += qtyWidth + spacing;
-
-            e.Graphics.DrawString("Precio", fontBold, brush, currentX, yPosition);
-
-            yPosition += lineHeight;
-
-            // LÍNEA SEPARADORA
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // IMPRESIÓN DE DATOS
-            foreach (DataGridViewRow row in dgvVentas.Rows)
-            {
-                if (row.IsNewRow) continue; // Ignorar la fila vacía
-
-                currentX = xPosition; // Reiniciar posición X por cada fila
-
-                string codigo = row.Cells[0].Value?.ToString() ?? "";
-                string articulo = row.Cells[1].Value?.ToString() ?? "";
-                string cantidad = row.Cells[2].Value?.ToString() ?? "";
-                string valor = row.Cells[3].Value?.ToString() ?? "";
-
-                // Imprimir cada celda en su respectiva columna
-                e.Graphics.DrawString(codigo, font, brush, currentX, yPosition);
-                currentX += codeWidth + spacing;
-
-                e.Graphics.DrawString(articulo, font, brush, currentX, yPosition);
-                currentX += nameWidth + spacing;
-
-                e.Graphics.DrawString(cantidad, font, brush, currentX, yPosition);
-                currentX += qtyWidth + spacing;
-
-                e.Graphics.DrawString(valor, font, brush, currentX, yPosition);
-
-                yPosition += lineHeight; // Mover a la siguiente línea
-            }
-
-            // LÍNEA SEPARADORA FINAL
-            yPosition += lineHeight;
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // MENSAJE DE AGRADECIMIENTO
-            e.Graphics.DrawString("¡Gracias por su compra!", fontBold, brush, xPosition, yPosition);
-            yPosition += lineHeight * 2; // Espaciado extra
-
-            // MENSAJE DE DESARROLLADOR
-            e.Graphics.DrawString("Software desarrollado por SERVISISTEMAS", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // Indicar que no hay más páginas para imprimir
-            e.HasMorePages = false;
-        }
         private void nupcantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Detectar si la tecla presionada es 'Enter'
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true; // Evitar el comportamiento por defecto de Enter (cambiar foco)
-
                 // Llamar a la función para agregar los datos al DataGridView
                 button3_Click_1(sender, e);
             }
-
             // Verificar si la unidad seleccionada es "Unidad" y evitar valores decimales
             string unidad = ValorAtributo("Unidad"); // Obtener la unidad del producto
-
             if (unidad == "Unidad")
             {
                 // Si la tecla presionada no es un número y no es la tecla de retroceso
@@ -368,7 +191,6 @@ namespace Proyecto_Metodologia
                 {
                     e.Handled = true; // Evitar la entrada de caracteres no numéricos
                 }
-
                 // Si el texto ya contiene un punto decimal, evitar otro punto decimal
                 if (e.KeyChar == '.' && nupcantidad.Text.Contains("."))
                 {
@@ -390,18 +212,12 @@ namespace Proyecto_Metodologia
             if (e.KeyCode == Keys.Enter)
             {
                 e.IsInputKey = true;
-                //e.Handled = true;
 
                 if (!string.IsNullOrWhiteSpace(txtcodp.Text))
-                {
                     CargarDatosProducto(txtcodp.Text, GetUnidadmedida());
-                }
                 else
-                {
                     MessageBox.Show("Código de producto vacío. Escanee nuevamente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtcodp.Focus();
-                    //SetFocusToTxtCodp();
-                }
             }
         }
         private ComboBox GetUnidadmedida()
@@ -410,7 +226,7 @@ namespace Proyecto_Metodologia
         }
         private void CargarDatosProducto(string codigo, ComboBox unidadmedida)
         {
-            string[] datos = obtenerDatos(codigo);
+            string[] datos = _producto.obtenerDatos(codigo);
 
             if (!string.IsNullOrWhiteSpace(datos[0]))
             {
@@ -432,7 +248,7 @@ namespace Proyecto_Metodologia
                 txtStock.Text = datos[8];  // Asignamos la cantidad al txtStock
                 Txtiva.Text = datos[7];
 
-                if(datos[8] == "0")
+                if (datos[8] == "0")
                 {
                     MessageBox.Show("No hay stock disponible para este producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtcodp.Focus();
@@ -498,7 +314,6 @@ namespace Proyecto_Metodologia
             AutoCompletar(txtcodp);
 
         }
-
         private void tipoVenta_SelectedIndexChanged(object sender, EventArgs e)
         {
             CambiarOpcionPago(tipoVenta.SelectedItem.ToString());
@@ -527,19 +342,24 @@ namespace Proyecto_Metodologia
             {
                 CarteraRepository _cartera = new CarteraRepository();
 
-                // validar que no sea un cliente generico para registrar el cliente
-                if (txtDocumentoCliente.Text != "2222222222" && !ValidarCliente())
-                {
-                    InsertarCliente();
-                }
 
+                // validar que no sea un cliente generico para registrar el cliente
+                if (txtDocumentoCliente.Text != "2222222222" && !_cliente.ValidarCliente(txtDocumentoCliente.Text))
+                {
+                    _cliente.InsertarCliente(new ClienteDto()
+                    {
+                        Documento = txtDocumentoCliente.Text,
+                        Nombre = txtNombreCliente.Text,
+                        Apellido = txtApellido.Text,
+                        Telefono = txtTelefono.Text,
+                        Correo = txtCorreo.Text
+
+
+                    });
+                }
+                //validar cliente para realizar venta a credito
                 if (txtDocumentoCliente.Text != "2222222222" && tipoVenta.SelectedItem.ToString() == "Credito")
                 {
-                    if(ValidarCartera())
-                    {
-                        MessageBox.Show("El cliente ya tiene una venta a credito. Termine de pagar el credito activo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
 
                     if (double.Parse(txtAbono.Text) < 0)
                     {
@@ -567,7 +387,7 @@ namespace Proyecto_Metodologia
                     _ = InsertarVenta();
                 }
 
-                ImprimirFactura();
+                _factura.ImprimirFactura(printDocument);
                 limpiarventa();
                 dgvVentas.Rows.Clear();
                 autoincrementable();
@@ -583,26 +403,6 @@ namespace Proyecto_Metodologia
                 MessageBox.Show("Por favor, ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public string[] obtenerDatos(string pCodigo)
-        {
-            string[] datos = new string[9]; // Ahora tenemos un nuevo campo para la cantidad
-
-            // Actualiza la consulta para solo obtener la columna 'Unidad'
-            string Consulta = long.TryParse(pCodigo, out long result)
-                ? $"SELECT * FROM TProductos WHERE CodigoProducto = '{pCodigo}'"
-                : $"SELECT * FROM TProductos WHERE Descripcion LIKE '%{pCodigo}%'";
-
-            EjecutarSelect(Consulta);
-
-            datos[0] = ValorAtributo("CodigoProducto");
-            datos[1] = ValorAtributo("Descripcion");
-            datos[6] = ValorAtributo("PrecioUnitario");
-            datos[2] = ValorAtributo("Unidad");  // Solo obtenemos la unidad
-            datos[7] = ValorAtributo("Iva");
-            datos[8] = ValorAtributo("Cantidad"); // Ahora cargamos el campo Cantidad
-
-            return datos;
-        }
         public DataSet EjecutarSelect(string Consulta)
         {
             using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
@@ -617,7 +417,6 @@ namespace Proyecto_Metodologia
         }
         public void AutoCompletar(TextBox cajaTexto)
         {
-
             try
             {
                 SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString);
@@ -626,7 +425,6 @@ namespace Proyecto_Metodologia
                 {
                     cnn.Open();
                 }
-
                 using (SqlCommand cmd = new SqlCommand("SELECT Descripcion FROM Tproductos", cnn))
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -638,13 +436,8 @@ namespace Proyecto_Metodologia
                         cajaTexto.AutoCompleteCustomSource.Add(dr["Descripcion"].ToString());
                     }
                 }
-
                 // Configurar el autocompletado
                 ActivarAutocompletado(cajaTexto);
-                //cajaTexto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                //cajaTexto.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-
             }
             catch (Exception ex)
             {
@@ -794,15 +587,7 @@ namespace Proyecto_Metodologia
                                 cmdDetalle.ExecuteNonQuery();
                             }
 
-
-                            string queryActualizarInventario = "UPDATE Tproductos SET cantidad = cantidad - @Cantidad WHERE CodigoProducto = @CodigoProducto";
-                            using (SqlCommand cmdActualizar = new SqlCommand(queryActualizarInventario, conexion))
-
-                            {
-                                cmdActualizar.Parameters.AddWithValue("@Cantidad", cantidad);
-                                cmdActualizar.Parameters.AddWithValue("@CodigoProducto", idProducto);
-                                cmdActualizar.ExecuteNonQuery();
-                            }
+                            _producto.ActualizarStockProducto(idProducto, cantidad);
 
                             detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
                         }
@@ -841,180 +626,7 @@ namespace Proyecto_Metodologia
                 }
             }
         }
-        private bool ValidarCliente()
-        {
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT 1  FROM Clientes where idCliente = @idCliente";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            return true; // El cliente existe
-                        }
-                        return false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false; // Error al consultar la base de datos
-
-                }
-            }
-        }
-
-        private bool ValidarCartera()
-        {
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT 1 FROM Cartera WHERE DocumentoCliente = @idCliente AND estadoCartera = 'Credito Activo'";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            return true; // El cliente existe
-                        }
-                        return false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false; // Error al consultar la base de datos
-
-                }
-            }
-        }
-
-        private void ObtenerInfoCliente(string idCliente)
-        {
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT nombre,apellido,telefono,correo  FROM Clientes where idCliente = @idCliente";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            txtNombreCliente.Text = reader["nombre"].ToString();
-                            txtApellido.Text = reader["apellido"].ToString();
-                            txtTelefono.Text = reader["telefono"].ToString();
-                            txtCorreo.Text = reader["correo"].ToString();
-                        }
-                        else if (idCliente == "2222222222")
-                        {
-                            txtNombreCliente.Text = "";
-                            txtApellido.Text = "";
-                            txtTelefono.Text = "";
-                            txtCorreo.Text = "";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al obtener información del cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-            }
-        }
-        private void InsertarCliente()
-        {
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string queryDetalle = "INSERT INTO Clientes VALUES (@idCliente, @nombre, @apellido, @telefono, @correo)";
-                    using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, conexion))
-                    {
-                        cmdDetalle.Parameters.AddWithValue("@idCliente", txtDocumentoCliente.Text);
-                        cmdDetalle.Parameters.AddWithValue("@nombre", txtNombreCliente.Text);
-                        cmdDetalle.Parameters.AddWithValue("@apellido", txtApellido.Text);
-                        cmdDetalle.Parameters.AddWithValue("@telefono", txtTelefono.Text);
-                        cmdDetalle.Parameters.AddWithValue("@correo", txtCorreo.Text);
-                        cmdDetalle.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        private void ImprimirFactura()
-        {
-            DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-            // Verificar si el usuario presionó 'OK' (Enter) o 'Cancel' (Escape)
-            if (result == DialogResult.OK)
-            {
-                // Aquí agregas el código para realizar la acción de impresión
-
-                // Crear una nueva instancia de PrintDocument
-                PrintDocument printDoc = new PrintDocument();
-
-                // Asegurarse de que la impresora se ha configurado correctamente con el nombre correcto
-                printDoc.PrinterSettings.PrinterName = "POS-80"; // Usar el nombre exacto de la impresora
-
-                // Verificar si la impresora está disponible
-                if (string.IsNullOrEmpty(printDoc.PrinterSettings.PrinterName) || !printDoc.PrinterSettings.IsValid)
-                {
-                    MessageBox.Show("No se puede encontrar la impresora POS-80.");
-                    return;
-                }
-
-                // Establecer el contenido a imprimir, en este caso, el texto del TextBox
-                printDoc.PrintPage += (sender1, args) =>
-                {
-                    // Obtener el texto del TextBox
-                    //string textoAImprimir = "hola";
-                    printDocument.Print();
-
-
-                    // Verificar si el texto es nulo o vacío antes de intentar imprimir
-                    // if (string.IsNullOrEmpty(textoAImprimir))
-
-
-                    // Especificamos la fuente y el color
-                    Font font = new Font("Arial", 12);
-                    Brush brush = Brushes.Black;
-
-                    // Dibujar el texto en la página de impresión
-                    // args.Graphics.DrawString(textoAImprimir, font, brush, 100, 100);  // Ajusta las coordenadas según sea necesario
-                };
-
-                // Imprimir el documento
-                try
-                {
-                    printDoc.Print();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error al imprimir: {ex.Message}");
-                }
-            }
-            else if (result == DialogResult.Cancel)
-            {
-                // Si se presionó Escape, no se realiza ninguna acción
-                //MessageBox.Show("La impresión ha sido cancelada.");
-            }
-        }
-        private void CambiarOpcionPago(string opcionSeleccionada) 
+        private void CambiarOpcionPago(string opcionSeleccionada)
         {
             if (opcionSeleccionada == "Credito" && lbCobrar.Visible)
             {
@@ -1025,7 +637,7 @@ namespace Proyecto_Metodologia
                 txtEfectivo.Visible = false;
                 lbEfectivo.Visible = false;
             }
-            else if(opcionSeleccionada == "Efectivo" && lbCobrar.Visible)
+            else if (opcionSeleccionada == "Efectivo" && lbCobrar.Visible)
             {
                 txtAbono.Visible = false;
                 labelAbono.Visible = false;
@@ -1035,8 +647,99 @@ namespace Proyecto_Metodologia
                 lbEfectivo.Visible = true;
             }
         }
+
+        private void NavegacionXFlechas(KeyEventArgs e) 
+        {
+            // Permitir navegación con flechas
+            int rowIndex = dgvVentas.CurrentRow?.Index ?? -1;
+            if (rowIndex >= 0)
+            {
+                if (e.KeyCode == Keys.Up && rowIndex > 0)
+                {
+                    dgvVentas.Rows[rowIndex].Selected = false;
+                    dgvVentas.Rows[rowIndex - 1].Selected = true;
+                    dgvVentas.CurrentCell = dgvVentas.Rows[rowIndex - 1].Cells[0];
+                }
+                else if (e.KeyCode == Keys.Down && rowIndex < dgvVentas.Rows.Count - 1)
+                {
+                    dgvVentas.Rows[rowIndex].Selected = false;
+                    dgvVentas.Rows[rowIndex + 1].Selected = true;
+                    dgvVentas.CurrentCell = dgvVentas.Rows[rowIndex + 1].Cells[0];
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void EliminarFila_Enter(KeyEventArgs e) 
+        {
+            // Eliminar la fila seleccionada con Enter
+            if (dgvVentas.SelectedRows.Count > 0)
+            {
+                double descuento = 0;
+                double total = 0;
+                double descuentoiva = 0;
+                double totaliva = 0;
+                double nuevoiva = 0;
+                double dessubtotal = 0;
+                double nuevosubtotal = 0;
+                double totalsubtotal = 0;
+
+
+                int rowIndex = dgvVentas.SelectedRows[0].Index;
+                double valor = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Total"].Value);
+                double iva = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Iva"].Value);
+                dgvVentas.Rows.RemoveAt(rowIndex);
+
+                total = double.Parse(txttotal.Text);
+
+                descuento = total - valor;
+                descuentoiva = valor * iva;
+                totaliva = double.Parse(txtigv.Text);
+                nuevoiva = totaliva - descuentoiva;
+                dessubtotal = valor - descuentoiva;
+                totalsubtotal = double.Parse(to.Text);
+                nuevosubtotal = totalsubtotal - dessubtotal;
+
+                txttotal.Text = Math.Round(descuento, 2).ToString();
+                txtTotalPagar.Text = txttotal.Text;
+                txtigv.Text = Math.Round(nuevoiva, 2).ToString();
+                to.Text = Math.Round(nuevosubtotal, 2).ToString();
+                txtcodp.Enabled = true;
+                txtcodp.Focus();
+            }
+            e.Handled = true;
+        }
+
+        private void CerrarVenta() 
+        {
+            if (txttotal.Text != "0")
+            {
+                txtcodp.Enabled = false;
+                if (tipoVenta.SelectedItem.ToString() == "Credito")
+                {
+                    txtAbono.Visible = true;
+                    labelAbono.Visible = true;
+                }
+                else
+                {
+                    txtCambio.Enabled = true;
+                    txtCambio.Visible = true;
+                    txtEfectivo.Enabled = true;
+                    txtEfectivo.Visible = true;
+                    lbEfectivo.Visible = true;
+                    lbCambio.Visible = true;
+                }
+
+                txtTotalPagar.Visible = true;
+                lbTotalPagar.Visible = true;
+                lbCobrar.Visible = true;
+                txtTotalPagar.Text = txttotal.Text;
+
+                txtEfectivo.Focus();
+            }
+            else
+                MessageBox.Show("Aun no hay venta registrada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         #endregion
-
-
     }
 }
