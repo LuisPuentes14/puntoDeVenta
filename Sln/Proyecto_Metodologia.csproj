@@ -193,9 +193,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cartera\Dtos\CarteraDto.cs" />
+    <Compile Include="Comercio\ComercioRepository.cs" />
+    <Compile Include="Dtos\CarteraDto.cs" />
     <Compile Include="Cartera\CarteraRepository.cs" />
-    <Compile Include="Cartera\Dtos\DetalleCarteraDto.cs" />
+    <Compile Include="Dtos\ClienteDto.cs" />
+    <Compile Include="Dtos\DetalleCarteraDto.cs" />
     <Compile Include="Cartera\FrmAgregarAbono.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,12 +216,14 @@
     <Compile Include="Clientes\FrmHistorialDeCompra.Designer.cs">
       <DependentUpon>FrmHistorialDeCompra.cs</DependentUpon>
     </Compile>
+    <Compile Include="Clientes\ClienteRepository.cs" />
     <Compile Include="Compras\FrmDevolucionesDeCompras.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Compras\FrmDevolucionesDeCompras.Designer.cs">
       <DependentUpon>FrmDevolucionesDeCompras.cs</DependentUpon>
     </Compile>
+    <Compile Include="Productos\ProductoRepository.cs" />
     <Compile Include="Reportes\FrmHistoricoCartera.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +276,7 @@
     <Compile Include="Caja\FrmEntradaefectivo.Designer.cs">
       <DependentUpon>FrmEntradaefectivo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ventas\Factura.cs" />
     <Compile Include="Ventas\FrmHistoricoVentas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,12 +312,6 @@
     </Compile>
     <Compile Include="FrmSistemaVentas.Designer.cs">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frmtikect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frmtikect.Designer.cs">
-      <DependentUpon>Frmtikect.cs</DependentUpon>
     </Compile>
     <Compile Include="Caja\FrmArqueo.cs">
       <SubType>Form</SubType>
@@ -429,9 +428,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSistemaVentas.resx">
       <DependentUpon>FrmSistemaVentas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frmtikect.resx">
-      <DependentUpon>Frmtikect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Caja\FrmArqueo.resx">
       <DependentUpon>FrmArqueo.cs</DependentUpon>

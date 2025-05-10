@@ -52,9 +52,7 @@ namespace Proyecto_Metodologia.Reportes
             string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             string query = @"SELECT 
                                 C.IdVenta, 
-                                P.Descripcion as 'Producto', 
                                 v.Cajero, 
-                                P.PrecioUnitario as 'Precio unitario', 
                                 V.PrecioTotal as 'precio total', 
                                 C.AbonoInicial as 'Abono Inicial', 
                                 v.Fecha, 
@@ -64,8 +62,6 @@ namespace Proyecto_Metodologia.Reportes
                                 C.EstadoCartera as 'Estado Cartera'
                                 FROM Cartera C
                                 JOIN TVentas V ON C.IdVenta = V.CodigoVenta
-                                JOIN DetallesVenta DV ON DV.IdVenta = V.CodigoVenta
-                                JOIN TProductos P  ON P.CodigoProducto = DV.IdProducto
                                 JOIN Clientes CL ON CL.IdCliente = V.Cliente 
                         WHERE 1 = 1";
 
@@ -110,9 +106,7 @@ namespace Proyecto_Metodologia.Reportes
             string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
             string query = @"SELECT 
                                 C.IdVenta, 
-                                P.Descripcion as 'Producto', 
                                 v.Cajero, 
-                                P.PrecioUnitario as 'Precio unitario', 
                                 V.PrecioTotal as 'precio total', 
                                 C.AbonoInicial as 'Abono Inicial', 
                                 v.Fecha, 
@@ -122,8 +116,6 @@ namespace Proyecto_Metodologia.Reportes
                                 C.EstadoCartera as 'Estado Cartera'
                                 FROM Cartera C
                                 JOIN TVentas V ON C.IdVenta = V.CodigoVenta
-                                JOIN DetallesVenta DV ON DV.IdVenta = V.CodigoVenta
-                                JOIN TProductos P  ON P.CodigoProducto = DV.IdProducto
                                 JOIN Clientes CL ON CL.IdCliente = V.Cliente
                      WHERE v.Fecha BETWEEN @desde AND @hasta";
 

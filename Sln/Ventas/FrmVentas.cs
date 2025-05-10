@@ -19,7 +19,6 @@ namespace Proyecto_Metodologia
 
     {
         private PrintDocument printDocument;
-        private DataSet aDatos;
         public static TextBox txtPublico;
         ClienteRepository _cliente = new ClienteRepository();
         Factura _factura = new Factura();
@@ -33,13 +32,13 @@ namespace Proyecto_Metodologia
             this.KeyDown += FrmVentas_KeyDown;
             this.KeyPreview = true;
             this.Shown += FrmVentas_Shown;
-            nupcantidad.KeyPress += nupcantidad_KeyPress; // Registro del evento KeyPress para nupcantidad
+            txtCantidad.KeyPress += nupcantidad_KeyPress; // Registro del evento KeyPress para nupcantidad
 
-            txtcodp.PreviewKeyDown += txtcodp_PreviewKeyDown;
+            txtcodProducto.PreviewKeyDown += txtcodp_PreviewKeyDown;
             printDocument = new PrintDocument();
             printDocument.PrintPage += (sender, e) =>
-            _factura.PrintDocument_PrintPageCustom(sender, e, txtCodVentas.Text, dgvVentas);
-            txtPublico = txtcodp;
+            _factura.PrintDocument_PrintPageCustom(sender, e, txtCodVentas.Text, txtTotalIVA.Text, txtTotalPagar.Text, new ClienteDto(), dgvVentas);
+            txtPublico = txtcodProducto;
             tipoVenta.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
         }
 
@@ -76,7 +75,7 @@ namespace Proyecto_Metodologia
                     break;
 
                 case Keys.F2:
-                    txtcodp.Enabled = false;
+                    txtcodProducto.Enabled = false;
                     txtEfectivo.Enabled = false;
                     txtCambio.Enabled = false;
                     // Activar selección si no hay fila seleccionada
@@ -109,13 +108,12 @@ namespace Proyecto_Metodologia
                     NavegacionXFlechas(e);
                     break;
 
-
                 default:
                     // Opcional: manejar otras teclas si es necesario
                     break;
             }
         }
-        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtEfectivo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
@@ -158,8 +156,7 @@ namespace Proyecto_Metodologia
         }
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Verificar si la tecla presionada es Enter
-            if (e.KeyChar == (char)Keys.Enter)  // 13 es el valor ASCII de la tecla Enter
+            if (e.KeyChar == (char)Keys.Enter)
             {
                 TransaccionVenta();
             }
@@ -183,7 +180,7 @@ namespace Proyecto_Metodologia
                 button3_Click_1(sender, e);
             }
             // Verificar si la unidad seleccionada es "Unidad" y evitar valores decimales
-            string unidad = ValorAtributo("Unidad"); // Obtener la unidad del producto
+            string unidad = _producto.ValorAtributo("Unidad"); // Obtener la unidad del producto
             if (unidad == "Unidad")
             {
                 // Si la tecla presionada no es un número y no es la tecla de retroceso
@@ -192,7 +189,7 @@ namespace Proyecto_Metodologia
                     e.Handled = true; // Evitar la entrada de caracteres no numéricos
                 }
                 // Si el texto ya contiene un punto decimal, evitar otro punto decimal
-                if (e.KeyChar == '.' && nupcantidad.Text.Contains("."))
+                if (e.KeyChar == '.' && txtCantidad.Text.Contains("."))
                 {
                     e.Handled = true; // Evitar múltiples puntos decimales
                 }
@@ -202,10 +199,7 @@ namespace Proyecto_Metodologia
         {
             SetFocusToTxtCodp();
         }
-        public DataSet Datos
-        {
-            get { return aDatos; }
-        }
+
         private void txtcodp_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -213,17 +207,18 @@ namespace Proyecto_Metodologia
             {
                 e.IsInputKey = true;
 
-                if (!string.IsNullOrWhiteSpace(txtcodp.Text))
-                    CargarDatosProducto(txtcodp.Text, GetUnidadmedida());
+                if (!string.IsNullOrWhiteSpace(txtcodProducto.Text))
+                    CargarDatosProducto(txtcodProducto.Text, GetUnidadmedida());
                 else
                     MessageBox.Show("Código de producto vacío. Escanee nuevamente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtcodp.Focus();
+                txtcodProducto.Focus();
             }
         }
         private ComboBox GetUnidadmedida()
         {
             return Unidadmedida;
         }
+
         private void CargarDatosProducto(string codigo, ComboBox unidadmedida)
         {
             string[] datos = _producto.obtenerDatos(codigo);
@@ -231,7 +226,7 @@ namespace Proyecto_Metodologia
             if (!string.IsNullOrWhiteSpace(datos[0]))
             {
                 // Asignar los datos a los controles del formulario
-                txtcodp.Text = datos[0];  // Código del producto
+                txtcodProducto.Text = datos[0];  // Código del producto
                 txtnombre.Text = datos[1];  // Descripción del producto
 
                 // Llenar el ComboBox solo con la unidad obtenida de la base de datos
@@ -247,16 +242,17 @@ namespace Proyecto_Metodologia
                 txtpreciou.Text = datos[6];  // Precio unitario
                 txtStock.Text = datos[8];  // Asignamos la cantidad al txtStock
                 Txtiva.Text = datos[7];
+                txtValorIva.Text = datos[9];
 
                 if (datos[8] == "0")
                 {
                     MessageBox.Show("No hay stock disponible para este producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtcodp.Focus();
+                    txtcodProducto.Focus();
                     return;
                 }
 
                 // Verificar si la unidad es "GRAMO" y ajustar el precio si es necesario
-                string unidad = ValorAtributo("Unidad");
+                string unidad = _producto.ValorAtributo("Unidad");
 
                 if (unidad == "GRAMO")
                 {
@@ -264,7 +260,7 @@ namespace Proyecto_Metodologia
                     txtpreciou.Text = (precioUnidad / 1000).ToString("F3");  // Convertir a gramos
                 }
 
-                nupcantidad.Focus();
+                txtCantidad.Focus();
             }
             else
             {
@@ -277,10 +273,10 @@ namespace Proyecto_Metodologia
             try
             {
                 double preciounidad = double.Parse(txtpreciou.Text);
-                double cantidad = Convert.ToDouble(nupcantidad.Text);  // Obtener la cantidad ingresada
+                double cantidad = Convert.ToDouble(txtCantidad.Text);  // Obtener la cantidad ingresada
                 double iva = double.Parse(Txtiva.Text) / 100;
 
-                string unidad = ValorAtributo("Unidad");
+                string unidad = _producto.ValorAtributo("Unidad");
 
                 // Si la unidad es "Kilo", convertir la cantidad a gramos
                 if (unidad == "Kilo")
@@ -291,7 +287,7 @@ namespace Proyecto_Metodologia
                 double total = cantidad * preciounidad;
                 txtTotalPagar.Text = total.ToString();
 
-                dgvVentas.Rows.Add(txtcodp.Text, txtnombre.Text, nupcantidad.Text.ToString(), total.ToString("0"), iva.ToString());
+                dgvVentas.Rows.Add(txtcodProducto.Text, txtnombre.Text, txtCantidad.Text.ToString(), txtpreciou.Text, total.ToString("0"), iva.ToString(), txtValorIva.Text.ToString());
 
                 calculartotal();
                 clear();
@@ -306,12 +302,12 @@ namespace Proyecto_Metodologia
 
 
             // Código que se ejecutará después de que se cierre frmAperturacaja
-            to.Text = "0";
-            txtigv.Text = "0";
-            txttotal.Text = "0";
+            txtSubtotal.Text = "0";
+            txtIVAproducto.Text = "0";
+            txtTotal.Text = "0";
 
             Conexion();
-            AutoCompletar(txtcodp);
+            AutoCompletar(txtcodProducto);
 
         }
         private void tipoVenta_SelectedIndexChanged(object sender, EventArgs e)
@@ -341,21 +337,21 @@ namespace Proyecto_Metodologia
             try
             {
                 CarteraRepository _cartera = new CarteraRepository();
+                var cliente = new ClienteDto()
+                {
+                    Documento = txtDocumentoCliente.Text,
+                    Nombre = txtNombreCliente.Text,
+                    Apellido = txtApellido.Text,
+                    Telefono = txtTelefono.Text,
+                    Correo = txtCorreo.Text
 
+
+                };
 
                 // validar que no sea un cliente generico para registrar el cliente
                 if (txtDocumentoCliente.Text != "2222222222" && !_cliente.ValidarCliente(txtDocumentoCliente.Text))
                 {
-                    _cliente.InsertarCliente(new ClienteDto()
-                    {
-                        Documento = txtDocumentoCliente.Text,
-                        Nombre = txtNombreCliente.Text,
-                        Apellido = txtApellido.Text,
-                        Telefono = txtTelefono.Text,
-                        Correo = txtCorreo.Text
-
-
-                    });
+                    _cliente.InsertarCliente(cliente);
                 }
                 //validar cliente para realizar venta a credito
                 if (txtDocumentoCliente.Text != "2222222222" && tipoVenta.SelectedItem.ToString() == "Credito")
@@ -387,7 +383,7 @@ namespace Proyecto_Metodologia
                     _ = InsertarVenta();
                 }
 
-                _factura.ImprimirFactura(printDocument);
+                _factura.ImprimirFactura(txtCodVentas.Text, txtTotalIVA.Text, txtTotalPagar.Text, cliente, dgvVentas);
                 limpiarventa();
                 dgvVentas.Rows.Clear();
                 autoincrementable();
@@ -403,18 +399,7 @@ namespace Proyecto_Metodologia
                 MessageBox.Show("Por favor, ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public DataSet EjecutarSelect(string Consulta)
-        {
-            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
-            {
-                conexion.Open();
-                SqlDataAdapter a = new SqlDataAdapter(Consulta, conexion);
-                aDatos = new DataSet();
-                a.Fill(aDatos);
-                conexion.Close();
-            }
-            return aDatos;
-        }
+
         public void AutoCompletar(TextBox cajaTexto)
         {
             try
@@ -456,65 +441,76 @@ namespace Proyecto_Metodologia
         }
         public void calculartotal()
         {
-            double cantidad = 0;
+            double precioUnitario = 0;
             double subtotal = 0;
-            double iva = 0;
+            double valorIVA = 0;
             double ventatotal = 0;
-            double tiva = 0;
+            double totalIVA = 0;
             int i = 0;
             while (i < dgvVentas.RowCount)
             {
-                cantidad = double.Parse(dgvVentas[3, i].Value.ToString());
-                iva = double.Parse(dgvVentas[4, i].Value.ToString());
-                subtotal += cantidad - cantidad * iva;
-                tiva = tiva + cantidad * iva;
+                precioUnitario = double.Parse(dgvVentas[3, i].Value.ToString());
+                valorIVA = double.Parse(dgvVentas[6, i].Value.ToString());
+                subtotal += precioUnitario - valorIVA;
+                totalIVA += valorIVA;
+                ventatotal += precioUnitario;
                 i++;
             }
 
-            ventatotal = subtotal + tiva;
-            //ventaglobal.Valorglobal = ventatotal;
-
-
-            to.Text = Math.Round(subtotal, 2).ToString();
-            txtigv.Text = Math.Round(tiva, 2).ToString();
-            txttotal.Text = Math.Round(ventatotal, 2).ToString();
+            txtSubtotal.Text = Math.Round(subtotal, 2).ToString();
+            txtIVAproducto.Text = Math.Round(valorIVA, 2).ToString();
+            txtTotal.Text = Math.Round(ventatotal, 2).ToString();
+            txtTotalIVA.Text = Math.Round(totalIVA, 2).ToString();
             if (dgvVentas.Rows.Count == 0)
             {
-                to.Text = "0.00";
-                txtigv.Text = "0.00";
-                txttotal.Text = "0.00";
+                txtSubtotal.Text = "0.00";
+                txtIVAproducto.Text = "0.00";
+                txtTotal.Text = "0.00";
+                txtTotalIVA.Text = "0.00";
             }
         }
-        public string ValorAtributo(string pNombreCampo)
-        {
-            if (Datos.Tables[0].Rows.Count > 0)
-            {
-                return Datos.Tables[0].Rows[0][pNombreCampo].ToString();
-            }
-            return "";
-        }
+
         public void clear()
         {
-            txtcodp.Clear();
+            txtcodProducto.Clear();
             txtnombre.Clear();
             txtpreciou.Clear();
             txtStock.Clear();
-            nupcantidad.Text = "1";
+            txtCantidad.Text = "1";
             SetFocusToTxtCodp();
         }
         public void limpiarventa()
         {
-            to.Clear();
-            txtigv.Clear();
-            txttotal.Clear();
+            txtSubtotal.Clear();
+            txtIVAproducto.Clear();
+            txtTotal.Clear();
             txtCodVentas.Clear();
             txtAbono.Clear();
+
+            txtcodProducto.Enabled = true;
+            txtCambio.Visible = false;
+            txtEfectivo.Visible = false;
+            txtTotalPagar.Visible = false;
+            lbTotalPagar.Visible = false;
+            lbEfectivo.Visible = false;
+            lbCambio.Visible = false;
+            lbCobrar.Visible = false;
+            txtAbono.Visible = false;
+            labelAbono.Visible = false;
+            txtcodProducto.Focus();
+
+            txtSubtotal.Text = "0";
+            txtIVAproducto.Text = "0";
+            txtTotal.Text = "0";
+            txtCambio.Text = "0";
+            txtEfectivo.Text = "0";
+            txtTotalPagar.Text = "0";
         }
         public string ultimoValorAtributo()
         {
             string Consulta = "SELECT MAX(CodigoVenta) AS ULTIMO FROM TVentas";
-            EjecutarSelect(Consulta);
-            string A = ValorAtributo("ULTIMO");
+            _producto.EjecutarSelect(Consulta);
+            string A = _producto.ValorAtributo("ULTIMO");
             return string.IsNullOrEmpty(A) ? "00000" : A;
         }
         public void autoincrementable()
@@ -529,10 +525,10 @@ namespace Proyecto_Metodologia
         }
         private void SetFocusToTxtCodp()
         {
-            if (txtcodp.Enabled && txtcodp.Visible)
+            if (txtcodProducto.Enabled && txtcodProducto.Visible)
             {
-                txtcodp.Select();
-                txtcodp.Focus();
+                txtcodProducto.Select();
+                txtcodProducto.Focus();
             }
         }
         private string InsertarVenta()
@@ -554,7 +550,7 @@ namespace Proyecto_Metodologia
 
                     {
                         cmdVenta.Parameters.AddWithValue("@CodigoVenta", codigoVenta);
-                        cmdVenta.Parameters.AddWithValue("@Total", txttotal.Text);
+                        cmdVenta.Parameters.AddWithValue("@Total", txtTotal.Text);
                         cmdVenta.Parameters.AddWithValue("@FechaVenta", fechaVenta);
                         cmdVenta.Parameters.AddWithValue("@Cajero", cajero);
                         cmdVenta.Parameters.AddWithValue("@Cliente", txtDocumentoCliente.Text);
@@ -592,31 +588,6 @@ namespace Proyecto_Metodologia
                             detallesVenta.Add($"{cantidad} x {nombre} - {precioUnidad:C}");
                         }
                     }
-
-                    // Generar el ticket PDF
-                    // Crear una nueva instancia de Form1
-
-                    txtcodp.Enabled = true;
-                    txtCambio.Visible = false;
-                    txtEfectivo.Visible = false;
-                    txtTotalPagar.Visible = false;
-                    lbTotalPagar.Visible = false;
-                    lbEfectivo.Visible = false;
-                    lbCambio.Visible = false;
-                    lbCobrar.Visible = false;
-                    txtAbono.Visible = false;
-                    labelAbono.Visible = false;
-                    txtcodp.Focus();
-
-                    // Imprimir la frase "Tienda Hector" en la impresora POS-80
-
-                    to.Text = "0";
-                    txtigv.Text = "0";
-                    txttotal.Text = "0";
-                    txtCambio.Text = "0";
-                    txtEfectivo.Text = "0";
-                    txtTotalPagar.Text = "0";
-
                     return codigoVenta;
                 }
                 catch (Exception ex)
@@ -648,7 +619,7 @@ namespace Proyecto_Metodologia
             }
         }
 
-        private void NavegacionXFlechas(KeyEventArgs e) 
+        private void NavegacionXFlechas(KeyEventArgs e)
         {
             // Permitir navegación con flechas
             int rowIndex = dgvVentas.CurrentRow?.Index ?? -1;
@@ -670,7 +641,7 @@ namespace Proyecto_Metodologia
             }
         }
 
-        private void EliminarFila_Enter(KeyEventArgs e) 
+        private void EliminarFila_Enter(KeyEventArgs e)
         {
             // Eliminar la fila seleccionada con Enter
             if (dgvVentas.SelectedRows.Count > 0)
@@ -690,31 +661,31 @@ namespace Proyecto_Metodologia
                 double iva = Convert.ToDouble(dgvVentas.Rows[rowIndex].Cells["Iva"].Value);
                 dgvVentas.Rows.RemoveAt(rowIndex);
 
-                total = double.Parse(txttotal.Text);
+                total = double.Parse(txtTotal.Text);
 
                 descuento = total - valor;
                 descuentoiva = valor * iva;
-                totaliva = double.Parse(txtigv.Text);
+                totaliva = double.Parse(txtIVAproducto.Text);
                 nuevoiva = totaliva - descuentoiva;
                 dessubtotal = valor - descuentoiva;
-                totalsubtotal = double.Parse(to.Text);
+                totalsubtotal = double.Parse(txtSubtotal.Text);
                 nuevosubtotal = totalsubtotal - dessubtotal;
 
-                txttotal.Text = Math.Round(descuento, 2).ToString();
-                txtTotalPagar.Text = txttotal.Text;
-                txtigv.Text = Math.Round(nuevoiva, 2).ToString();
-                to.Text = Math.Round(nuevosubtotal, 2).ToString();
-                txtcodp.Enabled = true;
-                txtcodp.Focus();
+                txtTotal.Text = Math.Round(descuento, 2).ToString();
+                txtTotalPagar.Text = double.Parse(txtTotal.Text).ToString("c3");
+                txtIVAproducto.Text = Math.Round(nuevoiva, 2).ToString();
+                txtSubtotal.Text = Math.Round(nuevosubtotal, 2).ToString();
+                txtcodProducto.Enabled = true;
+                txtcodProducto.Focus();
             }
             e.Handled = true;
         }
 
-        private void CerrarVenta() 
+        private void CerrarVenta()
         {
-            if (txttotal.Text != "0")
+            if (txtTotal.Text != "0")
             {
-                txtcodp.Enabled = false;
+                txtcodProducto.Enabled = false;
                 if (tipoVenta.SelectedItem.ToString() == "Credito")
                 {
                     txtAbono.Visible = true;
@@ -733,7 +704,7 @@ namespace Proyecto_Metodologia
                 txtTotalPagar.Visible = true;
                 lbTotalPagar.Visible = true;
                 lbCobrar.Visible = true;
-                txtTotalPagar.Text = txttotal.Text;
+                txtTotalPagar.Text = txtTotal.Text;
 
                 txtEfectivo.Focus();
             }

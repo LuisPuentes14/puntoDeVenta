@@ -32,25 +32,24 @@
             this.USUSARIO = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelcontenido = new System.Windows.Forms.Panel();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnBuscarArqueo = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTotalVentas = new System.Windows.Forms.TextBox();
+            this.txtEntrada = new System.Windows.Forms.TextBox();
+            this.txtSalida = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.lbDiferencia = new System.Windows.Forms.Label();
             this.lbTituloDiferencia = new System.Windows.Forms.Label();
-            this.btnConteo = new System.Windows.Forms.Button();
             this.txtconteo = new System.Windows.Forms.TextBox();
             this.lbTituloConteo = new System.Windows.Forms.Label();
             this.lbVentas = new System.Windows.Forms.Label();
             this.iconButton3 = new FontAwesome.Sharp.IconButton();
             this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.txtabonos = new System.Windows.Forms.TextBox();
+            this.txttotalventaEfectivo = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panelcontenido.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +62,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(528, 66);
+            this.panel1.Size = new System.Drawing.Size(705, 66);
             this.panel1.TabIndex = 0;
             // 
             // USUSARIO
@@ -90,20 +89,19 @@
             // panelcontenido
             // 
             this.panelcontenido.BackColor = System.Drawing.Color.White;
-            this.panelcontenido.Controls.Add(this.textBox4);
-            this.panelcontenido.Controls.Add(this.label4);
-            this.panelcontenido.Controls.Add(this.btnBuscarArqueo);
+            this.panelcontenido.Controls.Add(this.label6);
+            this.panelcontenido.Controls.Add(this.label5);
+            this.panelcontenido.Controls.Add(this.txttotalventaEfectivo);
+            this.panelcontenido.Controls.Add(this.txtabonos);
             this.panelcontenido.Controls.Add(this.button1);
-            this.panelcontenido.Controls.Add(this.textBox3);
-            this.panelcontenido.Controls.Add(this.textBox2);
-            this.panelcontenido.Controls.Add(this.textBox1);
+            this.panelcontenido.Controls.Add(this.txtTotalVentas);
+            this.panelcontenido.Controls.Add(this.txtEntrada);
+            this.panelcontenido.Controls.Add(this.txtSalida);
             this.panelcontenido.Controls.Add(this.label3);
             this.panelcontenido.Controls.Add(this.label2);
             this.panelcontenido.Controls.Add(this.dateTimePicker1);
-            this.panelcontenido.Controls.Add(this.comboBox1);
             this.panelcontenido.Controls.Add(this.lbDiferencia);
             this.panelcontenido.Controls.Add(this.lbTituloDiferencia);
-            this.panelcontenido.Controls.Add(this.btnConteo);
             this.panelcontenido.Controls.Add(this.txtconteo);
             this.panelcontenido.Controls.Add(this.lbTituloConteo);
             this.panelcontenido.Controls.Add(this.lbVentas);
@@ -111,42 +109,13 @@
             this.panelcontenido.ForeColor = System.Drawing.Color.Black;
             this.panelcontenido.Location = new System.Drawing.Point(0, 66);
             this.panelcontenido.Name = "panelcontenido";
-            this.panelcontenido.Size = new System.Drawing.Size(528, 428);
+            this.panelcontenido.Size = new System.Drawing.Size(705, 498);
             this.panelcontenido.TabIndex = 2;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(260, 183);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(168, 30);
-            this.textBox4.TabIndex = 26;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(78, 187);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(171, 26);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "Apertura de Caja";
-            // 
-            // btnBuscarArqueo
-            // 
-            this.btnBuscarArqueo.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscarArqueo.Location = new System.Drawing.Point(221, 340);
-            this.btnBuscarArqueo.Name = "btnBuscarArqueo";
-            this.btnBuscarArqueo.Size = new System.Drawing.Size(76, 26);
-            this.btnBuscarArqueo.TabIndex = 24;
-            this.btnBuscarArqueo.Text = "Buscar";
-            this.btnBuscarArqueo.UseVisualStyleBackColor = true;
-            this.btnBuscarArqueo.Click += new System.EventHandler(this.btnBuscarArqueo_Click_1);
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(130, 340);
+            this.button1.Location = new System.Drawing.Point(260, 418);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(76, 26);
             this.button1.TabIndex = 23;
@@ -154,35 +123,35 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // textBox3
+            // txtTotalVentas
             // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(260, 147);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(168, 30);
-            this.textBox3.TabIndex = 22;
+            this.txtTotalVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalVentas.Location = new System.Drawing.Point(260, 260);
+            this.txtTotalVentas.Name = "txtTotalVentas";
+            this.txtTotalVentas.Size = new System.Drawing.Size(168, 30);
+            this.txtTotalVentas.TabIndex = 22;
             // 
-            // textBox2
+            // txtEntrada
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(260, 111);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(168, 30);
-            this.textBox2.TabIndex = 21;
+            this.txtEntrada.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEntrada.Location = new System.Drawing.Point(260, 116);
+            this.txtEntrada.Name = "txtEntrada";
+            this.txtEntrada.Size = new System.Drawing.Size(168, 30);
+            this.txtEntrada.TabIndex = 21;
             // 
-            // textBox1
+            // txtSalida
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(260, 75);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 30);
-            this.textBox1.TabIndex = 20;
+            this.txtSalida.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSalida.Location = new System.Drawing.Point(260, 71);
+            this.txtSalida.Name = "txtSalida";
+            this.txtSalida.Size = new System.Drawing.Size(168, 30);
+            this.txtSalida.TabIndex = 20;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(169, 116);
+            this.label3.Location = new System.Drawing.Point(161, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 26);
             this.label3.TabIndex = 18;
@@ -192,7 +161,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(182, 75);
+            this.label2.Location = new System.Drawing.Point(177, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 26);
             this.label2.TabIndex = 17;
@@ -200,24 +169,17 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(304, 21);
+            this.dateTimePicker1.Location = new System.Drawing.Point(46, 15);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 3;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(164, 20);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 16;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // lbDiferencia
             // 
             this.lbDiferencia.AutoSize = true;
             this.lbDiferencia.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDiferencia.Location = new System.Drawing.Point(264, 265);
+            this.lbDiferencia.Location = new System.Drawing.Point(278, 374);
             this.lbDiferencia.Name = "lbDiferencia";
             this.lbDiferencia.Size = new System.Drawing.Size(53, 26);
             this.lbDiferencia.TabIndex = 13;
@@ -227,36 +189,26 @@
             // 
             this.lbTituloDiferencia.AutoSize = true;
             this.lbTituloDiferencia.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTituloDiferencia.Location = new System.Drawing.Point(139, 265);
+            this.lbTituloDiferencia.Location = new System.Drawing.Point(136, 374);
             this.lbTituloDiferencia.Name = "lbTituloDiferencia";
             this.lbTituloDiferencia.Size = new System.Drawing.Size(110, 26);
             this.lbTituloDiferencia.TabIndex = 12;
             this.lbTituloDiferencia.Text = "Diferencia";
             // 
-            // btnConteo
-            // 
-            this.btnConteo.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConteo.Location = new System.Drawing.Point(27, 340);
-            this.btnConteo.Name = "btnConteo";
-            this.btnConteo.Size = new System.Drawing.Size(76, 26);
-            this.btnConteo.TabIndex = 11;
-            this.btnConteo.Text = "Calcular";
-            this.btnConteo.UseVisualStyleBackColor = true;
-            this.btnConteo.Click += new System.EventHandler(this.btnConteo_Click);
-            // 
             // txtconteo
             // 
             this.txtconteo.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtconteo.Location = new System.Drawing.Point(260, 219);
+            this.txtconteo.Location = new System.Drawing.Point(260, 308);
             this.txtconteo.Name = "txtconteo";
             this.txtconteo.Size = new System.Drawing.Size(168, 33);
             this.txtconteo.TabIndex = 10;
+            this.txtconteo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtconteo_KeyDown);
             // 
             // lbTituloConteo
             // 
             this.lbTituloConteo.AutoSize = true;
             this.lbTituloConteo.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTituloConteo.Location = new System.Drawing.Point(115, 226);
+            this.lbTituloConteo.Location = new System.Drawing.Point(112, 311);
             this.lbTituloConteo.Name = "lbTituloConteo";
             this.lbTituloConteo.Size = new System.Drawing.Size(134, 26);
             this.lbTituloConteo.TabIndex = 9;
@@ -266,7 +218,7 @@
             // 
             this.lbVentas.AutoSize = true;
             this.lbVentas.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbVentas.Location = new System.Drawing.Point(118, 151);
+            this.lbVentas.Location = new System.Drawing.Point(115, 260);
             this.lbVentas.Name = "lbVentas";
             this.lbVentas.Size = new System.Drawing.Size(131, 26);
             this.lbVentas.TabIndex = 8;
@@ -300,11 +252,47 @@
             this.iconButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconButton2.UseVisualStyleBackColor = true;
             // 
+            // txtabonos
+            // 
+            this.txtabonos.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtabonos.Location = new System.Drawing.Point(306, 206);
+            this.txtabonos.Name = "txtabonos";
+            this.txtabonos.Size = new System.Drawing.Size(168, 33);
+            this.txtabonos.TabIndex = 25;
+            // 
+            // txttotalventaEfectivo
+            // 
+            this.txttotalventaEfectivo.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txttotalventaEfectivo.Location = new System.Drawing.Point(304, 163);
+            this.txttotalventaEfectivo.Name = "txttotalventaEfectivo";
+            this.txttotalventaEfectivo.Size = new System.Drawing.Size(168, 33);
+            this.txttotalventaEfectivo.TabIndex = 26;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(146, 209);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(138, 26);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Total Abonos";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(63, 163);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(221, 26);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "Total ventas efectivos";
+            // 
             // FrmArqueo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 494);
+            this.ClientSize = new System.Drawing.Size(705, 564);
             this.Controls.Add(this.panelcontenido);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
@@ -326,23 +314,22 @@
         private System.Windows.Forms.Label USUSARIO;
         private System.Windows.Forms.Panel panelcontenido;
         private System.Windows.Forms.Label lbTituloDiferencia;
-        private System.Windows.Forms.Button btnConteo;
         private System.Windows.Forms.TextBox txtconteo;
         private System.Windows.Forms.Label lbTituloConteo;
         private System.Windows.Forms.Label lbVentas;
         private System.Windows.Forms.Label lbDiferencia;
         private FontAwesome.Sharp.IconButton iconButton3;
         private FontAwesome.Sharp.IconButton iconButton2;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTotalVentas;
+        private System.Windows.Forms.TextBox txtEntrada;
+        private System.Windows.Forms.TextBox txtSalida;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnBuscarArqueo;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txttotalventaEfectivo;
+        private System.Windows.Forms.TextBox txtabonos;
     }
 }

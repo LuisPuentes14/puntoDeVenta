@@ -3,157 +3,162 @@ using System.Drawing.Printing;
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using Proyecto_Metodologia.Comercio;
+using System.Linq;
+using Proyecto_Metodologia.Dtos;
+using System.Globalization;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Font = System.Drawing.Font;
 
 namespace Proyecto_Metodologia.Ventas
 {
     public class Factura
     {
-        public void PrintDocument_PrintPageCustom(object sender, PrintPageEventArgs e, string codVenta, DataGridView dgvVentas)
-        {
-            // Posición inicial para imprimir
-            int yPosition = 20; // Se inicia con un margen superior
-            int xPosition = 10; // Margen izquierdo
+        private ComercioRepository _comercio = new ComercioRepository();
 
-            // Fuente y pincel para el texto con tamaños reducidos
-            Font font = new Font("Arial", 8); // Tamaño más pequeño para los datos
-            Font fontBold = new Font("Arial", 10, FontStyle.Bold); // Tamaño reducido para títulos
+        public void PrintDocument_PrintPageCustom(object sender, PrintPageEventArgs e, string codVenta, string totalIva, string TotalVenta, ClienteDto cliente, DataGridView dgvVentas)
+        {
+            // Configuración inicial
+            int marginLeft = 7;
+            int marginTop = 10;
+            int spacing = 5;
+
+            // Tamaños de columna ajustados (deben sumar aprox 300 para un papel tamaño ticket)
+            const int codeWidth = 40;
+            const int nameWidth = 100;
+            const int qtyWidth = 30;
+            const int priceUnitWidth = 50;
+            const int totalWidth = 50;
+
+            // Fuentes
+            Font font = new Font("Arial", 7);
+            Font fontBold = new Font("Arial", 9, FontStyle.Bold);
             Brush brush = Brushes.Black;
 
-            // Definir altura de línea y ancho de columna
-            int lineHeight = (int)font.GetHeight(e.Graphics) + 2; // Ajuste de espaciado
-            int codeWidth = 40;   // Ancho de la columna Código
-            int nameWidth = 120;  // Ancho de la columna Nombre del Artículo
-            int qtyWidth = 40;    // Ancho de la columna Cantidad
-                                  //   int priceWidth = 60;  // Ancho de la columna Valor
-            int spacing = 5;      // Espaciado entre columnas
+            int lineHeight = (int)font.GetHeight(e.Graphics) + 2;
+            int yPosition = marginTop;
 
-            // Obtener el número de factura desde txtCodVentas
+            // Datos generales
             string numeroFactura = string.IsNullOrEmpty(codVenta) ? "N/A" : codVenta;
 
-            // ENCABEZADO DEL TICKET
-            e.Graphics.DrawString("SUPERMERCADO HÉCTOR", fontBold, brush, xPosition, yPosition);
+            // Obtener ancho de página imprimible
+            float pageWidth = e.PageBounds.Width;
+
+            var ArrayDatos = _comercio.obtenerDatosComercio();
+
+            foreach (var (linea, index) in ArrayDatos.Select((linea, index) => (linea, index)))
+            {
+                Font fuenteActual = index == 0 ? fontBold : font;
+                SizeF textoSize = e.Graphics.MeasureString(linea, fuenteActual);
+                float xCentered = (pageWidth - textoSize.Width) / 2;
+                e.Graphics.DrawString(linea, fuenteActual, brush, xCentered, yPosition);
+                yPosition += lineHeight;
+            }
+            yPosition += lineHeight; // espacio extra antes del separador
+
+            e.Graphics.DrawString($"Doc cliente: {cliente.Documento}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Nombre: {cliente.Nombre} {cliente.Apellido}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Correo:  {cliente.Correo}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Telefono: {cliente.Telefono}", font, brush, marginLeft, yPosition); yPosition += lineHeight * 2;
+
+            // Separador
+            e.Graphics.DrawString(new string('-', 80), font, brush, marginLeft, yPosition); yPosition += lineHeight;
+
+            // Columnas
+            int currentX = marginLeft;
+            e.Graphics.DrawString("Cod", fontBold, brush, currentX, yPosition); currentX += codeWidth + spacing;
+            e.Graphics.DrawString("Artículo", fontBold, brush, currentX, yPosition); currentX += nameWidth + spacing;
+            e.Graphics.DrawString("Cant", fontBold, brush, currentX, yPosition); currentX += qtyWidth + spacing;
+            e.Graphics.DrawString("P.Unit", fontBold, brush, currentX, yPosition); currentX += priceUnitWidth + spacing;
+            e.Graphics.DrawString("Total", fontBold, brush, currentX, yPosition);
             yPosition += lineHeight;
 
-            e.Graphics.DrawString("NIT: 12345678-9", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
+            // Separador
+            e.Graphics.DrawString(new string('-', 80), font, brush, marginLeft, yPosition); yPosition += lineHeight;
 
-            e.Graphics.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            e.Graphics.DrawString($"Factura No: {numeroFactura}", font, brush, xPosition, yPosition);
-            yPosition += lineHeight * 2; // Espaciado extra antes de los productos
-
-            // LÍNEA SEPARADORA
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // ENCABEZADO DE COLUMNAS
-            int currentX = xPosition;
-            e.Graphics.DrawString("Cod", fontBold, brush, currentX, yPosition);
-            currentX += codeWidth + spacing;
-
-            e.Graphics.DrawString("Artículo", fontBold, brush, currentX, yPosition);
-            currentX += nameWidth + spacing;
-
-            e.Graphics.DrawString("Cant", fontBold, brush, currentX, yPosition);
-            currentX += qtyWidth + spacing;
-
-            e.Graphics.DrawString("Precio", fontBold, brush, currentX, yPosition);
-
-            yPosition += lineHeight;
-
-            // LÍNEA SEPARADORA
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
-            yPosition += lineHeight;
-
-            // IMPRESIÓN DE DATOS
+            // Filas del DataGridView
             foreach (DataGridViewRow row in dgvVentas.Rows)
             {
-                if (row.IsNewRow) continue; // Ignorar la fila vacía
+                if (row.IsNewRow) continue;
 
-                currentX = xPosition; // Reiniciar posición X por cada fila
-
-                string codigo = row.Cells[0].Value?.ToString() ?? "";
+                string codigo = double.Parse(row.Cells[0].Value?.ToString() ?? "").ToString("N0", new CultureInfo("es-CO"));
                 string articulo = row.Cells[1].Value?.ToString() ?? "";
                 string cantidad = row.Cells[2].Value?.ToString() ?? "";
-                string valor = row.Cells[3].Value?.ToString() ?? "";
+                string precioUnit = double.Parse(row.Cells[3].Value?.ToString() ?? "").ToString("N0", new CultureInfo("es-CO"));
+                string total = double.Parse(row.Cells[4].Value?.ToString() ?? "").ToString("N0", new CultureInfo("es-CO"));
 
-                // Imprimir cada celda en su respectiva columna
+                // Medir cuántas líneas ocupa el nombre del artículo
+                SizeF sizeArticulo = e.Graphics.MeasureString(articulo, font, nameWidth);
+                int lineasArticulo = (int)Math.Ceiling(sizeArticulo.Height / lineHeight);
+                int alturaFila = lineHeight * Math.Max(1, lineasArticulo);
+
+                currentX = marginLeft;
                 e.Graphics.DrawString(codigo, font, brush, currentX, yPosition);
                 currentX += codeWidth + spacing;
 
-                e.Graphics.DrawString(articulo, font, brush, currentX, yPosition);
+                RectangleF rectArticulo = new RectangleF(currentX, yPosition, nameWidth, alturaFila);
+                StringFormat format = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near };
+                e.Graphics.DrawString(articulo, font, brush, rectArticulo, format);
                 currentX += nameWidth + spacing;
 
                 e.Graphics.DrawString(cantidad, font, brush, currentX, yPosition);
                 currentX += qtyWidth + spacing;
 
-                e.Graphics.DrawString(valor, font, brush, currentX, yPosition);
+                e.Graphics.DrawString(precioUnit, font, brush, currentX, yPosition);
+                currentX += priceUnitWidth + spacing;
 
-                yPosition += lineHeight; // Mover a la siguiente línea
+                e.Graphics.DrawString(total, font, brush, currentX, yPosition);
+
+                yPosition += alturaFila;
             }
 
-            // LÍNEA SEPARADORA FINAL
-            yPosition += lineHeight;
-            e.Graphics.DrawString("-----------------------------------------------", font, brush, xPosition, yPosition);
+            // Separador final
             yPosition += lineHeight;
 
-            // MENSAJE DE AGRADECIMIENTO
-            e.Graphics.DrawString("¡Gracias por su compra!", fontBold, brush, xPosition, yPosition);
-            yPosition += lineHeight * 2; // Espaciado extra
-
-            // MENSAJE DE DESARROLLADOR
-            e.Graphics.DrawString("Software desarrollado por SERVISISTEMAS", font, brush, xPosition, yPosition);
+            // IVA alineado a la derecha
+            string textoIva = $"IVA: {double.Parse(totalIva).ToString("N0", new CultureInfo("es-CO"))}";
+            SizeF sizeIva = e.Graphics.MeasureString(textoIva, font);
+            float xIva = pageWidth - sizeIva.Width - marginLeft;
+            e.Graphics.DrawString(textoIva, font, brush, xIva, yPosition);
             yPosition += lineHeight;
 
-            // Indicar que no hay más páginas para imprimir
+            // TOTAL alineado a la derecha con fuente bold
+            string textoTotal = $"TOTAL: {double.Parse(TotalVenta).ToString("N0", new CultureInfo("es-CO"))}";
+            SizeF sizeTotal = e.Graphics.MeasureString(textoTotal, fontBold);
+            float xTotal = pageWidth - sizeTotal.Width - marginLeft;
+            e.Graphics.DrawString(textoTotal, fontBold, brush, xTotal, yPosition);
+            yPosition += lineHeight;
+
+            e.Graphics.DrawString(new string('-', 80), font, brush, marginLeft, yPosition); yPosition += lineHeight;
+
+            // Mensajes finales
+            e.Graphics.DrawString("¡Gracias por su compra!", fontBold, brush, marginLeft, yPosition); yPosition += lineHeight * 2;
+            e.Graphics.DrawString("Software desarrollado por SERVISISTEMAS", font, brush, marginLeft, yPosition);
+
             e.HasMorePages = false;
         }
 
-
-        public void ImprimirFactura(PrintDocument printDocument)
+        public void ImprimirFactura(string codVenta, string totalIva, string totalPagar, ClienteDto cliente, DataGridView dgvVentas)
         {
             DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
-            // Verificar si el usuario presionó 'OK' (Enter) o 'Cancel' (Escape)
             if (result == DialogResult.OK)
             {
-                // Aquí agregas el código para realizar la acción de impresión
-
-                // Crear una nueva instancia de PrintDocument
                 PrintDocument printDoc = new PrintDocument();
+                printDoc.PrinterSettings.PrinterName = "POS-80";
 
-                // Asegurarse de que la impresora se ha configurado correctamente con el nombre correcto
-                printDoc.PrinterSettings.PrinterName = "POS-80"; // Usar el nombre exacto de la impresora
-
-                // Verificar si la impresora está disponible
                 if (string.IsNullOrEmpty(printDoc.PrinterSettings.PrinterName) || !printDoc.PrinterSettings.IsValid)
                 {
                     MessageBox.Show("No se puede encontrar la impresora POS-80.");
                     return;
                 }
 
-                // Establecer el contenido a imprimir, en este caso, el texto del TextBox
-                printDoc.PrintPage += (sender1, args) =>
+                // Asociar el método de impresión correctamente
+                printDoc.PrintPage += (sender, e) =>
                 {
-                    // Obtener el texto del TextBox
-                    //string textoAImprimir = "hola";
-                    printDocument.Print();
-
-
-                    // Verificar si el texto es nulo o vacío antes de intentar imprimir
-                    // if (string.IsNullOrEmpty(textoAImprimir))
-
-
-                    // Especificamos la fuente y el color
-                    Font font = new Font("Arial", 12);
-                    Brush brush = Brushes.Black;
-
-                    // Dibujar el texto en la página de impresión
-                    // args.Graphics.DrawString(textoAImprimir, font, brush, 100, 100);  // Ajusta las coordenadas según sea necesario
+                    PrintDocument_PrintPageCustom(sender, e, codVenta, totalIva, totalPagar, cliente, dgvVentas);
                 };
 
-                // Imprimir el documento
                 try
                 {
                     printDoc.Print();
@@ -162,11 +167,6 @@ namespace Proyecto_Metodologia.Ventas
                 {
                     MessageBox.Show($"Ocurrió un error al imprimir: {ex.Message}");
                 }
-            }
-            else if (result == DialogResult.Cancel)
-            {
-                // Si se presionó Escape, no se realiza ninguna acción
-                //MessageBox.Show("La impresión ha sido cancelada.");
             }
         }
     }

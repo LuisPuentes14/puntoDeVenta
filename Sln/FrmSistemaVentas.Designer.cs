@@ -42,6 +42,7 @@
             this.mnuAlmacen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsCategorias = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPresentaciones = new System.Windows.Forms.ToolStripMenuItem();
+            this.agregarCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.devoluciónDeCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,6 @@
             this.tsCerrarSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.agregarCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -227,6 +227,13 @@
             this.tsPresentaciones.Text = "Centro de Stock";
             this.tsPresentaciones.Click += new System.EventHandler(this.tsPresentaciones_Click);
             // 
+            // agregarCompraToolStripMenuItem
+            // 
+            this.agregarCompraToolStripMenuItem.Name = "agregarCompraToolStripMenuItem";
+            this.agregarCompraToolStripMenuItem.Size = new System.Drawing.Size(187, 24);
+            this.agregarCompraToolStripMenuItem.Text = "Agregar Compra";
+            this.agregarCompraToolStripMenuItem.Click += new System.EventHandler(this.agregarCompraToolStripMenuItem_Click);
+            // 
             // comprasToolStripMenuItem
             // 
             this.comprasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -380,7 +387,7 @@
             // 
             this.cierreDeCajaToolStripMenuItem.Name = "cierreDeCajaToolStripMenuItem";
             this.cierreDeCajaToolStripMenuItem.Size = new System.Drawing.Size(196, 24);
-            this.cierreDeCajaToolStripMenuItem.Text = "Cierre de Caja";
+            this.cierreDeCajaToolStripMenuItem.Text = "Arqueo de Caja";
             this.cierreDeCajaToolStripMenuItem.Click += new System.EventHandler(this.cierreDeCajaToolStripMenuItem_Click);
             // 
             // mnuHerramientas
@@ -436,13 +443,6 @@
             this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
-            // 
-            // agregarCompraToolStripMenuItem
-            // 
-            this.agregarCompraToolStripMenuItem.Name = "agregarCompraToolStripMenuItem";
-            this.agregarCompraToolStripMenuItem.Size = new System.Drawing.Size(187, 24);
-            this.agregarCompraToolStripMenuItem.Text = "Agregar Compra";
-            this.agregarCompraToolStripMenuItem.Click += new System.EventHandler(this.agregarCompraToolStripMenuItem_Click);
             // 
             // FrmSistemaVentas
             // 

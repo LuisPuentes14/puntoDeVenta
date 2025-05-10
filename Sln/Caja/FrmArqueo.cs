@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Data;
 
 namespace Proyecto_Metodologia
 {
@@ -14,234 +15,78 @@ namespace Proyecto_Metodologia
         {
           //  MessageBox.Show("FrmArqueo se ha abierto");
             InitializeComponent();
-            CargarUsuarios(); // Llenar el ComboBox al cargar el formulario
-        }
-
-        private void btnBuscarArqueo_Click_1(object sender, EventArgs e)
-        
-        {
-            //MessageBox.Show("Seleccione un usuario.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            if (comboBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccione un usuario.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string usuario = comboBox1.SelectedItem.ToString();
-            DateTime fecha = dateTimePicker1.Value.Date;
-
-            BuscarArqueo(usuario, fecha);
-        }
-
-        private void BuscarArqueo(string usuario, DateTime fecha)
-        {
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = @"
-                SELECT TotalSalida, TotalEntrada, TotalVenta, conteo, fecha 
-                FROM Arqueo 
-                WHERE usuario = @Usuario AND CONVERT(DATE, fecha) = @Fecha";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@Usuario", usuario);
-                        cmd.Parameters.AddWithValue("@Fecha", fecha);
-
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    textBox1.Text = reader["TotalSalida"].ToString();
-                                    textBox2.Text = reader["TotalEntrada"].ToString();
-                                    textBox3.Text = reader["TotalVenta"].ToString();
-                                    txtconteo.Text = reader["conteo"].ToString();
-                                    dateTimePicker1.Value = Convert.ToDateTime(reader["fecha"]);
-                                }
-
-                                MessageBox.Show("Arqueo encontrado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show("No se encontraron datos para los criterios seleccionados.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                LimpiarCampos();
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al buscar el arqueo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            ObtenerTotalesCaja(CONSTANS.USER, DateTime.Now); // Calcular totales al iniciar
         }
 
         private void LimpiarCampos()
         {
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
+            txtSalida.Clear();
+            txtEntrada.Clear();
+            txtTotalVentas.Clear();
             txtconteo.Clear();
             lbDiferencia.Text = "0.00";
+            txtabonos.Clear();
+            txttotalventaEfectivo.Clear();
         }
 
-
-        private void CargarUsuarios()
+        public void ObtenerTotalesCaja(string cajero, DateTime fecha)
         {
-            comboBox1.Items.Clear(); // Evitar duplicados en recarga
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
+;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("sp_totales_caja", conn))
             {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT usuario FROM TUsuarios";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox1.Items.Add(reader["usuario"].ToString());
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al cargar usuarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                // Parámetros de entrada
+                cmd.Parameters.AddWithValue("@in_cajero", cajero);
+                cmd.Parameters.AddWithValue("@in_date", fecha.Date);
+
+                // Parámetros de salida
+                SqlParameter outEntrada = new SqlParameter("@out_entrada", SqlDbType.Float) { Direction = ParameterDirection.Output };
+                SqlParameter outSalida = new SqlParameter("@out_salida", SqlDbType.Float) { Direction = ParameterDirection.Output };
+                SqlParameter outVentas = new SqlParameter("@out_totalVentasEfectivo", SqlDbType.Float) { Direction = ParameterDirection.Output };
+                SqlParameter outAbonos = new SqlParameter("@out_totalAbonos", SqlDbType.Float) { Direction = ParameterDirection.Output };
+                SqlParameter outTotal = new SqlParameter("@out_total", SqlDbType.Float) { Direction = ParameterDirection.Output };
+
+                cmd.Parameters.AddRange(new[] { outEntrada, outSalida, outVentas, outAbonos, outTotal });
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+                // Obtener valores
+                txtEntrada.Text = ((double)(outEntrada.Value ?? 0)).ToString("C2");
+                txtSalida.Text = ((double)(outSalida.Value ?? 0)).ToString("C2");
+                txttotalventaEfectivo.Text = ((double)(outVentas.Value ?? 0)).ToString("C2");
+                txtabonos.Text = ((double)(outAbonos.Value ?? 0)).ToString("C2");
+                txtTotalVentas.Text = ((double)(outTotal.Value ?? 0)).ToString("C2");
             }
         }
 
-        private void btnConteo_Click(object sender, EventArgs e)
+
+        private void CalcularDiferencia(KeyEventArgs e)
         {
-            if (comboBox1.SelectedItem == null)
+            if (e.KeyCode == Keys.Enter) 
             {
-                MessageBox.Show("Seleccione un usuario.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                var cultura = new CultureInfo("es-CO");
 
-            string usuario = comboBox1.SelectedItem.ToString();
-            DateTime fecha = dateTimePicker1.Value.Date;
-            CalcularTotales(usuario, fecha);
-            CalcularDiferencia();
-        }
-
-        private void CalcularTotales(string usuario, DateTime fecha)
-        {
-            CalcularTotalVentas(usuario, fecha);
-            CalcularTotalEntradas(usuario, fecha);
-            CalcularTotalSalidas(usuario, fecha);
-        }
-
-        private void CalcularTotalVentas(string usuario, DateTime fecha)
-        {
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
+                if (double.TryParse(txtEntrada.Text, NumberStyles.Currency, cultura, out double totalEntradas) &&
+                    double.TryParse(txtTotalVentas.Text, NumberStyles.Currency, cultura, out double totalVentas) &&
+                    double.TryParse(txtSalida.Text, NumberStyles.Currency, cultura, out double totalSalidas) &&
+                    double.TryParse(txtconteo.Text, NumberStyles.Currency, cultura, out double conteo))
                 {
-                    conexion.Open();
-                    string query = "SELECT ISNULL(SUM(CAST(PrecioTotal AS DECIMAL(18,2))), 0) FROM TVentas WHERE Cajero = @Cajero AND CAST(Fecha AS DATE) = @Fecha";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@Cajero", usuario);
-                        cmd.Parameters.AddWithValue("@Fecha", fecha);
-                        object result = cmd.ExecuteScalar();
-                        textBox3.Text = Convert.ToDecimal(result).ToString("F2");
-                    }
+                    double diferencia = totalVentas - conteo;
+                    lbDiferencia.Text = diferencia.ToString("c2", cultura);
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error al calcular total de ventas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lbDiferencia.Text = "0,00";
                 }
-            }
-        }
-
-        private void CalcularTotalEntradas(string usuario, DateTime fecha)
-        {
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT ISNULL(SUM(valor), 0) FROM Entradaefectivo WHERE usuario = @Usuario AND CAST(Fecha AS DATE) = @Fecha";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@Usuario", usuario);
-                        cmd.Parameters.AddWithValue("@Fecha", fecha);
-                        object result = cmd.ExecuteScalar();
-                        textBox2.Text = Convert.ToDecimal(result).ToString("F2");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al calcular total de entradas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void CalcularTotalSalidas(string usuario, DateTime fecha)
-        {
-            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
-            using (SqlConnection conexion = new SqlConnection(cnn))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT ISNULL(SUM(valor), 0) FROM Salidaefectivo WHERE usuario = @Usuario AND CAST(Fecha AS DATE) = @Fecha";
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@Usuario", usuario);
-                        cmd.Parameters.AddWithValue("@Fecha", fecha);
-                        object result = cmd.ExecuteScalar();
-                        textBox1.Text = Convert.ToDecimal(result).ToString("F2");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al calcular total de salidas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void CalcularDiferencia()
-        {
-            if (double.TryParse(textBox2.Text, out double totalEntradas) &&
-                double.TryParse(textBox3.Text, out double totalVentas) &&
-                double.TryParse(textBox1.Text, out double totalSalidas) &&
-                double.TryParse(textBox4.Text, out double apertura) &&
-                double.TryParse(txtconteo.Text, out double conteo)) 
-
-            {
-                double diferencia = conteo - (totalEntradas + totalVentas + apertura - totalSalidas);
-                lbDiferencia.Text = diferencia.ToString("F2");
-            }
-            else
-            {
-                lbDiferencia.Text = "0.00";
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccione un usuario.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
-            string usuario = comboBox1.SelectedItem.ToString();
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
 
             using (SqlConnection conexion = new SqlConnection(cnn))
@@ -254,10 +99,10 @@ namespace Proyecto_Metodologia
 
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@Usuario", usuario);
-                        cmd.Parameters.AddWithValue("@TotalSalida", Convert.ToDecimal(textBox1.Text));
-                        cmd.Parameters.AddWithValue("@TotalEntrada", Convert.ToDecimal(textBox2.Text));
-                        cmd.Parameters.AddWithValue("@TotalVenta", Convert.ToDecimal(textBox3.Text));
+                        cmd.Parameters.AddWithValue("@Usuario", CONSTANS.USER);
+                        cmd.Parameters.AddWithValue("@TotalSalida", Convert.ToDecimal(txtSalida.Text));
+                        cmd.Parameters.AddWithValue("@TotalEntrada", Convert.ToDecimal(txtEntrada.Text));
+                        cmd.Parameters.AddWithValue("@TotalVenta", Convert.ToDecimal(txtTotalVentas.Text));
                         cmd.Parameters.AddWithValue("@conteo", Convert.ToDecimal(txtconteo.Text));
                         cmd.Parameters.AddWithValue("@fecha", dateTimePicker1.Value.Date.ToString("yyyy-MM-dd"));
 
@@ -272,6 +117,16 @@ namespace Proyecto_Metodologia
             }
         }
 
+        private void txtconteo_KeyDown(object sender, KeyEventArgs e)
+        {
+            CalcularDiferencia(e);
+        }
 
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            DateTime fechaSeleccionada = dateTimePicker1.Value.Date;
+            ObtenerTotalesCaja(CONSTANS.USER, fechaSeleccionada);
+        }
     }
 }

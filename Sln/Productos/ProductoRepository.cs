@@ -1,34 +1,62 @@
 ﻿
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Data;
-using AutoCompletarTextBox;
 using System.Windows.Forms;
 using System;
+using System.Data;
 
 namespace Proyecto_Metodologia.Productos
 {
     public class ProductoRepository
     {
-        FrmVentas frmVentas = new FrmVentas();
+        private DataSet aDatos;
+
+        public DataSet Datos
+        {
+            get { return aDatos; }
+        }
+
+        public DataSet EjecutarSelect(string Consulta)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+            {
+                conexion.Open();
+                SqlDataAdapter a = new SqlDataAdapter(Consulta, conexion);
+                aDatos = new DataSet();
+                a.Fill(aDatos);
+                conexion.Close();
+            }
+            return aDatos;
+        }
+
+        public string ValorAtributo(string pNombreCampo)
+        {
+            if (Datos.Tables[0].Rows.Count > 0)
+            {
+                return Datos.Tables[0].Rows[0][pNombreCampo].ToString();
+            }
+            return "";
+        }
 
         public string[] obtenerDatos(string pCodigo)
         {
-            string[] datos = new string[9]; // Ahora tenemos un nuevo campo para la cantidad
+            string[] datos = new string[10]; // Ahora tenemos un nuevo campo para la cantidad
 
             // Actualiza la consulta para solo obtener la columna 'Unidad'
             string Consulta = long.TryParse(pCodigo, out long result)
                 ? $"SELECT * FROM TProductos WHERE CodigoProducto = '{pCodigo}'"
                 : $"SELECT * FROM TProductos WHERE Descripcion LIKE '%{pCodigo}%'";
 
-            frmVentas.EjecutarSelect(Consulta);
+            EjecutarSelect(Consulta);
 
-            datos[0] = frmVentas.ValorAtributo("CodigoProducto");
-            datos[1] = frmVentas.ValorAtributo("Descripcion");
-            datos[6] = frmVentas.ValorAtributo("PrecioUnitario");
-            datos[2] = frmVentas.ValorAtributo("Unidad");  // Solo obtenemos la unidad
-            datos[7] = frmVentas.ValorAtributo("Iva");
-            datos[8] = frmVentas.ValorAtributo("Cantidad"); // Ahora cargamos el campo Cantidad
+            datos[0] = ValorAtributo("CodigoProducto");
+            datos[1] = ValorAtributo("Descripcion");
+            datos[6] = ValorAtributo("PrecioUnitario");
+            datos[2] = ValorAtributo("Unidad");  // Solo obtenemos la unidad
+            datos[7] = ValorAtributo("Iva");
+            datos[8] = ValorAtributo("Cantidad"); // Ahora cargamos el campo Cantidad
+            datos[9] = ValorAtributo("ValorIVA");
+
 
             return datos;
         }
@@ -39,7 +67,7 @@ namespace Proyecto_Metodologia.Productos
             {
                 try
                 {
-
+                    conexion.Open();
                     string queryActualizarInventario = "UPDATE Tproductos SET cantidad = cantidad - @Cantidad WHERE CodigoProducto = @CodigoProducto";
                     using (SqlCommand cmdActualizar = new SqlCommand(queryActualizarInventario, conexion))
 

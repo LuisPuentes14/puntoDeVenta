@@ -30,11 +30,6 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvVentas = new System.Windows.Forms.DataGridView();
-            this.CodProcuto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombrep = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Iva = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,18 +42,18 @@
             this.txtStock = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.to = new System.Windows.Forms.TextBox();
+            this.txtSubtotal = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtigv = new System.Windows.Forms.TextBox();
+            this.txtIVAproducto = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txttotal = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtCodVentas = new System.Windows.Forms.TextBox();
             this.txtDocumentoCliente = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.nupcantidad = new System.Windows.Forms.TextBox();
-            this.txtcodp = new System.Windows.Forms.TextBox();
+            this.txtCantidad = new System.Windows.Forms.TextBox();
+            this.txtcodProducto = new System.Windows.Forms.TextBox();
             this.Unidad = new System.Windows.Forms.Label();
             this.Unidadmedida = new System.Windows.Forms.ComboBox();
             this.Txtiva = new System.Windows.Forms.TextBox();
@@ -81,6 +76,15 @@
             this.txtAbono = new System.Windows.Forms.TextBox();
             this.labelAbono = new System.Windows.Forms.Label();
             this.tipoVenta = new System.Windows.Forms.ComboBox();
+            this.txtValorIva = new System.Windows.Forms.TextBox();
+            this.CodProcuto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombrep = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrecioUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iva = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ValorIVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtTotalIVA = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -95,9 +99,11 @@
             this.dgvVentas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CodProcuto,
             this.Nombrep,
+            this.PrecioUnitario,
             this.Cantidad,
             this.Total,
-            this.Iva});
+            this.Iva,
+            this.ValorIVA});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -109,41 +115,9 @@
             this.dgvVentas.Location = new System.Drawing.Point(65, 323);
             this.dgvVentas.Name = "dgvVentas";
             this.dgvVentas.ReadOnly = true;
-            this.dgvVentas.Size = new System.Drawing.Size(649, 221);
+            this.dgvVentas.Size = new System.Drawing.Size(744, 221);
             this.dgvVentas.TabIndex = 9;
             this.dgvVentas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmVentas_KeyDown);
-            // 
-            // CodProcuto
-            // 
-            this.CodProcuto.HeaderText = "Codigo de Producto";
-            this.CodProcuto.Name = "CodProcuto";
-            this.CodProcuto.ReadOnly = true;
-            // 
-            // Nombrep
-            // 
-            this.Nombrep.HeaderText = "Nombre del Producto";
-            this.Nombrep.Name = "Nombrep";
-            this.Nombrep.ReadOnly = true;
-            this.Nombrep.Width = 300;
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.HeaderText = "Cantidad";
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.ReadOnly = true;
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            // 
-            // Iva
-            // 
-            this.Iva.HeaderText = "Iva";
-            this.Iva.Name = "Iva";
-            this.Iva.ReadOnly = true;
-            this.Iva.Visible = false;
             // 
             // label1
             // 
@@ -252,11 +226,11 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Teal;
             this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.to);
+            this.panel2.Controls.Add(this.txtSubtotal);
             this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.txtigv);
+            this.panel2.Controls.Add(this.txtIVAproducto);
             this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.txttotal);
+            this.panel2.Controls.Add(this.txtTotal);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 595);
             this.panel2.Name = "panel2";
@@ -274,15 +248,15 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "SUBTOTAL :";
             // 
-            // to
+            // txtSubtotal
             // 
-            this.to.Enabled = false;
-            this.to.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.to.ForeColor = System.Drawing.Color.Red;
-            this.to.Location = new System.Drawing.Point(206, 16);
-            this.to.Name = "to";
-            this.to.Size = new System.Drawing.Size(192, 30);
-            this.to.TabIndex = 19;
+            this.txtSubtotal.Enabled = false;
+            this.txtSubtotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.txtSubtotal.ForeColor = System.Drawing.Color.Red;
+            this.txtSubtotal.Location = new System.Drawing.Point(206, 16);
+            this.txtSubtotal.Name = "txtSubtotal";
+            this.txtSubtotal.Size = new System.Drawing.Size(192, 30);
+            this.txtSubtotal.TabIndex = 19;
             // 
             // label8
             // 
@@ -295,15 +269,15 @@
             this.label8.TabIndex = 16;
             this.label8.Text = "IVA: ";
             // 
-            // txtigv
+            // txtIVAproducto
             // 
-            this.txtigv.Enabled = false;
-            this.txtigv.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.txtigv.ForeColor = System.Drawing.Color.Red;
-            this.txtigv.Location = new System.Drawing.Point(522, 16);
-            this.txtigv.Name = "txtigv";
-            this.txtigv.Size = new System.Drawing.Size(192, 30);
-            this.txtigv.TabIndex = 20;
+            this.txtIVAproducto.Enabled = false;
+            this.txtIVAproducto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.txtIVAproducto.ForeColor = System.Drawing.Color.Red;
+            this.txtIVAproducto.Location = new System.Drawing.Point(522, 16);
+            this.txtIVAproducto.Name = "txtIVAproducto";
+            this.txtIVAproducto.Size = new System.Drawing.Size(192, 30);
+            this.txtIVAproducto.TabIndex = 20;
             // 
             // label9
             // 
@@ -316,15 +290,15 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "TOTAL:";
             // 
-            // txttotal
+            // txtTotal
             // 
-            this.txttotal.Enabled = false;
-            this.txttotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.txttotal.ForeColor = System.Drawing.Color.Red;
-            this.txttotal.Location = new System.Drawing.Point(859, 19);
-            this.txttotal.Name = "txttotal";
-            this.txttotal.Size = new System.Drawing.Size(248, 30);
-            this.txttotal.TabIndex = 21;
+            this.txtTotal.Enabled = false;
+            this.txtTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.txtTotal.ForeColor = System.Drawing.Color.Red;
+            this.txtTotal.Location = new System.Drawing.Point(859, 19);
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.Size = new System.Drawing.Size(248, 30);
+            this.txtTotal.TabIndex = 21;
             // 
             // label6
             // 
@@ -375,23 +349,23 @@
             this.label11.TabIndex = 25;
             this.label11.Text = "Documento: ";
             // 
-            // nupcantidad
+            // txtCantidad
             // 
-            this.nupcantidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.nupcantidad.Location = new System.Drawing.Point(257, 240);
-            this.nupcantidad.Name = "nupcantidad";
-            this.nupcantidad.Size = new System.Drawing.Size(100, 26);
-            this.nupcantidad.TabIndex = 2;
-            this.nupcantidad.Text = "1";
+            this.txtCantidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtCantidad.Location = new System.Drawing.Point(257, 240);
+            this.txtCantidad.Name = "txtCantidad";
+            this.txtCantidad.Size = new System.Drawing.Size(100, 26);
+            this.txtCantidad.TabIndex = 2;
+            this.txtCantidad.Text = "1";
             // 
-            // txtcodp
+            // txtcodProducto
             // 
-            this.txtcodp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtcodp.Location = new System.Drawing.Point(257, 164);
-            this.txtcodp.Name = "txtcodp";
-            this.txtcodp.Size = new System.Drawing.Size(295, 26);
-            this.txtcodp.TabIndex = 1;
-            this.txtcodp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmVentas_KeyDown);
+            this.txtcodProducto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtcodProducto.Location = new System.Drawing.Point(257, 164);
+            this.txtcodProducto.Name = "txtcodProducto";
+            this.txtcodProducto.Size = new System.Drawing.Size(295, 26);
+            this.txtcodProducto.TabIndex = 1;
+            this.txtcodProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmVentas_KeyDown);
             // 
             // Unidad
             // 
@@ -431,7 +405,7 @@
             this.txtEfectivo.TabIndex = 11;
             this.txtEfectivo.Visible = false;
             this.txtEfectivo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmVentas_KeyDown);
-            this.txtEfectivo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.txtEfectivo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEfectivo_KeyPress);
             // 
             // lbCambio
             // 
@@ -628,12 +602,75 @@
             this.tipoVenta.SelectedIndexChanged += new System.EventHandler(this.tipoVenta_SelectedIndexChanged);
             this.tipoVenta.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tipoVenta_KeyDown);
             // 
+            // txtValorIva
+            // 
+            this.txtValorIva.Location = new System.Drawing.Point(1001, 212);
+            this.txtValorIva.Name = "txtValorIva";
+            this.txtValorIva.Size = new System.Drawing.Size(133, 20);
+            this.txtValorIva.TabIndex = 56;
+            this.txtValorIva.Visible = false;
+            // 
+            // CodProcuto
+            // 
+            this.CodProcuto.HeaderText = "Codigo de Producto";
+            this.CodProcuto.Name = "CodProcuto";
+            this.CodProcuto.ReadOnly = true;
+            // 
+            // Nombrep
+            // 
+            this.Nombrep.HeaderText = "Nombre del Producto";
+            this.Nombrep.Name = "Nombrep";
+            this.Nombrep.ReadOnly = true;
+            this.Nombrep.Width = 300;
+            // 
+            // PrecioUnitario
+            // 
+            this.PrecioUnitario.HeaderText = "PrecioUnitario";
+            this.PrecioUnitario.Name = "PrecioUnitario";
+            this.PrecioUnitario.ReadOnly = true;
+            // 
+            // Cantidad
+            // 
+            this.Cantidad.HeaderText = "Cantidad";
+            this.Cantidad.Name = "Cantidad";
+            this.Cantidad.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            // 
+            // Iva
+            // 
+            this.Iva.HeaderText = "Iva";
+            this.Iva.Name = "Iva";
+            this.Iva.ReadOnly = true;
+            this.Iva.Visible = false;
+            // 
+            // ValorIVA
+            // 
+            this.ValorIVA.HeaderText = "ValorIVA";
+            this.ValorIVA.Name = "ValorIVA";
+            this.ValorIVA.ReadOnly = true;
+            this.ValorIVA.Visible = false;
+            // 
+            // txtTotalIVA
+            // 
+            this.txtTotalIVA.Location = new System.Drawing.Point(1001, 238);
+            this.txtTotalIVA.Name = "txtTotalIVA";
+            this.txtTotalIVA.Size = new System.Drawing.Size(133, 20);
+            this.txtTotalIVA.TabIndex = 57;
+            this.txtTotalIVA.Visible = false;
+            // 
             // FrmVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 651);
+            this.Controls.Add(this.txtTotalIVA);
+            this.Controls.Add(this.txtValorIva);
             this.Controls.Add(this.tipoVenta);
             this.Controls.Add(this.labelAbono);
             this.Controls.Add(this.txtAbono);
@@ -656,8 +693,8 @@
             this.Controls.Add(this.Txtiva);
             this.Controls.Add(this.Unidadmedida);
             this.Controls.Add(this.Unidad);
-            this.Controls.Add(this.txtcodp);
-            this.Controls.Add(this.nupcantidad);
+            this.Controls.Add(this.txtcodProducto);
+            this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.txtDocumentoCliente);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtCodVentas);
@@ -705,23 +742,18 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox to;
-        private System.Windows.Forms.TextBox txtigv;
-        private System.Windows.Forms.TextBox txttotal;
+        private System.Windows.Forms.TextBox txtSubtotal;
+        private System.Windows.Forms.TextBox txtIVAproducto;
+        private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtCodVentas;
         private System.Windows.Forms.TextBox txtDocumentoCliente;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox nupcantidad;
-        private System.Windows.Forms.TextBox txtcodp;
+        private System.Windows.Forms.TextBox txtCantidad;
+        private System.Windows.Forms.TextBox txtcodProducto;
         private System.Windows.Forms.Label Unidad;
         private System.Windows.Forms.ComboBox Unidadmedida;
         private System.Windows.Forms.TextBox Txtiva;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodProcuto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nombrep;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Iva;
         private System.Windows.Forms.TextBox txtEfectivo;
         private System.Windows.Forms.Label lbCambio;
         private System.Windows.Forms.TextBox txtCambio;
@@ -741,6 +773,15 @@
         private System.Windows.Forms.TextBox txtAbono;
         private System.Windows.Forms.Label labelAbono;
         private System.Windows.Forms.ComboBox tipoVenta;
+        private System.Windows.Forms.TextBox txtValorIva;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CodProcuto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nombrep;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioUnitario;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Iva;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ValorIVA;
+        private System.Windows.Forms.TextBox txtTotalIVA;
         //    private System.Windows.Forms.Button imprimir;
     }
 }

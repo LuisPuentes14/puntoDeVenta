@@ -176,7 +176,6 @@
             this.label1.Size = new System.Drawing.Size(84, 24);
             this.label1.TabIndex = 7;
             this.label1.Text = "Nombre:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelUsuario
             // 
@@ -226,7 +225,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(935, 68);
             this.panel4.TabIndex = 22;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // label5
             // 
