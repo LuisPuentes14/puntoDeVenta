@@ -14,6 +14,9 @@ namespace Proyecto_Metodologia
         [STAThread]
         static void Main()
         {
+            // Registrar el manejador de excepciones
+            ExceptionHandler.Register();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run( new FrmLogin());
