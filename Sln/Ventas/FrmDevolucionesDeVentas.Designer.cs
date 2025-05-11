@@ -223,7 +223,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgventas.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgventas.Size = new System.Drawing.Size(1390, 267);
+            this.dgventas.Size = new System.Drawing.Size(1257, 267);
             this.dgventas.TabIndex = 0;
             this.dgventas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
