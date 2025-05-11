@@ -25,11 +25,8 @@ namespace Proyecto_Metodologia
         {
        
             InitializeComponent();
-            FrmLogin test = new FrmLogin();
-            test.ShowDialog();
-            txtheadtext.Text = test.usuario ;
-            CONSTANS.USER = test.usuario;
-            txtcategoria.Text = validarcategoria(test.usuario);
+            txtheadtext.Text = CONSTANS.USER ;
+            txtcategoria.Text = validarcategoria(CONSTANS.USER);
             categoriarango();
         }
 
@@ -143,6 +140,7 @@ namespace Proyecto_Metodologia
             if (MessageBox.Show("¿Estás seguro de que deseas cerrar la sesión? Esto te regresará al Login.",
                 "Cerrar sesión - (Sistema de ventas)", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                CONSTANS.Reset();
                 // Mostrar el login antes de cerrar el formulario actual
                 FrmLogin login = new FrmLogin();
                 login.Show();
@@ -161,12 +159,6 @@ namespace Proyecto_Metodologia
                 Application.Exit(); // Cierra toda la aplicación correctamente
             }
         }
-
-
-
-
-
-
 
         private void tsCategorias_Click(object sender, EventArgs e)
         {

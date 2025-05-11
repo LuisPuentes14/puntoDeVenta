@@ -16,7 +16,7 @@ namespace Proyecto_Metodologia.Ventas
     {
         private ComercioRepository _comercio = new ComercioRepository();
 
-        public void PrintDocument_PrintPageCustom(object sender, PrintPageEventArgs e, string codVenta, string totalIva, string TotalVenta, ClienteDto cliente, DataGridView dgvVentas)
+        public void PrintDocument_PrintPageCustom(object sender, PrintPageEventArgs e, ValoresFacturaDto valores)
         {
             // Configuración inicial
             int marginLeft = 7;
@@ -28,7 +28,6 @@ namespace Proyecto_Metodologia.Ventas
             const int nameWidth = 100;
             const int qtyWidth = 30;
             const int priceUnitWidth = 50;
-            const int totalWidth = 50;
 
             // Fuentes
             Font font = new Font("Arial", 7);
@@ -39,7 +38,7 @@ namespace Proyecto_Metodologia.Ventas
             int yPosition = marginTop;
 
             // Datos generales
-            string numeroFactura = string.IsNullOrEmpty(codVenta) ? "N/A" : codVenta;
+            string numeroFactura = string.IsNullOrEmpty(valores.CodigoVenta) ? "N/A" : valores.CodigoVenta;
 
             // Obtener ancho de página imprimible
             float pageWidth = e.PageBounds.Width;
@@ -56,10 +55,10 @@ namespace Proyecto_Metodologia.Ventas
             }
             yPosition += lineHeight; // espacio extra antes del separador
 
-            e.Graphics.DrawString($"Doc cliente: {cliente.Documento}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
-            e.Graphics.DrawString($"Nombre: {cliente.Nombre} {cliente.Apellido}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
-            e.Graphics.DrawString($"Correo:  {cliente.Correo}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
-            e.Graphics.DrawString($"Telefono: {cliente.Telefono}", font, brush, marginLeft, yPosition); yPosition += lineHeight * 2;
+            e.Graphics.DrawString($"Doc cliente: {valores.Cliente.Documento}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Nombre: {valores.Cliente.Nombre} {valores.Cliente.Apellido}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Correo:  {valores.Cliente.Correo}", font, brush, marginLeft, yPosition); yPosition += lineHeight;
+            e.Graphics.DrawString($"Telefono: {valores.Cliente.Telefono}", font, brush, marginLeft, yPosition); yPosition += lineHeight * 2;
 
             // Separador
             e.Graphics.DrawString(new string('-', 80), font, brush, marginLeft, yPosition); yPosition += lineHeight;
@@ -77,11 +76,11 @@ namespace Proyecto_Metodologia.Ventas
             e.Graphics.DrawString(new string('-', 80), font, brush, marginLeft, yPosition); yPosition += lineHeight;
 
             // Filas del DataGridView
-            foreach (DataGridViewRow row in dgvVentas.Rows)
+            foreach (DataGridViewRow row in valores.DgvVentas.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                string codigo = double.Parse(row.Cells[0].Value?.ToString() ?? "").ToString("N0", new CultureInfo("es-CO"));
+                string codigo = row.Cells[0].Value?.ToString() ?? "";
                 string articulo = row.Cells[1].Value?.ToString() ?? "";
                 string cantidad = row.Cells[2].Value?.ToString() ?? "";
                 string precioUnit = double.Parse(row.Cells[3].Value?.ToString() ?? "").ToString("N0", new CultureInfo("es-CO"));
@@ -116,14 +115,21 @@ namespace Proyecto_Metodologia.Ventas
             yPosition += lineHeight;
 
             // IVA alineado a la derecha
-            string textoIva = $"IVA: {double.Parse(totalIva).ToString("N0", new CultureInfo("es-CO"))}";
+            string textoIva = $"IVA: {valores.TotalIva.ToString("N0", new CultureInfo("es-CO"))}";
             SizeF sizeIva = e.Graphics.MeasureString(textoIva, font);
             float xIva = pageWidth - sizeIva.Width - marginLeft;
             e.Graphics.DrawString(textoIva, font, brush, xIva, yPosition);
             yPosition += lineHeight;
 
+            // SUBTOTAL alineado a la derecha
+            string textoSubtotal = $"SUBTOTAL: {valores.Subtotal.ToString("N0", new CultureInfo("es-CO"))}";
+            SizeF sizeSubtotal = e.Graphics.MeasureString(textoIva, font);
+            float xSubtotal = pageWidth - sizeIva.Width - marginLeft;
+            e.Graphics.DrawString(textoIva, font, brush, xIva, yPosition);
+            yPosition += lineHeight;
+
             // TOTAL alineado a la derecha con fuente bold
-            string textoTotal = $"TOTAL: {double.Parse(TotalVenta).ToString("N0", new CultureInfo("es-CO"))}";
+            string textoTotal = $"TOTAL: {valores.TotalPagar.ToString("N0", new CultureInfo("es-CO"))}";
             SizeF sizeTotal = e.Graphics.MeasureString(textoTotal, fontBold);
             float xTotal = pageWidth - sizeTotal.Width - marginLeft;
             e.Graphics.DrawString(textoTotal, fontBold, brush, xTotal, yPosition);
@@ -138,7 +144,7 @@ namespace Proyecto_Metodologia.Ventas
             e.HasMorePages = false;
         }
 
-        public void ImprimirFactura(string codVenta, string totalIva, string totalPagar, ClienteDto cliente, DataGridView dgvVentas)
+        public void ImprimirFactura(ValoresFacturaDto valores)
         {
             DialogResult result = MessageBox.Show("¿Desea imprimir?", "Éxito", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
@@ -156,7 +162,7 @@ namespace Proyecto_Metodologia.Ventas
                 // Asociar el método de impresión correctamente
                 printDoc.PrintPage += (sender, e) =>
                 {
-                    PrintDocument_PrintPageCustom(sender, e, codVenta, totalIva, totalPagar, cliente, dgvVentas);
+                    PrintDocument_PrintPageCustom(sender, e, valores);
                 };
 
                 try

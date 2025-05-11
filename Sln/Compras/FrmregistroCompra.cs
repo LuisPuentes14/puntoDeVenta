@@ -65,7 +65,7 @@ namespace Proyecto_Metodologia
             try
             {
                 string consulta = "INSERT INTO TProductos (CodigoProducto, Descripcion, Unidad, Cantidad, PrecioUnitario, Iva, Categoria, Proveedor, PrecioCompra, ValorIVA) " +
-                                  "VALUES (@CodigoProducto, @Descripcion, @Unidad, @Cantidad, @PrecioUnitario, @Iva, @Categoria, @Proveedor, @PrecioCompra, ValorIVA=@ValorIVA)";
+                                  "VALUES (@CodigoProducto, @Descripcion, @Unidad, @Cantidad, @PrecioUnitario, @Iva, @Categoria, @Proveedor, @PrecioCompra, @ValorIVA)";
 
                 SqlParameter[] parametros = {
             new SqlParameter("@CodigoProducto", txtCodigo.Text.Trim()),
@@ -97,7 +97,7 @@ namespace Proyecto_Metodologia
             catch (Exception)
             {
                 MessageBox.Show("Error al agregar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw new Exception();
+                return;
             }
         
 }
@@ -117,12 +117,14 @@ namespace Proyecto_Metodologia
         {
             try
             {
-                return (precio * (1 + iva / 100), (1 + iva / 100));
+                float valorIVA = precio * (iva / 100);
+                float precioUnitarioIVA = precio + valorIVA;
+                return (precioUnitarioIVA, valorIVA);
             }
             catch (Exception)
             {
                 MessageBox.Show("Error calculando IVA", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw new Exception();
+                throw;
             }
         }
         private void LimpiarCampos()

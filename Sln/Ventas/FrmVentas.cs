@@ -37,13 +37,12 @@ namespace Proyecto_Metodologia
             txtcodProducto.PreviewKeyDown += txtcodp_PreviewKeyDown;
             printDocument = new PrintDocument();
             printDocument.PrintPage += (sender, e) =>
-            _factura.PrintDocument_PrintPageCustom(sender, e, txtCodVentas.Text, txtTotalIVA.Text, txtTotalPagar.Text, new ClienteDto(), dgvVentas);
+            _factura.PrintDocument_PrintPageCustom(sender, e, new ValoresFacturaDto());
             txtPublico = txtcodProducto;
             tipoVenta.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
         }
 
-        public IWin32Window Ventatotal { get; private set; }
-
+ 
         #region Eventos
         private void tipoVenta_KeyDown(object sender, KeyEventArgs e)
         {
@@ -169,7 +168,6 @@ namespace Proyecto_Metodologia
                 TransaccionVenta();
             }
         }
-
         private void nupcantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Detectar si la tecla presionada es 'Enter'
@@ -199,7 +197,6 @@ namespace Proyecto_Metodologia
         {
             SetFocusToTxtCodp();
         }
-
         private void txtcodp_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -218,7 +215,6 @@ namespace Proyecto_Metodologia
         {
             return Unidadmedida;
         }
-
         private void CargarDatosProducto(string codigo, ComboBox unidadmedida)
         {
             string[] datos = _producto.obtenerDatos(codigo);
@@ -383,7 +379,17 @@ namespace Proyecto_Metodologia
                     _ = InsertarVenta();
                 }
 
-                _factura.ImprimirFactura(txtCodVentas.Text, txtTotalIVA.Text, txtTotalPagar.Text, cliente, dgvVentas);
+                var valoresFactura = new ValoresFacturaDto()
+                {
+                    CodigoVenta = txtCodVentas.Text,
+                    TotalIva = double.Parse(txtTotalIVA.Text),
+                    Subtotal = (double.Parse(txtTotalPagar.Text) - double.Parse(txtTotalIVA.Text)),
+                    TotalPagar = double.Parse(txtTotalPagar.Text),
+                    Cliente = cliente,
+                    DgvVentas = dgvVentas
+                };
+
+                _factura.ImprimirFactura(valoresFactura);
                 limpiarventa();
                 dgvVentas.Rows.Clear();
                 autoincrementable();
@@ -399,7 +405,6 @@ namespace Proyecto_Metodologia
                 MessageBox.Show("Por favor, ingrese valores numéricos válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         public void AutoCompletar(TextBox cajaTexto)
         {
             try
@@ -469,7 +474,6 @@ namespace Proyecto_Metodologia
                 txtTotalIVA.Text = "0.00";
             }
         }
-
         public void clear()
         {
             txtcodProducto.Clear();
@@ -618,7 +622,6 @@ namespace Proyecto_Metodologia
                 lbEfectivo.Visible = true;
             }
         }
-
         private void NavegacionXFlechas(KeyEventArgs e)
         {
             // Permitir navegación con flechas
@@ -640,7 +643,6 @@ namespace Proyecto_Metodologia
                 e.Handled = true;
             }
         }
-
         private void EliminarFila_Enter(KeyEventArgs e)
         {
             // Eliminar la fila seleccionada con Enter
@@ -680,7 +682,6 @@ namespace Proyecto_Metodologia
             }
             e.Handled = true;
         }
-
         private void CerrarVenta()
         {
             if (txtTotal.Text != "0")

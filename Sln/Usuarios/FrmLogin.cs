@@ -34,8 +34,9 @@ namespace Proyecto_Metodologia
                         if (dr.Read())
                         {
                             CONSTANS.ROL = dr["Categoria"].ToString();
-                            obtenerusuario();
-                            Close();
+                            CONSTANS.USER = obtenerusuario();
+                            new FrmSistemaVentas().Show();
+                            this.Hide();
                         }
                         else
                         {
