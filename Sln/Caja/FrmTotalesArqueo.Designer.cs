@@ -1,6 +1,6 @@
 ﻿namespace Proyecto_Metodologia
 {
-    partial class FrmRegistroArqueo
+    partial class FrmTotalesArqueo
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dateTimeArqueo = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbHora = new System.Windows.Forms.Label();
             this.lbTituloVentas = new System.Windows.Forms.Label();
             this.dgventas = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -53,7 +52,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(720, 66);
+            this.panel1.Size = new System.Drawing.Size(945, 84);
             this.panel1.TabIndex = 1;
             // 
             // USUSARIO
@@ -71,7 +70,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(149, 19);
+            this.label1.Location = new System.Drawing.Point(149, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(465, 37);
             this.label1.TabIndex = 0;
@@ -81,7 +80,6 @@
             // 
             this.groupBox1.Controls.Add(this.dateTimeArqueo);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.lbHora);
             this.groupBox1.Location = new System.Drawing.Point(104, 99);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(521, 64);
@@ -105,19 +103,8 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(362, 28);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 16);
+            this.label3.Size = new System.Drawing.Size(0, 16);
             this.label3.TabIndex = 5;
-            this.label3.Text = "HORA:";
-            // 
-            // lbHora
-            // 
-            this.lbHora.AutoSize = true;
-            this.lbHora.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHora.Location = new System.Drawing.Point(417, 28);
-            this.lbHora.Name = "lbHora";
-            this.lbHora.Size = new System.Drawing.Size(39, 16);
-            this.lbHora.TabIndex = 6;
-            this.lbHora.Text = "10:00";
             // 
             // lbTituloVentas
             // 
@@ -146,9 +133,9 @@
             this.panel3.BackColor = System.Drawing.Color.Teal;
             this.panel3.Controls.Add(this.iconButton1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 418);
+            this.panel3.Location = new System.Drawing.Point(0, 489);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(720, 67);
+            this.panel3.Size = new System.Drawing.Size(945, 67);
             this.panel3.TabIndex = 20;
             // 
             // iconButton1
@@ -169,18 +156,19 @@
             this.iconButton1.UseVisualStyleBackColor = true;
             this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
             // 
-            // FrmRegistroArqueo
+            // FrmTotalesArqueo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(720, 485);
+            this.ClientSize = new System.Drawing.Size(945, 556);
+            this.ControlBox = false;
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.lbTituloVentas);
             this.Controls.Add(this.dgventas);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
-            this.Name = "FrmRegistroArqueo";
+            this.Name = "FrmTotalesArqueo";
             this.Text = "FrmRegistroArqueo";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -201,7 +189,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DateTimePicker dateTimeArqueo;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lbHora;
         private System.Windows.Forms.Label lbTituloVentas;
         private System.Windows.Forms.DataGridView dgventas;
         private System.Windows.Forms.Panel panel3;

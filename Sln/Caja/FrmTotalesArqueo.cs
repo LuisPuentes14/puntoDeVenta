@@ -12,21 +12,13 @@ using System.Configuration;
 
 namespace Proyecto_Metodologia
 {
-    public partial class FrmRegistroArqueo : Form
+    public partial class FrmTotalesArqueo : Form
     {
         private DataSet aDatos;
-        public FrmRegistroArqueo()
+        public FrmTotalesArqueo()
         {
             InitializeComponent();
-            lbHora.Text = DateTime.Now.TimeOfDay.Hours.ToString() + ":" + DateTime.Now.TimeOfDay.Minutes.ToString();
             dateTimeArqueo.Value = DateTime.Now;
-            dgventas.DataSource=  validarfecha2();
-
-            //dgventas.Columns["CodVenta"].Width = 150;
-            //dgventas.Columns["CodVenta"].HeaderText = "Codigo de Venta";
-            //dgventas.Columns["PrecioTotal"].Width = 160;
-            //dgventas.Columns["Fecha"].Width = 175;
-            //dgventas.Columns["Estado"].Visible = false;
         }
         public DataSet Datos
         {
@@ -59,11 +51,21 @@ namespace Proyecto_Metodologia
         }
         public DataTable validarfecha()
         {
-            string Consulta = "SELECT * FROM ARQUEO WHERE Fecha" +
-                " = '" + dateTimeArqueo.Value.Year + "/" + dateTimeArqueo.Value.Month + "/" + dateTimeArqueo.Value.Day +"'";
+            string consulta = "SELECT * FROM ARQUEO WHERE CAST(Fecha AS DATE) = @fecha";
 
-            EjecutarSelect(Consulta);
-            return Datos.Tables[0];
+            string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+            using (SqlConnection conexion = new SqlConnection(cnn))
+            {
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand(consulta, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@fecha", dateTimeArqueo.Value.Date);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    aDatos = new DataSet();
+                    da.Fill(aDatos);
+                }
+            }
+            return aDatos.Tables[0];
         }
         public DataTable validarfecha2()
         {
@@ -75,7 +77,30 @@ namespace Proyecto_Metodologia
 
         private void dateTimeArqueo_ValueChanged(object sender, EventArgs e)
         {
-            dgventas.DataSource = validarfecha();
+            CargarArqueosPorFecha(dateTimeArqueo.Value.Date);
+        }
+
+        private void CargarArqueosPorFecha(DateTime fecha)
+        {
+            // Asegura que el formato de la fecha sea compatible con el de tu VARCHAR (por ejemplo: "dd/MM/yyyy")
+            string consulta = @"
+        SELECT * FROM ARQUEO 
+        WHERE CONVERT(date, Fecha, 103) = @fecha";
+
+            string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            using (SqlCommand cmd = new SqlCommand(consulta, conexion))
+            {
+                cmd.Parameters.Add("@fecha", SqlDbType.Date).Value = fecha;
+
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataTable tabla = new DataTable();
+                    da.Fill(tabla);
+                    dgventas.DataSource = tabla;
+                }
+            }
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -83,7 +108,7 @@ namespace Proyecto_Metodologia
             Close();
         }
 
-        internal static FrmRegistroArqueo GetInstancia()
+        internal static FrmTotalesArqueo GetInstancia()
         {
             throw new NotImplementedException();
         }

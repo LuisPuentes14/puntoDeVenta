@@ -339,11 +339,11 @@
     <Compile Include="Categorias\FrmRegistrocategoria.Designer.cs">
       <DependentUpon>FrmRegistrocategoria.cs</DependentUpon>
     </Compile>
-    <Compile Include="Caja\FrmRegistroArqueo.cs">
+    <Compile Include="Caja\FrmTotalesArqueo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Caja\FrmRegistroArqueo.Designer.cs">
-      <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
+    <Compile Include="Caja\FrmTotalesArqueo.Designer.cs">
+      <DependentUpon>FrmTotalesArqueo.cs</DependentUpon>
     </Compile>
     <Compile Include="Ventas\FrmDevolucionesDeVentas.cs">
       <SubType>Form</SubType>
@@ -437,8 +437,8 @@
     <EmbeddedResource Include="Categorias\FrmRegistrocategoria.resx">
       <DependentUpon>FrmRegistrocategoria.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Caja\FrmRegistroArqueo.resx">
-      <DependentUpon>FrmRegistroArqueo.cs</DependentUpon>
+    <EmbeddedResource Include="Caja\FrmTotalesArqueo.resx">
+      <DependentUpon>FrmTotalesArqueo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ventas\FrmDevolucionesDeVentas.resx">
       <DependentUpon>FrmDevolucionesDeVentas.cs</DependentUpon>

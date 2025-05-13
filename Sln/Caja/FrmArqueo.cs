@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Proyecto_Metodologia
 {
@@ -88,23 +89,26 @@ namespace Proyecto_Metodologia
         {
 
             string cnn = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+            var culture = new CultureInfo("es-CO");
 
             using (SqlConnection conexion = new SqlConnection(cnn))
             {
                 try
                 {
                     conexion.Open();
-                    string query = "INSERT INTO Arqueo (usuario, TotalSalida, TotalEntrada, TotalVenta, conteo, fecha) " +
-                                   "VALUES (@Usuario, @TotalSalida, @TotalEntrada, @TotalVenta, @conteo, @fecha)";
+                    string query = "INSERT INTO Arqueo (usuario, TotalSalida, TotalEntrada, TotalEnCaja, conteo, fecha,TotalAbonos, TotalVentasEfectivo) " +
+                                   "VALUES (@Usuario, @TotalSalida, @TotalEntrada, @TotalCaja, @conteo, @fecha, @totalAbonos,@TotalVentasEfectivo)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@Usuario", CONSTANS.USER);
-                        cmd.Parameters.AddWithValue("@TotalSalida", Convert.ToDecimal(txtSalida.Text));
-                        cmd.Parameters.AddWithValue("@TotalEntrada", Convert.ToDecimal(txtEntrada.Text));
-                        cmd.Parameters.AddWithValue("@TotalVenta", Convert.ToDecimal(txtTotalVentas.Text));
-                        cmd.Parameters.AddWithValue("@conteo", Convert.ToDecimal(txtconteo.Text));
-                        cmd.Parameters.AddWithValue("@fecha", dateTimePicker1.Value.Date.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@Usuario",CONSTANS.USER);
+                        cmd.Parameters.AddWithValue("@TotalSalida", double.Parse(txtSalida.Text, NumberStyles.Currency, culture));
+                        cmd.Parameters.AddWithValue("@TotalEntrada", double.Parse(txtEntrada.Text, NumberStyles.Currency, culture));
+                        cmd.Parameters.AddWithValue("@TotalCaja", double.Parse(txtTotalVentas.Text, NumberStyles.Currency, culture));
+                        cmd.Parameters.AddWithValue("@conteo", double.Parse(txtconteo.Text, NumberStyles.Currency, culture));
+                        cmd.Parameters.AddWithValue("@fecha", dateTimePicker1.Value.Date.ToString("yyyy-MM-dd-HH-mm"));
+                        cmd.Parameters.AddWithValue("@totalAbonos", double.Parse(txtSalida.Text, NumberStyles.Currency, culture));
+                        cmd.Parameters.AddWithValue("@TotalVentasEfectivo", double.Parse(txttotalventaEfectivo.Text, NumberStyles.Currency, culture));
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Arqueo guardado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

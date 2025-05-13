@@ -310,5 +310,10 @@ namespace Proyecto_Metodologia
         {
             AbrirFormularioHijo(new FrmRegistroProductos());
         }
+
+        private void listadoDeArqueosDeCajaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmTotalesArqueo());
+        }
     }
 }

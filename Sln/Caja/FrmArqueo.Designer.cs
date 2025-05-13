@@ -32,6 +32,10 @@
             this.USUSARIO = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelcontenido = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txttotalventaEfectivo = new System.Windows.Forms.TextBox();
+            this.txtabonos = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txtTotalVentas = new System.Windows.Forms.TextBox();
             this.txtEntrada = new System.Windows.Forms.TextBox();
@@ -46,10 +50,6 @@
             this.lbVentas = new System.Windows.Forms.Label();
             this.iconButton3 = new FontAwesome.Sharp.IconButton();
             this.iconButton2 = new FontAwesome.Sharp.IconButton();
-            this.txtabonos = new System.Windows.Forms.TextBox();
-            this.txttotalventaEfectivo = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panelcontenido.SuspendLayout();
             this.SuspendLayout();
@@ -111,6 +111,42 @@
             this.panelcontenido.Name = "panelcontenido";
             this.panelcontenido.Size = new System.Drawing.Size(705, 498);
             this.panelcontenido.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(63, 163);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(221, 26);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "Total ventas efectivos";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(146, 209);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(138, 26);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Total Abonos";
+            // 
+            // txttotalventaEfectivo
+            // 
+            this.txttotalventaEfectivo.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txttotalventaEfectivo.Location = new System.Drawing.Point(304, 163);
+            this.txttotalventaEfectivo.Name = "txttotalventaEfectivo";
+            this.txttotalventaEfectivo.Size = new System.Drawing.Size(168, 33);
+            this.txttotalventaEfectivo.TabIndex = 26;
+            // 
+            // txtabonos
+            // 
+            this.txtabonos.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtabonos.Location = new System.Drawing.Point(306, 206);
+            this.txtabonos.Name = "txtabonos";
+            this.txtabonos.Size = new System.Drawing.Size(168, 33);
+            this.txtabonos.TabIndex = 25;
             // 
             // button1
             // 
@@ -220,9 +256,9 @@
             this.lbVentas.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbVentas.Location = new System.Drawing.Point(115, 260);
             this.lbVentas.Name = "lbVentas";
-            this.lbVentas.Size = new System.Drawing.Size(131, 26);
+            this.lbVentas.Size = new System.Drawing.Size(134, 26);
             this.lbVentas.TabIndex = 8;
-            this.lbVentas.Text = "Total Ventas";
+            this.lbVentas.Text = "Total en caja";
             // 
             // iconButton3
             // 
@@ -251,42 +287,6 @@
             this.iconButton2.Text = "REGISTRAR ARQUEO";
             this.iconButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconButton2.UseVisualStyleBackColor = true;
-            // 
-            // txtabonos
-            // 
-            this.txtabonos.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtabonos.Location = new System.Drawing.Point(306, 206);
-            this.txtabonos.Name = "txtabonos";
-            this.txtabonos.Size = new System.Drawing.Size(168, 33);
-            this.txtabonos.TabIndex = 25;
-            // 
-            // txttotalventaEfectivo
-            // 
-            this.txttotalventaEfectivo.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txttotalventaEfectivo.Location = new System.Drawing.Point(304, 163);
-            this.txttotalventaEfectivo.Name = "txttotalventaEfectivo";
-            this.txttotalventaEfectivo.Size = new System.Drawing.Size(168, 33);
-            this.txttotalventaEfectivo.TabIndex = 26;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(146, 209);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(138, 26);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Total Abonos";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Tai Le", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(63, 163);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(221, 26);
-            this.label6.TabIndex = 28;
-            this.label6.Text = "Total ventas efectivos";
             // 
             // FrmArqueo
             // 

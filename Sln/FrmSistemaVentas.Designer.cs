@@ -70,6 +70,7 @@
             this.tsCerrarSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listadoDeArqueosDeCajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -357,7 +358,8 @@
             this.aperturaDeCajaToolStripMenuItem,
             this.registrarIngresosToolStripMenuItem,
             this.registroEgresosToolStripMenuItem,
-            this.cierreDeCajaToolStripMenuItem});
+            this.cierreDeCajaToolStripMenuItem,
+            this.listadoDeArqueosDeCajaToolStripMenuItem});
             this.cajaToolStripMenuItem.Name = "cajaToolStripMenuItem";
             this.cajaToolStripMenuItem.Size = new System.Drawing.Size(50, 23);
             this.cajaToolStripMenuItem.Text = "Caja";
@@ -365,28 +367,28 @@
             // aperturaDeCajaToolStripMenuItem
             // 
             this.aperturaDeCajaToolStripMenuItem.Name = "aperturaDeCajaToolStripMenuItem";
-            this.aperturaDeCajaToolStripMenuItem.Size = new System.Drawing.Size(196, 24);
+            this.aperturaDeCajaToolStripMenuItem.Size = new System.Drawing.Size(251, 24);
             this.aperturaDeCajaToolStripMenuItem.Text = "Apertura de Caja";
             this.aperturaDeCajaToolStripMenuItem.Click += new System.EventHandler(this.aperturaDeCajaToolStripMenuItem_Click);
             // 
             // registrarIngresosToolStripMenuItem
             // 
             this.registrarIngresosToolStripMenuItem.Name = "registrarIngresosToolStripMenuItem";
-            this.registrarIngresosToolStripMenuItem.Size = new System.Drawing.Size(196, 24);
+            this.registrarIngresosToolStripMenuItem.Size = new System.Drawing.Size(251, 24);
             this.registrarIngresosToolStripMenuItem.Text = "Registrar Ingresos";
             this.registrarIngresosToolStripMenuItem.Click += new System.EventHandler(this.registrarIngresosToolStripMenuItem_Click);
             // 
             // registroEgresosToolStripMenuItem
             // 
             this.registroEgresosToolStripMenuItem.Name = "registroEgresosToolStripMenuItem";
-            this.registroEgresosToolStripMenuItem.Size = new System.Drawing.Size(196, 24);
+            this.registroEgresosToolStripMenuItem.Size = new System.Drawing.Size(251, 24);
             this.registroEgresosToolStripMenuItem.Text = "Registro Egresos ";
             this.registroEgresosToolStripMenuItem.Click += new System.EventHandler(this.registroEgresosToolStripMenuItem_Click);
             // 
             // cierreDeCajaToolStripMenuItem
             // 
             this.cierreDeCajaToolStripMenuItem.Name = "cierreDeCajaToolStripMenuItem";
-            this.cierreDeCajaToolStripMenuItem.Size = new System.Drawing.Size(196, 24);
+            this.cierreDeCajaToolStripMenuItem.Size = new System.Drawing.Size(251, 24);
             this.cierreDeCajaToolStripMenuItem.Text = "Arqueo de Caja";
             this.cierreDeCajaToolStripMenuItem.Click += new System.EventHandler(this.cierreDeCajaToolStripMenuItem_Click);
             // 
@@ -444,11 +446,19 @@
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
             // 
+            // listadoDeArqueosDeCajaToolStripMenuItem
+            // 
+            this.listadoDeArqueosDeCajaToolStripMenuItem.Name = "listadoDeArqueosDeCajaToolStripMenuItem";
+            this.listadoDeArqueosDeCajaToolStripMenuItem.Size = new System.Drawing.Size(251, 24);
+            this.listadoDeArqueosDeCajaToolStripMenuItem.Text = "Listado de arqueos de caja";
+            this.listadoDeArqueosDeCajaToolStripMenuItem.Click += new System.EventHandler(this.listadoDeArqueosDeCajaToolStripMenuItem_Click);
+            // 
             // FrmSistemaVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1171, 572);
+            this.ControlBox = false;
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.panelcontenido);
             this.Controls.Add(this.panel1);
@@ -511,5 +521,6 @@
         private System.Windows.Forms.ToolStripMenuItem carteraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem agregarAbonoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem agregarCompraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listadoDeArqueosDeCajaToolStripMenuItem;
     }
 }
