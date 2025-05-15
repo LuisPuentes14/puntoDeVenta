@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using iText.Signatures.Validation.Report;
 
 namespace Proyecto_Metodologia.Clientes
 {
@@ -66,6 +67,15 @@ namespace Proyecto_Metodologia.Clientes
                 if (confirm == DialogResult.Yes)
                 {
                     string documento = dgClientes.SelectedRows[0].Cells["Documento"].Value.ToString();
+
+                    bool creditoActivo= ClienteTieneCredito(documento);
+
+                    if (creditoActivo)
+                    {
+                        MessageBox.Show("Error: No se pudo eliminar el cliente porque actualmente tiene una venta a credito.");
+                        return;
+                    }
+                  
 
                     using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
                     {
@@ -163,6 +173,36 @@ namespace Proyecto_Metodologia.Clientes
                         MessageBox.Show("Error al cargar productos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        private bool ClienteTieneCredito(string documento)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["cnn"].ConnectionString))
+                {
+                    conn.Open();
+                    string consulta = @"
+                SELECT 1 
+                FROM CARTERA 
+                WHERE DocumentoCliente = @DOCUMENT 
+                  AND EstadoCartera = 'Credito Activo'";
+
+                    using (SqlCommand cmd = new SqlCommand(consulta, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@DOCUMENT", documento);
+
+                        object resultado = cmd.ExecuteScalar();
+
+                        return resultado != null; // Devuelve true si encontró al menos un registro
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error eliminando cliente.");
+                return false;
             }
         }
         #endregion

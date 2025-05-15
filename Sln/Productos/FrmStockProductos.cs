@@ -127,7 +127,8 @@ namespace Proyecto_Metodologia
                     {
                         conn.Open();
 
-                        string query = "DELETE FROM TProductos WHERE CodigoProducto = @codigo";
+                        string query = @"DELETE FROM Compras WHERE CodigoProducto = @codigo;
+                                        DELETE FROM TProductos WHERE CodigoProducto = @codigo;";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@codigo", codigoProducto);
