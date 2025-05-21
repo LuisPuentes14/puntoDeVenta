@@ -51,6 +51,17 @@ namespace Proyecto_Metodologia
             return aDatos;
         }
 
+        private void LimpiarCampos() 
+        {
+            txtApellido.Clear();
+            txtNombre.Clear();
+            txtusuario.Clear();
+            txtDni.Clear();
+            txtCorreo.Clear();
+            txtContraseña.Clear();
+            txtRepitac.Clear();
+        }
+
         public void registrarUsuario()
         {
             try
@@ -97,7 +108,7 @@ namespace Proyecto_Metodologia
         {
             try
             {
-                string Consulta = "UPDATE TUsuarios SET Nombre=@Nombre, Apellidos=@Apellidos, Correo=@Correo, Categoria=@Categoria WHERE Usuario=@Usuario";
+                string Consulta = "UPDATE TUsuarios SET Nombre=@Nombre, Apellidos=@Apellidos, DNI=@DNI, Contraseña=@contrasenia, Correo=@Correo, Categoria=@Categoria WHERE Usuario=@Usuario";
 
                 string categoria = cmbCategoria.SelectedItem.ToString();
 
@@ -111,11 +122,14 @@ namespace Proyecto_Metodologia
                         cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text);
                         cmd.Parameters.AddWithValue("@Apellidos", txtApellido.Text);
                         cmd.Parameters.AddWithValue("@Correo", txtCorreo.Text);
+                        cmd.Parameters.AddWithValue("@contrasenia", txtContraseña.Text);
+                        cmd.Parameters.AddWithValue("@DNI", txtDni.Text);
                         cmd.Parameters.AddWithValue("@Categoria", categoria);
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("ACTUALIZACIÓN CORRECTA");
                         llenardatos();
+                        LimpiarCampos();
                     }
                 }
             }
@@ -160,11 +174,12 @@ namespace Proyecto_Metodologia
             if (e.RowIndex >= 0)
             {
                 txtusuario.Text = dgvusuarios[0, e.RowIndex].Value.ToString();
-                txtNombre.Text = dgvusuarios[1, e.RowIndex].Value.ToString();
-                txtApellido.Text = dgvusuarios[2, e.RowIndex].Value.ToString();
+                txtNombre.Text = dgvusuarios[2, e.RowIndex].Value.ToString();
+                txtApellido.Text = dgvusuarios[3, e.RowIndex].Value.ToString();
                 txtDni.Text = dgvusuarios[4, e.RowIndex].Value.ToString();
                 txtCorreo.Text = dgvusuarios[5, e.RowIndex].Value.ToString();
-
+                txtContraseña.Text = dgvusuarios[1, e.RowIndex].Value.ToString();
+                txtRepitac.Text = dgvusuarios[1, e.RowIndex].Value.ToString();
                 // Cargar la categoría en el ComboBox
                 string categoria = dgvusuarios[6, e.RowIndex].Value.ToString();
                 cmbCategoria.SelectedItem = categoria;
@@ -204,6 +219,7 @@ namespace Proyecto_Metodologia
                         {
                             MessageBox.Show("Usuario registrado exitosamente.");
                             llenardatos();
+                            LimpiarCampos();
                         }
                         else
                         {

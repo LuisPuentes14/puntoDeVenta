@@ -60,7 +60,7 @@ namespace Proyecto_Metodologia
             int port = 587; // o 465 si usas SSL
             string fromEmail = "puntodeventa940@gmail.com";
             string toEmail = correoUsuario;
-            string subject = "Correo de prueba";
+            string subject = "Recuperación de contraseña.";
             string body = getBodyHtml().Replace("model.clave", contrasenia);
             string password = "ypdw lqyw ewof sqjv";
 

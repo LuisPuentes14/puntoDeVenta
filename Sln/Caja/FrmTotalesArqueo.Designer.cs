@@ -52,7 +52,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(945, 84);
+            this.panel1.Size = new System.Drawing.Size(1305, 84);
             this.panel1.TabIndex = 1;
             // 
             // USUSARIO
@@ -125,7 +125,7 @@
             this.dgventas.Location = new System.Drawing.Point(33, 200);
             this.dgventas.Name = "dgventas";
             this.dgventas.ReadOnly = true;
-            this.dgventas.Size = new System.Drawing.Size(650, 202);
+            this.dgventas.Size = new System.Drawing.Size(1092, 202);
             this.dgventas.TabIndex = 18;
             // 
             // panel3
@@ -135,7 +135,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 489);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(945, 67);
+            this.panel3.Size = new System.Drawing.Size(1305, 67);
             this.panel3.TabIndex = 20;
             // 
             // iconButton1
@@ -161,7 +161,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(945, 556);
+            this.ClientSize = new System.Drawing.Size(1305, 556);
             this.ControlBox = false;
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.lbTituloVentas);

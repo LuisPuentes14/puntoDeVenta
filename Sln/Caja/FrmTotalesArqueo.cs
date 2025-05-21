@@ -82,17 +82,17 @@ namespace Proyecto_Metodologia
 
         private void CargarArqueosPorFecha(DateTime fecha)
         {
-            // Asegura que el formato de la fecha sea compatible con el de tu VARCHAR (por ejemplo: "dd/MM/yyyy")
-            string consulta = @"
-        SELECT * FROM ARQUEO 
-        WHERE CONVERT(date, Fecha, 103) = @fecha";
+            string consulta = @"SELECT * FROM ARQUEO WHERE Fecha = @fecha";
 
             string conexionString = ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             using (SqlCommand cmd = new SqlCommand(consulta, conexion))
             {
-                cmd.Parameters.Add("@fecha", SqlDbType.Date).Value = fecha;
+                // Convierte la fecha al formato esperado
+                string fechaTexto = fecha.ToString("yyyy-MM-dd-HH-mm");
+
+                cmd.Parameters.Add("@fecha", SqlDbType.VarChar).Value = fechaTexto;
 
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                 {

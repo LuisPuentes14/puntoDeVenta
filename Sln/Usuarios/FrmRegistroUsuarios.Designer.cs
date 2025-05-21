@@ -43,15 +43,15 @@
             this.txtusuario = new System.Windows.Forms.TextBox();
             this.txtCorreo = new System.Windows.Forms.TextBox();
             this.labelUsuario = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvusuarios)).BeginInit();
             this.panel2.SuspendLayout();
@@ -240,18 +240,6 @@
             this.labelUsuario.TabIndex = 5;
             this.labelUsuario.Text = "Usuario:";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(99, 55);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 24);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Nombre:";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -275,14 +263,6 @@
             this.label3.Size = new System.Drawing.Size(73, 24);
             this.label3.TabIndex = 9;
             this.label3.Text = "Correo:";
-            // 
-            // txtNombre
-            // 
-            this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.Location = new System.Drawing.Point(200, 55);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(177, 21);
-            this.txtNombre.TabIndex = 13;
             // 
             // txtApellido
             // 
@@ -347,6 +327,26 @@
             this.label6.TabIndex = 19;
             this.label6.Text = "Documento:";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(99, 55);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 24);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Nombre:";
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNombre.Location = new System.Drawing.Point(200, 55);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(177, 21);
+            this.txtNombre.TabIndex = 13;
+            // 
             // FrmRegistroUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,15 +386,15 @@
         private System.Windows.Forms.TextBox txtusuario;
         private System.Windows.Forms.TextBox txtCorreo;
         private System.Windows.Forms.Label labelUsuario;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TextBox txtDni;
         private System.Windows.Forms.Label label6;
         private FontAwesome.Sharp.IconButton iconButton4;
         private System.Windows.Forms.ComboBox cmbCategoria;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.Label label1;
     }
 }
